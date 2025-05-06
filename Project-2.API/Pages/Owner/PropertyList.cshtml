@@ -1,0 +1,45 @@
+@page
+@using Project_2.Pages.Pages.Owner
+@model PropertyModel
+@{
+    ViewData["Title"] = "Owner Property List";
+}
+
+<div class="container">
+    <h1 class="text-center">Your Listings</h1>
+
+    @if (Model.PropertyList?.Any() ?? false)
+    {
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            @foreach (var prop in Model.PropertyList)
+            {
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">@prop.StreetAddress</h5>
+                            <p class="card-text">
+                                @prop.City, @prop.State @prop.ZipCode<br />
+                                Beds: @prop.Bedrooms Baths: @prop.Bathrooms<br />
+                                Price: @prop.StartingPrice:C
+                            </p>
+                            <a asp-page="/EstateProperties/Update" asp-route-id="@prop.PropertyID"
+                                class="btn btn-sm btn-primary">
+                                Edit
+                            </a>
+                            <form method="post" asp-page-handler="Delete" asp-route-id="@prop.PropertyID" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">You have no listings yet.</p>
+    }
+    
+</div>
