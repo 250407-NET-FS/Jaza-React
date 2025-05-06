@@ -1,42 +1,171 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+:root {
+  --beige: #f3e4c9;
+  --orange-red: #cf7146;
+  --golden-yellow: #dbaa31;
+  --dark-green: #2f5e49;
+  --brown: #3c281e;
+}
+
+body,
+.page {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--beige);
+  color: var(--brown);
+  height: 100%;
+  /* Ensure the body takes up the full height */
+  width: 100%;
+  /* Ensure the body takes up the full width */
+  box-sizing: border-box;
+  /* Include padding/borders in width/height */
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  /* Stack header, hero, listings, and footer vertically */
+  min-height: 100vh;
+  /* Ensures the page takes up at least the full viewport height */
+  width: 100%;
+  /* Ensure page fills the full width */
+}
+
+header,
+.hero,
+.footer,
+.listings {
+  width: 100%;
+  /* Make sure each section takes up the full width */
+}
+
+.header {
+  background-color: var(--orange-red);
+  padding: 1rem 2rem;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  margin: 0;
+  color: white;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.hero {
+  background-color: var(--dark-green);
+  color: white;
+  text-align: center;
+  padding: 4rem 2rem;
+  flex-grow: 1;
+  /* Allow hero section to grow and take more space if needed */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.hero-title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-text {
+  font-size: 1.2rem;
+}
+
+.listings {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.section-title {
+  color: var(--orange-red);
+  margin-bottom: 1rem;
+}
+
+.cards {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* Centers the cards horizontally */
+  width: 100%;
+  /* Ensure cards take up full width */
 }
 
 .card {
-  padding: 2em;
+  background-color: var(--golden-yellow);
+  padding: 1rem;
+  border-radius: 8px;
+  width: 250px;
+  min-width: 250px;
+  /* Prevents the cards from becoming too small */
 }
 
-.read-the-docs {
-  color: #888;
+.footer {
+  background-color: var(--brown);
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+  flex-shrink: 0;
+  /* Prevents footer from shrinking */
+  margin-top: auto;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-image {
+  height: 50px;
+  width: auto;
+}
+
+.logo-text {
+  margin: 0;
+  color: white;
+  font-size: 1.8rem;
+}
+
+.nav {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+/* Nav Links */
+.nav-link {
+  text-decoration: none;
+  color: var(--beige);
+  font-weight: bold;
+  background-color: var(--brown);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: var(--orange-red);
+  color: white;
+}
+
+/* Search Bar Styling */
+.search-container {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.search-bar {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 2px solid var(--brown);
+  border-radius: 6px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
 }
