@@ -14,12 +14,18 @@ public class PropertyAddDTO
     public string? ZipCode { get; set; }
     [Required]
     public string? StreetAddress { get; set; }
+    public string? ImageLink { get; set; }
     [Required]
     public decimal StartingPrice { get; set; }
     [Required]
     public int Bedrooms { get; set; }
     [Required]
     public decimal Bathrooms { get; set; }
+    [Required]
+    public int Garages { get; set; }
+    [Required]
+    public int Pools { get; set; }
+    public bool HasBasement { get; set;}
     [Required]
     public DateTime ListDate { get; set; }
     [Required]

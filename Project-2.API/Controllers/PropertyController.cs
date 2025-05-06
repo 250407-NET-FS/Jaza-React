@@ -34,17 +34,25 @@ public class PropertyController : ControllerBase{
         [FromQuery] string city = "",
         [FromQuery] string zip = "",
         [FromQuery] string address = "",
+        [FromQuery] string imageLink = "",
         [FromQuery] decimal minprice = -1,
         [FromQuery] decimal maxprice = -1,
         [FromQuery] int bedrooms = -1,
         [FromQuery] decimal bathrooms = -1,
+        [FromQuery] int garages = -1,
+        [FromQuery] int pools = -1,
         [FromQuery] bool forsale = false,
+        [FromQuery] bool hasBasement = false,
         [FromQuery] Guid? OwnerID = null
         ){
         try
         {
-            return Ok(await _propertyService.GetPropertiesAsync(country, state, city, zip, address,
-            minprice, maxprice, bedrooms, bathrooms, forsale, OwnerID));
+            return Ok(
+                await _propertyService.GetPropertiesAsync(
+                    country, state, city, zip, address, imageLink, minprice, maxprice, 
+                    bedrooms, bathrooms, garages, pools, forsale, hasBasement, OwnerID
+                )
+            );
         }
         catch (Exception e)
         {
@@ -58,7 +66,13 @@ public class PropertyController : ControllerBase{
     [HttpGet("/api/admin/properties")]
     public async Task<ActionResult<IEnumerable<Property>>> GetAllPropertiesAdmin(){
         try{
-            return Ok(await _propertyService.GetPropertiesAsync("", "", "", "", "", -1, -1, -1, -1, false, null));
+            return Ok(
+                await _propertyService.GetPropertiesAsync(
+                    "", "", "", "", "", "", 
+                    -1, -1, -1, -1, -1, -1, 
+                    false, false, null
+                )
+            );
         } catch(Exception e){
             return BadRequest(e.Message);
         }

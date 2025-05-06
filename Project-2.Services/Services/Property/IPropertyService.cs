@@ -11,11 +11,15 @@ public interface IPropertyService
         string city,
         string zip,
         string address,
+        string imageLink,
         decimal minprice,
         decimal maxprice,
         int bedrooms,
         decimal bathrooms,
+        int garages,
+        int pools,
         bool forsale,
+        bool hasBasement,
         Guid? OwnerId);
     Task<Property?> GetPropertyByIdAsync(Guid guid);
     Task<Guid> AddNewPropertyAsync(PropertyAddDTO propertyInfo);
