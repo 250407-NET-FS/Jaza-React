@@ -1,0 +1,39 @@
+@page
+@model Auth.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>User Registration</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserInfo!.Email" class="control-label"></label>
+                <input asp-for="UserInfo!.Email" class="form-control" />
+                <span asp-validation-for="UserInfo!.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserInfo!.FullName" class="control-label">Full Name</label>
+                <input asp-for="UserInfo!.FullName" class="form-control" />
+                <span asp-validation-for="UserInfo!.FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserInfo!.Password" class="control-label"></label>
+                <input asp-for="UserInfo!.Password" class="form-control" />
+                <span asp-validation-for="UserInfo!.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Register" class="btn btn-outline-dark" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <p>Already have an account? <a class="nav-link text-dark" asp-page="./Login" class="btn btn-outline-dark">Login</a></p>
+    
+</div>
+

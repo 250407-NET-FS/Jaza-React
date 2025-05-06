@@ -1,0 +1,53 @@
+﻿@page
+@model IndexModel
+@{
+  ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+  <h1 class="display-4">Welcome To JAZA!</h1>
+  <p>A place where you find your next home</p>
+
+  <h3>Listings (Page @Model.Page of @Model.TotalPages)</h3>
+  <div class="row align-items-start gx-4 gy-4">
+    <div class="col-auto">
+      <a asp-page="./Index"
+         asp-route-page="@(Model.Page - 1)"
+         class="btn btn-outline-dark"
+         aria-disabled="@(Model.Page <= 1)">
+        ← Previous
+      </a>
+    </div>
+
+    @foreach (var prop in Model.Paged)
+    {
+      <div class="col text-start" css>
+        <p>
+        <a asp-page="/EstateProperties/Retrieve" 
+        asp-route-id="@prop.PropertyID">
+        @prop.PropertyID
+        </a> 
+        </p>
+        <p>@prop.StreetAddress, @prop.State @prop.ZipCode</p>
+        <p>@prop.ListDate:MM/dd/yyyy</p>
+        <p>Starting Price: @prop.StartingPrice</p>
+        <p>Owned by: @prop.OwnerID</p>
+        <a class="btn btn-outline-dark nav-link text-dark" asp-route-id="@prop.PropertyID" asp-page="/EstateProperties/Retrieve">Retrieve a listing></a>
+        <a class="btn btn-outline-dark nav-link text-dark" asp-route-id="@prop.PropertyID" asp-page="/EstateProperties/Update">Update a listing></a>
+      </div>
+    }
+
+    <div class="col-auto">
+      <a asp-page="./Index"
+         asp-route-page="@(Model.Page + 1)"
+         class="btn btn-outline-dark"
+         aria-disabled="@(Model.Page >= Model.TotalPages)">
+        Next →
+      </a>
+    </div>
+  </div>
+   <a class="btn btn-outline-dark nav-link text-dark" asp-area="" asp-page="/EstateProperties/Create">Create a listing></a>
+
+</div>
+
+
