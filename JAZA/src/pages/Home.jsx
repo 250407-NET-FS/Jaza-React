@@ -26,7 +26,7 @@ export default function Home() {
             <header className="header">
                 <div className="logo-container">
                     <img src={logo} alt="JAZA Logo" className="logo-image" />
-                    <h1 className="logo-text">JAZA Properties</h1>
+                    <h1 className="logo-text">JAZA</h1>
                 </div>
                 <nav className="nav">
                     <Link to="/" className="nav-link">Home</Link>
