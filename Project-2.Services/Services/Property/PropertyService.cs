@@ -19,15 +19,21 @@ public class PropertyService : IPropertyService
         string city,
         string zip,
         string address,
+        string imageLink,
         decimal minPrice,
         decimal maxPrice,
         int bedrooms,
         decimal bathrooms,
+        int garages,
+        int pools,
         bool forSale,
+        bool hasBasement,
         Guid? OwnerId
     ) {
-        IEnumerable<Property> propertyList = await _propertyRepository.GetAllWithFilters(country, state, city, zip, address,
-                                                    minPrice, maxPrice, bedrooms, bathrooms, forSale, OwnerId);
+        IEnumerable<Property> propertyList = await _propertyRepository.GetAllWithFilters(
+            country, state, city, zip, address, minPrice, maxPrice, bedrooms, 
+            bathrooms, garages, pools, forSale, hasBasement, OwnerId
+        );
         return propertyList;
     }
 
@@ -38,10 +44,13 @@ public class PropertyService : IPropertyService
 
     public async Task<Guid> AddNewPropertyAsync(PropertyAddDTO propertyInfo)
     {
-        Property newProperty = new Property(propertyInfo.Country!, propertyInfo.State!,
-                                            propertyInfo.City!, propertyInfo.ZipCode!,
-                                            propertyInfo.StreetAddress!, propertyInfo.StartingPrice,
-                                            propertyInfo.Bedrooms, propertyInfo.Bathrooms, propertyInfo.OwnerID);
+        Property newProperty = new Property(
+            propertyInfo.Country!, propertyInfo.State!, propertyInfo.City!, 
+            propertyInfo.ZipCode!, propertyInfo.StreetAddress!, propertyInfo.ImageLink,
+            propertyInfo.StartingPrice, propertyInfo.Bedrooms, propertyInfo.Bathrooms, 
+            propertyInfo.Garages, propertyInfo.Pools, propertyInfo.HasBasement,
+            propertyInfo.OwnerID
+        );
 
         await _propertyRepository.AddAsync(newProperty);
 
