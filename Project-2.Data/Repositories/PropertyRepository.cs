@@ -24,7 +24,10 @@ public class PropertyRepository : BaseRepository<Property>, IPropertyRepository
         decimal priceMin,
         int numBedroom,
         decimal numBathroom,
+        int numGarages,
+        int numPools,
         bool forSale,
+        bool hasBasement,
         Guid? OwnerId
     )
     {
@@ -57,9 +60,18 @@ public class PropertyRepository : BaseRepository<Property>, IPropertyRepository
 
         if (numBathroom != -1)
             query = query.Where(p => p.Bathrooms >= numBathroom);
+        
+        if (numGarages != -1)
+            query = query.Where(p => p.Garages >= numGarages);
+
+        if (numPools != -1)
+            query = query.Where(p => p.Pools >= numPools);
 
         if (forSale)
             query = query.Where(p => p.ForSale);
+
+        if (hasBasement)
+            query = query.Where(p => p.HasBasement);
         
         if (OwnerId.HasValue){
             query = query.Where(p => p.OwnerID == OwnerId.Value);
@@ -88,10 +100,13 @@ public class PropertyRepository : BaseRepository<Property>, IPropertyRepository
         property.StartingPrice = propertyInfo.StartingPrice ?? property.StartingPrice;
         property.Bedrooms = propertyInfo.Bedrooms ?? property.Bedrooms;
         property.Bathrooms = propertyInfo.Bathrooms ?? property.Bathrooms;
+        property.Garages = propertyInfo.Garages ?? property.Garages;
+        property.Pools = propertyInfo.Pools ?? property.Pools;
         property.ListDate = propertyInfo.ListDate ?? property.ListDate;
         property.OwnerID = propertyInfo.OwnerID ?? property.OwnerID;
         property.StreetAddress = propertyInfo.StreetAddress;
         property.ForSale = propertyInfo.ForSale ?? property.ForSale;
+        property.HasBasement = propertyInfo.HasBasement ?? property.HasBasement;
 
         _dbContext.Property.Update(property);
     }
