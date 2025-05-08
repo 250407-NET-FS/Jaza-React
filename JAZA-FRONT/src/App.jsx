@@ -1,16 +1,19 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home'; // or './Home' if not in a folder
+import { AuthProvider } from './pages/context/AuthContext';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {/*<Route path='/listings' element={<Listings />} >*/}
-        {/* Add more routes as needed */}
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/*<Route path='/listings' element={<Listings />} >*/}
+          {/* Add more routes as needed */}
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
