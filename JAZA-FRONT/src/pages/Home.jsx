@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from '../assets/JAZA.png'; // Adjust if needed
+import { useAuth } from "../context/AuthContext";
 import '../App.css';
 
 export default function Home() {
     const [search, setSearch] = useState("");
+    const { user, logout } = useAuth()
 
     const listings = [
         { title: "Rustic Farmhouse", description: "3 bed · 2 bath · Countryside" },
