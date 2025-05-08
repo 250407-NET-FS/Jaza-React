@@ -58,7 +58,7 @@ public class Property {
     public Property() {}
 
     public Property(string country, string state, string city, string zipCode, string imageLink, int garages,
-                    string streetAddress, decimal startingPrice, int bedrooms, decimal bathrooms, Guid ownerId) {
+                    string streetAddress, decimal startingPrice, int bedrooms, decimal bathrooms, int pools, Guid ownerId) {
         Country = country;
         State = state;
         City = city;
@@ -70,5 +70,6 @@ public class Property {
         OwnerID = ownerId;
         ImageLink = imageLink;
         Garages = garages;
+        Pools = pools;
     }
 }
