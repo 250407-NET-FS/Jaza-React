@@ -39,16 +39,20 @@ namespace Project_2.Tests
         {
             var expectedProperties = new List<Property>
             { //Property.Property(string Country, string State, string City, 
-            // string ZipCode, string StreetAddress, decimal StartingPrice, int Bedrooms, decimal Bathrooms)
+            // string ZipCode, string ImageLink, int garages, string StreetAddress,
+            // decimal StartingPrice, int Bedrooms, decimal Bathrooms, int pools)
                  new Property(
                     "USA",
                     "florida",
                     "orlando",
                     "55555",
+                    null,
+                    0,
                     "123 florida man st",
                     1,
                     100,
                     20,
+                    0,
                     Guid.NewGuid()
                     ),
                     new Property(
@@ -56,10 +60,13 @@ namespace Project_2.Tests
                     "moon",
                     "blackhole",
                     "787878",
+                    null,
+                    0,
                     "123 oblivion",
                     111,
                     1,
                     1,
+                    100,
                     Guid.NewGuid()
                     ),
                     new Property(
@@ -67,10 +74,13 @@ namespace Project_2.Tests
                     "Ontario",
                     "quebec",
                     "88889",
+                    null,
+                    1,
                     "123 maple street",
                     9999999999,
                     100000,
                     200000,
+                    0,
                     Guid.NewGuid()
                     )
             };
