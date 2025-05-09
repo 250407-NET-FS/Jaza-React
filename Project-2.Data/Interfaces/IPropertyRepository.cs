@@ -21,4 +21,5 @@ public interface IPropertyRepository : IBaseRepository<Property> {
         Guid? OwnerId);
 
     public void Update(PropertyUpdateDTO propertyInfo);
+    public Task<IEnumerable<PropertyOwnerDTO>> GetPropertiesAdminAsync();
 }

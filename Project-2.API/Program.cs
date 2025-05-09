@@ -22,8 +22,7 @@ var connectionString =
 builder.Services.AddDbContext<JazaContext>(options =>
     options.UseSqlServer(connectionString));
 
-// Add services to the container.
-builder.Services.AddRazorPages();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -84,8 +83,6 @@ builder.Services.AddAuthorization();
 
 //Services
 
-builder.Services.AddScoped<Project_2.Services.Services.FavoriteService>();
-builder.Services.AddScoped<Project_2.Services.Services.PropertyService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
 builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
@@ -94,7 +91,7 @@ builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<IFavoriteService, FavoriteService>();
 builder.Services.AddScoped<PropertyController>();
 builder.Services.AddScoped<FavoriteController>();
-builder.Services.AddScoped<UserController>();
+
 
 
 
@@ -134,6 +131,18 @@ builder.Services.AddSwaggerGen(c =>
     );
 });
 
+//cORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") // React dev server
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -142,11 +151,13 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors("AllowReactApp");
 }
 else
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
+    //need to add cors for not dev
 }
 
 app.UseHttpsRedirection();
@@ -157,28 +168,27 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapRazorPages()
-   .WithStaticAssets();
+
 app.MapControllers();
 
 
 // For first timec
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
+// using (var scope = app.Services.CreateScope())
+// {
+//     var services = scope.ServiceProvider;
 
-    try
-    {
-        await Seeder.SeedAdmin(services);
-        await Seeder.SeedUser(services);
-        await Seeder.SeedProperty(services);
-    }
-    catch (Exception ex)
-    {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Error seeding roles");
-    }
-}
+//     try
+//     {
+//         await Seeder.SeedAdmin(services);
+//         await Seeder.SeedUser(services);
+//         await Seeder.SeedProperty(services);
+//     }
+//     catch (Exception ex)
+//     {
+//         var logger = services.GetRequiredService<ILogger<Program>>();
+//         logger.LogError(ex, "Error seeding roles");
+//     }
+// }
 
 
 app.Run();
