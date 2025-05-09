@@ -26,7 +26,7 @@ function UserList() {
             id={u.id}
             phone={u.phone ?? "Not Registered"}
             isBanned={u.isBanned}
-            role={u.role}
+            role={u.role}/*going to need to consume conext here*/
             setUsers={setUsers} //i can refactor if you want
           ></UserCard>
         ))}
@@ -118,15 +118,6 @@ function UserCard({ name, id, phone, isBanned, role, setUsers }) {
           )}
           <button onClick={() => deleteHandler(id)}>Delete</button>
         </>
-      )}
-
-      {role?.includes("Admin") === false && (
-        <button
-          style={{ backgroundColor: "red", color: "white" }}
-          onClick={() => deleteHandler(id)}
-        >
-          Delete user
-        </button>
       )}
     </li>
   );

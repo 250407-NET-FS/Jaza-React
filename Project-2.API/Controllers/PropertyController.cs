@@ -127,11 +127,11 @@ public class PropertyController : ControllerBase{
 
     // Delete: api/admin/properties/{id}
     // Deletes property by property id admin only
-    [Authorize(Roles = "Admin")]
-    [HttpDelete("admin/{id}")]
-    public async Task<IActionResult> DeletePropertyAdmin([FromRoute] Guid id){
+    //[Authorize(Roles = "Admin")]
+    [HttpDelete("admin/{propertyID}/{ownerID}")]
+    public async Task<IActionResult> DeletePropertyAdmin([FromRoute] Guid propertyID, [FromRoute] Guid ownerID){
         try{
-            await _propertyService.RemovePropertyAsync(id, null);
+            await _propertyService.RemovePropertyAsync(propertyID, ownerID);
             return Ok();
         } catch(Exception e){
             return BadRequest(e.Message);
