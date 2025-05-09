@@ -77,24 +77,22 @@ function PropertyCard({id, address, startingPrice, ownerName, ownerId, setProper
   //     .catch((err) => console.error(err.message));
   // };
 
-  // const deleteHandler = (userId) => {
-  //   fetch(`http://localhost:5236/api/user/admin/${userId}`, {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => {
-  //       if (!res.ok) throw new Error("Ban failed");
-  //       return res.json();
-  //     })
-  //     .then(() => {
-  //       setUsers((prevUsers) =>
-  //         prevUsers.filter((u) => u.id !== userId));
-
-  //     })
-  //     .catch((err) => console.error(err.message));
-  // };
+  const deleteHandler = (propertyId, ownerId) => {
+    fetch(`http://localhost:5236/api/properties/admin/${propertyId}/${ownerId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Delete failed");
+      })
+      .then(() => {
+        setProperties((prevPropeties) =>
+          prevPropeties.filter((p) => p.propertyID !== propertyId));
+      })
+      .catch((err) => console.error(err.message));
+  };
 
   return ( 
     //TODO TEST IF ADMIN DOES NOT SHOW WITH THOSE OPTIONS
@@ -104,6 +102,7 @@ function PropertyCard({id, address, startingPrice, ownerName, ownerId, setProper
       <p>StartingPrice :{startingPrice}</p>
       <p>Owner: {ownerName}</p> {/*Need to make it so we can go to that view imediatly and then choose to ban or not */}
       <p>Owner Id: {ownerId}</p>
+      <button onClick={() => deleteHandler(id, ownerId)}>Delete</button>
     </li>
   );
 }
