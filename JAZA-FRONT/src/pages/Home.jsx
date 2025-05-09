@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from '../assets/JAZA.png'; // Adjust if needed
+import { useAuth } from "./context/AuthContext";
 import '../App.css';
 
 export default function Home() {
     const [search, setSearch] = useState("");
+    const { user, login, logout } = useAuth()
 
     const listings = [
         { title: "Rustic Farmhouse", description: "3 bed · 2 bath · Countryside" },
@@ -27,6 +29,10 @@ export default function Home() {
                 <div className="logo-container">
                     <img src={logo} alt="JAZA Logo" className="logo-image" />
                     <h1 className="logo-text">JAZA</h1>
+                    <h2 className="welcome-user">
+                        {user ? 'Welcome, ${user.name}': 'Welcome, Guest'}
+                    </h2>
+                    {user ? <button onClick={logout}>logout</button> : <button onClick={login}>login</button>}
                 </div>
                 <nav className="nav">
                     <Link to="/" className="nav-link">Home</Link>
