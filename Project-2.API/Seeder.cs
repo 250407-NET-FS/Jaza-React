@@ -100,19 +100,19 @@ public static class Seeder
         {
         }
         var property = new Property(
-            "USA",             
-            "Florida",          
-            "Miami",            
-            "33101",           
-            "321 Pine St",     
-            "",                 
-            1000000m,           
-            3,                  
-            2.5m,               
-            1,                  
-            1,                  
-            true,               
-            user.Id             
+            "USA",              // country
+            "Florida",          // state
+            "Miami",            // city
+            "33101",            // zipCode
+            "321 Pine St",      // streetAddress
+            "",                 // imageLink
+            1000000m,           // startingPrice
+            3,                  // bedrooms
+            2.5m,               // bathrooms
+            1,                  // garages
+            1,                  // pools
+            true,               // hasBasement
+            user.Id             // ownerId
         );
 
         db.Property.Add(property);

@@ -16,7 +16,7 @@ public class AuthUserController : ControllerBase{
     private readonly UserManager<User> _userManager;
     private readonly IUserService _userService;
    
-    public AuthUserController(UserManager<User> userManager, UserService userService)
+    public AuthUserController(UserManager<User> userManager, IUserService userService)
     {
         _userManager = userManager;
         _userService = userService;

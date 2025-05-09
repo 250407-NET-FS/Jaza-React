@@ -15,7 +15,7 @@ export default function Home() {
         { title: "Rustic Farmhouse", description: "3 bed · 2 bath · Countryside" },
         { title: "Cozy Bungalow", description: "2 bed · 1 bath · Urban charm" },
         { title: "Modern Loft", description: "1 bed · 1 bath · Downtown vibes" },
-        // ... add more listings as needed
+        // ... add more listings as needed  
     ];
 
     const filteredListings = listings.filter(l =>

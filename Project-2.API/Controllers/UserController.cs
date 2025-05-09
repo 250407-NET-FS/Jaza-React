@@ -14,22 +14,23 @@ namespace Project_2.API;
 // parameterize the route name
 [ApiController]
 [Route("api/user")]
+
 public class UserController : ControllerBase
 {
 
-    private readonly IUserService _userService;
+
     private readonly UserManager<User> _userManager;
 
-    public UserController(IUserService userService, UserManager<User> userManager)
+    public UserController(UserManager<User> userManager)
     {
-        _userService = userService;
+
         _userManager = userManager;
     }
 
     // Get: api/admin/user
     // Endpoint to retrieve all Users Admin Only
-    [Authorize(Roles = "Admin")]
-    [HttpGet("/api/admin/user")]
+    //[Authorize(Roles = "Admin")]
+    [HttpGet("admin")]
     public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
     {
         try
@@ -44,13 +45,13 @@ public class UserController : ControllerBase
 
     // Get: api/admin/user/id/{id}
     // Get user by id Admin Only
-    [Authorize(Roles = "Admin")]
-    [HttpGet("/api/admin/user/id/{id}")]
+    //[Authorize(Roles = "Admin")]
+    [HttpGet("admin/{id}")]
     public async Task<ActionResult<UserDTO>> GetUserByAdminId([FromRoute] Guid id)
     {
         try
         {
-            return Ok(await _userService.GetUserByIdAsync(id));
+            return Ok(await _userManager.FindByIdAsync(id.ToString()));
         }
         catch (Exception e)
         {
@@ -58,15 +59,20 @@ public class UserController : ControllerBase
         }
     }
 
-    // Delete: api/admin/user/id/{id}
+    // Delete: api/admin/user/{id}/
     // Delete user by id Admin Only
-    [Authorize(Roles = "Admin")]
-    [HttpDelete("/api/admin/user/id/{id}")]
-    public async Task<ActionResult<bool>> DeleteUserById([FromRoute] Guid id){
-        try{
-            await _userService.DeleteUserByIdAsync(id);
+    //[Authorize(Roles = "Admin")]
+    [HttpDelete("admin/{id}")]
+    public async Task<ActionResult<bool>> DeleteUserById([FromRoute] Guid id)
+    {
+        try
+        {
+            User? user = await _userManager.FindByIdAsync(id.ToString());
+            await _userManager.DeleteAsync(user);
             return Ok(true);
-        } catch(Exception e){
+        }
+        catch (Exception e)
+        {
             return BadRequest(e.Message);
         }
     }
@@ -80,7 +86,7 @@ public class UserController : ControllerBase
         try
         {
             User? user = await GetCurrentUserAsync();
-            return Ok(await _userService.GetUserByIdAsync(user?.Id));
+            return Ok(await _userManager.FindByIdAsync(user?.Id.ToString()));
         }
         catch (Exception e)
         {
@@ -88,9 +94,48 @@ public class UserController : ControllerBase
         }
     }
 
+
     private async Task<User?> GetCurrentUserAsync()
     {
         return await _userManager.GetUserAsync(HttpContext.User);
+    }
+
+    [HttpPost("admin/ban/{id}")]
+    public async Task<IActionResult> OnPostBanAsync([FromRoute] Guid id)
+    {
+        try
+        {
+            User user = await _userManager.FindByIdAsync(id.ToString());
+
+            await _userManager.SetLockoutEnabledAsync(user, true);
+            await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.MaxValue);
+
+            return Ok(await _userManager.FindByIdAsync(user?.Id.ToString()));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+
+
+    }
+
+    [HttpPost("admin/unban/{id}")]
+    public async Task<IActionResult> OnPostUnBanAsync([FromRoute] Guid id)
+    {
+        try
+        {
+            User user = await _userManager.FindByIdAsync(id.ToString());
+            await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow);
+            await _userManager.SetLockoutEnabledAsync(user, false);
+
+            return Ok(await _userManager.FindByIdAsync(user?.Id.ToString()));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+
     }
 
 }
