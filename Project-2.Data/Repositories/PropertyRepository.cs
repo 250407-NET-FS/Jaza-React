@@ -110,4 +110,23 @@ public class PropertyRepository : BaseRepository<Property>, IPropertyRepository
 
         _dbContext.Property.Update(property);
     }
+
+    public async Task<IEnumerable<PropertyOwnerDTO>> GetPropertiesAdminAsync()
+{
+    return await _dbContext.Property
+        .Include(p => p.Owner)
+        .Select(p => new PropertyOwnerDTO
+        {
+            PropertyID = p.PropertyID,
+            Address = $"{p.StreetAddress}, {p.City}, {p.State} {p.ZipCode}",
+            StartingPrice = p.StartingPrice,
+            OwnerID = p.OwnerID,
+            OwnerEmail = p.Owner.Email,
+            OwnerFullName = p.Owner.FullName
+        })
+        .ToListAsync();
+}
+
+
+
 }
