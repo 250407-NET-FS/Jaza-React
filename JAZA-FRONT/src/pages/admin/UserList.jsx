@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
-//import '.../App.css';
+
+
+
 
 function UserList() {
   const [users, setUsers] = useState([]);
 
 
   useEffect(() => {
-    fetch("http://localhost:5236/user/admin")
+    fetch("http://localhost:5236/api/user/admin")
       .then((res) => res.json())
       .then((data) => setUsers(data))
       .catch((err) => console.error(err));
   }, []);
 
   return (
+    <>
     <div className="container">
       <h1 className="text-center">User List</h1>
       <ul style={{ display: "flex", listStyle: "none", padding: 0 }}>
@@ -29,12 +32,18 @@ function UserList() {
         ))}
       </ul>
     </div>
+    {/* Add a search bar here
+    then create a card with that single user that is searched if found
+    
+    */}
+
+    </>
   );
 }
 
 function UserCard({ name, id, phone, isBanned, role, setUsers }) {
   const banHandler = (userId) => {
-    fetch(`http://localhost:5236/user/admin/ban/${userId}`, {
+    fetch(`http://localhost:5236/api/user/admin/ban/${userId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +64,7 @@ function UserCard({ name, id, phone, isBanned, role, setUsers }) {
   };
 
   const unBanHandler = (userId) => {
-    fetch(`http://localhost:5236/user/admin/unban/${userId}`, {
+    fetch(`http://localhost:5236/api/user/admin/unban/${userId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +85,7 @@ function UserCard({ name, id, phone, isBanned, role, setUsers }) {
   };
 
   const deleteHandler = (userId) => {
-    fetch(`http://localhost:5236/user/admin/${userId}`, {
+    fetch(`http://localhost:5236/api/user/admin/${userId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -96,7 +105,7 @@ function UserCard({ name, id, phone, isBanned, role, setUsers }) {
 
   return (
     //TODO TEST IF ADMIN DOES NOT SHOW WITH THOSE OPTIONS
-    <div className="card">
+    <li className="card">
       <h4>{name}</h4>
       <p>Id {id}</p>
       <p>Phone:{phone}</p>
@@ -119,7 +128,7 @@ function UserCard({ name, id, phone, isBanned, role, setUsers }) {
           Delete user
         </button>
       )}
-    </div>
+    </li>
   );
 }
 

@@ -13,7 +13,7 @@ namespace Project_2.API;
 // hint: If you use the [EntityName]Controller convention, we can essentially
 // parameterize the route name
 [ApiController]
-[Route("user")]
+[Route("api/user")]
 
 public class UserController : ControllerBase
 {

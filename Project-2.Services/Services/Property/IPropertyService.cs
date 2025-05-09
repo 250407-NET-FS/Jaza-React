@@ -25,4 +25,6 @@ public interface IPropertyService
     Task<Guid> AddNewPropertyAsync(PropertyAddDTO propertyInfo);
     Task UpdatePropertyAsync(PropertyUpdateDTO dto, Guid userId);
     Task RemovePropertyAsync(Guid propertyId, Guid? currentUserId);
+
+    Task<IEnumerable<PropertyOwnerDTO>> GetPropertiesAdminAsync();
 }
