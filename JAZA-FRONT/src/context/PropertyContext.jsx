@@ -64,7 +64,7 @@ export function PropertyProvider({children}) {
         dispatch({type: PropertyActionTypes.REQUEST_START});
         // Try to fetch and pass the results of controller's GetPropertyById() to our state
         try {
-            await axios.get(`api/properties/id/${id}`)
+            await axios.get(`api/properties/${id}`)
             .then(res => res.json)
             .then(data => dispatch({type: PropertyActionTypes.FETCH_PROPERTY_SUCCESS, payload: data.results}));
         }
