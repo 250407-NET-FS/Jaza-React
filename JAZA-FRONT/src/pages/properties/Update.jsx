@@ -1,14 +1,14 @@
 import React from 'react'
 import { Container, Grid, FormGroup, FormControl, FormControlLabel, Input } from '@mui/material'
 
-function UpdateProperty(property) {
+function UpdateProperty(property, onSubmit) {
   return (
     <Container>
         <h1>Edit Property</h1>
         <hr />
         <Grid container>
             <Grid size={12}>
-                <form method="post">
+                <form method="post" onSubmit={onSubmit}>
                     <FormGroup>
                         <FormControlLabel>Street Address</FormControlLabel>
                         <FormControl>
@@ -64,7 +64,7 @@ function UpdateProperty(property) {
             </Grid>
         </Grid>
     </Container>
-  )
+  );
 }
 
 export default UpdateProperty
