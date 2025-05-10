@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from '../assets/JAZA.png'; // Adjust if needed
 import { useAuth } from "./context/AuthContext";
+import Popup from 'reactjs-popup';
 import '../App.css';
 
 export default function Home() {
@@ -32,7 +33,9 @@ export default function Home() {
                     <h2 className="welcome-user">
                         {user ? 'Welcome, ${user.name}': 'Welcome, Guest'}
                     </h2>
-                    {user ? <button onClick={logout}>logout</button> : <button onClick={login}>login</button>}
+                    <Popup trigger = {user ? <button onClick={logout}>logout</button> : <button onClick={login}>login</button>}>
+                        
+                    </Popup>
                 </div>
                 <nav className="nav">
                     <Link to="/" className="nav-link">Home</Link>
