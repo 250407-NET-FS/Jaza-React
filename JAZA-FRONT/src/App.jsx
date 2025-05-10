@@ -4,6 +4,7 @@ import Home from "./pages/Home"; // or './Home' if not in a folder
 import Dashboard from "./pages/admin/Dashboard";
 import PropertyList from "./pages/admin/PropertyList";
 import UserList from "./pages/admin/UserList";
+import Register from "./pages/Register";
 import { AuthProvider } from "./pages/context/AuthContext";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/admin/Dashboard" element={<Dashboard />} />
           <Route path="/UserList" element={<UserList />} />
           <Route path="/PropertyList" element={<PropertyList />} />
+          <Route path="/register" element={<Register />} />
           {/* Add more routes as needed */}
         </Routes>
       </Router>

@@ -24,6 +24,8 @@ const authReducer = (state, action) => {
     switch(action.type){
         case "LOGIN":
             return {...state, user: action.payload, isAuthenticated: true};
+        case "REGISTER":
+            return {...state, user: action.payload, isAuthenticated: false};
         case "LOGOUT":
             return {...state, user: null, isAuthenticated: false};
         default:
@@ -73,6 +75,19 @@ export const AuthProvider = ({ children }) => {
         dispatch({type: "LOGOUT"});
     };
 
+    // function to handle login action
+    const register = async (credentials) => {
+        // sends post request to api service with base url attached to front and
+        // credentials attached to body
+        const response = await api.post("auth/register", credentials);
+        const token = response.data.token;
+        // assigns token to localStorage
+        localStorage.setItem("jwt", token);
+        const decoded = jwtDecode(token);
+        dispatch({type: "REGISTER", payload: normalizeClaims(decoded)});
+        return true;
+    };
+
     // user should remain logged in when page refreshes
     // useEffect triggers once when component is mounting
     // simply checks if the user has a valid token and
@@ -87,7 +102,7 @@ export const AuthProvider = ({ children }) => {
 
     return(
         <AuthContext.Provider
-            value = {{...state, login, logout, checkTokenValidity}}
+            value = {{...state, login, logout, register, checkTokenValidity}}
         >
             {children}
         </AuthContext.Provider>
