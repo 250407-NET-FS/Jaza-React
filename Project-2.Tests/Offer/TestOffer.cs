@@ -55,7 +55,9 @@ namespace Project_2.Tests
                 BidAmount = 100.0m
             };
 
-            Property property = new Property("CountryName", "StateName", "CityName", "StreetName", "ZipCode", 1000.0m, 3, 500.0m, Guid.NewGuid())
+            Property property = new Property(
+        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
+        100000m, 3, 2, 1, 0, false, Guid.NewGuid())
             {
                 PropertyID = offerDto.PropertyId
             };
@@ -145,7 +147,10 @@ namespace Project_2.Tests
                 new Offer(Guid.NewGuid(), Guid.NewGuid(), 150.0m)
             };
 
-            _propertyRepositoryMock.Setup(x => x.GetByIdAsync(propertyId)).ReturnsAsync(new Property("CountryName", "StateName", "CityName", "StreetName", "ZipCode", 1000.0m, 3, 500.0m, Guid.NewGuid()) { PropertyID = propertyId });
+            _propertyRepositoryMock.Setup(x => x.GetByIdAsync(propertyId)).ReturnsAsync(new Property(
+        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
+        100000m, 3, 2, 1, 0, false, Guid.NewGuid())
+            { PropertyID = propertyId });
             _offerRepositoryMock.Setup(x => x.GetAllForProperty(propertyId)).ReturnsAsync(offers);
 
             var result = await _offerService.GetAllForPropertyAsync(propertyId);

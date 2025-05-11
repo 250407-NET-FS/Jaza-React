@@ -32,9 +32,10 @@ public class UserServiceTests
 
         // Setup Configuration mock
         _mockConfig = new Mock<IConfiguration>();
-        _mockConfig.Setup(c => c["Jwt:Key"]).Returns("your-256-bit-secret-key-here");
+        _mockConfig.Setup(c => c["Jwt:Key"]).Returns("your-256-bit-secret-key-here-need-to-hit-256");
         _mockConfig.Setup(c => c["Jwt:Issuer"]).Returns("test-issuer");
         _mockConfig.Setup(c => c["Jwt:Audience"]).Returns("test-audience");
+        _mockConfig.Setup(c => c["Jwt:ExpirationInMinutes"]).Returns("30");
 
         _userService = new UserService(_mockUserManager.Object, _mockConfig.Object);
     }

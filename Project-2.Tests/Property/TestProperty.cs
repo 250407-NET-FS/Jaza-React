@@ -42,48 +42,21 @@ namespace Project_2.Tests
             // string ZipCode, string ImageLink, int garages, string StreetAddress,
             // decimal StartingPrice, int Bedrooms, decimal Bathrooms, int pools)
                  new Property(
-                    "USA",
-                    "florida",
-                    "orlando",
-                    "55555",
-                    null,
-                    0,
-                    "123 florida man st",
-                    1,
-                    100,
-                    20,
-                    0,
-                    Guid.NewGuid()
-                    ),
-                    new Property(
-                    "idk",
-                    "moon",
-                    "blackhole",
-                    "787878",
-                    null,
-                    0,
-                    "123 oblivion",
-                    111,
-                    1,
-                    1,
-                    100,
-                    Guid.NewGuid()
-                    ),
-                    new Property(
-                    "CANADA",
-                    "Ontario",
-                    "quebec",
-                    "88889",
-                    null,
-                    1,
-                    "123 maple street",
-                    9999999999,
-                    100000,
-                    200000,
-                    0,
-                    Guid.NewGuid()
-                    )
-            };
+                "USA", "Florida", "Orlando", "55555",
+                "123 Florida Man St", "image1.jpg", 0m,
+                1, 100, 20, 0, false, Guid.NewGuid()
+                ),
+                new Property(
+                    "Idk", "Moon", "Blackhole", "787878",
+                    "123 Oblivion", "image2.jpg", 0m,
+                    111, 1, 1, 100, true, Guid.NewGuid()
+                ),
+                new Property(
+                    "Canada", "Ontario", "Quebec", "88889",
+                    "123 Maple Street", "image3.jpg", 9999999999m,
+                    999, 100000, 200000, 0, false, Guid.NewGuid()
+                )
+                };
             var propertyRepositoryMock = new Mock<IPropertyRepository>();
             propertyRepositoryMock
                 .Setup(repo => repo.GetAllAsync())
@@ -99,8 +72,8 @@ namespace Project_2.Tests
             var propertyId = Guid.NewGuid();
             var userId = Guid.NewGuid();
             var property = new Property(
-                "USA", "NY", "NYC", "10001",
-                "123 Test St", 500000, 3, 2, Guid.NewGuid())
+        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
+        100000m, 3, 2, 1, 0, false, Guid.NewGuid())
             {
                 PropertyID = propertyId,
                 OwnerID = userId
@@ -153,8 +126,8 @@ namespace Project_2.Tests
             var ownerId = Guid.NewGuid();
             var unauthorizedUserId = Guid.NewGuid();
             var property = new Property(
-                "USA", "NY", "NYC", "10001",
-                "123 Test St", 500000, 3, 2, Guid.NewGuid())
+       "USA", "State", "City", "12345", "Test St", "test-image.jpg",
+       100000m, 3, 2, 1, 0, false, Guid.NewGuid())
             {
                 PropertyID = propertyId,
                 OwnerID = ownerId
@@ -202,8 +175,8 @@ namespace Project_2.Tests
 
             var propertyId = Guid.NewGuid();
             var expected = new Property(
-                "USA", "NY", "NYC", "10001",
-                "123 Test St", 500000, 3, 2, Guid.NewGuid())
+        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
+        100000m, 3, 2, 1, 0, false, Guid.NewGuid())
             {
                 PropertyID = propertyId
             };
@@ -255,8 +228,8 @@ namespace Project_2.Tests
             };
 
             var existingProperty = new Property(
-                "USA", "NY", "NYC", "10001",
-                "123 Test St", 500000, 3, 2, Guid.NewGuid())
+        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
+        100000m, 3, 2, 1, 0, false, Guid.NewGuid())
             {
                 PropertyID = propertyId,
                 OwnerID = userId
@@ -298,8 +271,8 @@ namespace Project_2.Tests
             var userId = Guid.NewGuid();
             var propertyDTO = new PropertyUpdateDTO { PropertyID = propertyId };
             var existingProperty = new Property(
-                "USA", "NY", "NYC", "10001",
-                "123 Test St", 500000, 3, 2, Guid.NewGuid())
+        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
+        100000m, 3, 2, 1, 0, false, Guid.NewGuid())
             {
                 PropertyID = propertyId,
                 OwnerID = userId
