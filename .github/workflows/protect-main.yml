@@ -3,6 +3,7 @@ name: CI - Build .NET and React
 on:
   pull_request:
     branches: [main]
+  workflow_dispatch: #allows manual triggering for testing 
 
 jobs:
   build-and-test:
