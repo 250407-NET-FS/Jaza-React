@@ -35,7 +35,7 @@ const reducer = (state, action) => {
         case PropertyActionTypes.DELETE_PROPERTY_SUCCESS:
             return {...state, loading: false, propertyList: propertyList.map(p => p.id != action.payload.PropertyId), selectedProperty: action.payload};
         case PropertyActionTypes.REQUEST_ERROR:
-            return {...state, loading: error, error: action.payload}
+            return {...state, loading: false, error: action.payload}
         default:
             return state;
     }
@@ -51,7 +51,7 @@ export function PropertyProvider({children}) {
         dispatch({type: PropertyActionTypes.REQUEST_START});
         // Try to fetch and pass the results of controller's GetAllProperties() to our state
         try {
-            await axios.get("api/properties")
+            await axios.get("http://localhost:5236/api/properties")
             .then(res => res.json)
             .then(data => dispatch({type: PropertyActionTypes.FETCH_LIST_SUCCESS, payload: data.results}));
         }
@@ -64,7 +64,7 @@ export function PropertyProvider({children}) {
         dispatch({type: PropertyActionTypes.REQUEST_START});
         // Try to fetch and pass the results of controller's GetPropertyById() to our state
         try {
-            await axios.get(`api/properties/${id}`)
+            await axios.get(`http://localhost:5236/api/properties/${id}`)
             .then(res => res.json)
             .then(data => dispatch({type: PropertyActionTypes.FETCH_PROPERTY_SUCCESS, payload: data.results}));
         }
@@ -77,7 +77,7 @@ export function PropertyProvider({children}) {
         dispatch({type: PropertyActionTypes.REQUEST_START});
         // Try to create and pass the results of controller's CreateProperty() to our state
         try {
-            await axios.post("api/properties")
+            await axios.post("http://localhost:5236/api/properties")
             .then(res => res.json)
             .then(data => dispatch({type: PropertyActionTypes.CREATE_PROPERTY_SUCCESS, payload: data.results}));
         }
@@ -90,7 +90,7 @@ export function PropertyProvider({children}) {
         dispatch({type: PropertyActionTypes.REQUEST_START});
         // Try to update and pass the results of controller's UpdateProperty() to our state
         try {
-            await axios.put("api/properties")
+            await axios.put("http://localhost:5236/api/properties")
             .then(res => res.json)
             .then(data => dispatch({type: PropertyActionTypes.UPDATE_PROPERTY_SUCCESS, payload: data.results}));
         }
@@ -103,7 +103,7 @@ export function PropertyProvider({children}) {
         dispatch({type: PropertyActionTypes.REQUEST_START});
         // Try to update and pass the results of controller's DeleteProperty() to our state
         try {
-            await axios.delete(`api/properties/${id}`)
+            await axios.delete(`http://localhost:5236/api/properties/${id}`)
             .then(res => res.json)
             .then(data => dispatch({type: PropertyActionTypes.DELETE_PROPERTY_SUCCESS, payload: data.results}));
         }

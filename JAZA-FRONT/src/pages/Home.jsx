@@ -1,27 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from '../assets/JAZA.png'; // Adjust if needed
 import { useAuth } from "./context/AuthContext";
+import { useProperty } from "./context/PropertyContext";
 import '../App.css';
 
 export default function Home() {
     const [search, setSearch] = useState("");
-    const { user, login, logout } = useAuth()
+    const { user, login, logout } = useAuth();
+    const { 
+        propertyList, selectedProperty, fetchPropertyList, fetchProperty, 
+        createProperty, updateProperty, deleteProperty
+    } = useProperty();
 
-    const listings = [
-        { title: "Rustic Farmhouse", description: "3 bed · 2 bath · Countryside" },
-        { title: "Cozy Bungalow", description: "2 bed · 1 bath · Urban charm" },
-        { title: "Modern Loft", description: "1 bed · 1 bath · Downtown vibes" },
-        { title: "Rustic Farmhouse", description: "3 bed · 2 bath · Countryside" },
-        { title: "Cozy Bungalow", description: "2 bed · 1 bath · Urban charm" },
-        { title: "Modern Loft", description: "1 bed · 1 bath · Downtown vibes" },
-        // ... add more listings as needed  
-    ];
-
-    const filteredListings = listings.filter(l =>
-        l.title.toLowerCase().includes(search.toLowerCase()) ||
-        l.description.toLowerCase().includes(search.toLowerCase())
-    );
+    useEffect(() => {
+        fetchPropertyList()
+    }, [fetchPropertyList]);
 
     return (
         <div className="page">
@@ -55,8 +49,8 @@ export default function Home() {
             <main className="listings">
                 <h3 className="section-title">Featured Listings</h3>
                 <div className="cards">
-                    {filteredListings.map((listing, index) => (
-                        <PropertyCard key={index} title={listing.title} description={listing.description} />
+                    {propertyList.map((listing, index) => (
+                        <PropertyCard key={index} title={listing.StreetAddress} description={listing.Bedrooms + " | " + listing.Bathrooms} />
                     ))}
                 </div>
             </main>
