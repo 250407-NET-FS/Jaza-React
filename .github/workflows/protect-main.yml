@@ -23,7 +23,7 @@ jobs:
         run: dotnet restore Jaza-React.sln
 
       - name: Build project
-        run: dotnet buildJaza-React.sln --configuration Debug --no-restore
+        run: dotnet build Jaza-React.sln --configuration Debug --no-restore
 
       - name: Make sure all tests work
         run: dotnet test Jaza-React.sln --no-build --configuration Debug
