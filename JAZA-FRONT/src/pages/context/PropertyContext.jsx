@@ -30,10 +30,10 @@ const reducer = (state, action) => {
             state.propertyList.push(action.payload);
             return {...state, loading: false, selectedProperty: action.payload};
         case PropertyActionTypes.UPDATE_PROPERTY_SUCCESS:
-            state.propertyList[state.propertyList.findIndex(p => p.PropertyId = action.payload.PropertyId)] = action.payload;
+            state.propertyList[state.propertyList.findIndex(p => p.PropertyID = action.payload.PropertyID)] = action.payload;
             return {...state, loading: false, selectedProperty: action.payload};
         case PropertyActionTypes.DELETE_PROPERTY_SUCCESS:
-            return {...state, loading: false, propertyList: propertyList.map(p => p.id != action.payload.PropertyId), selectedProperty: action.payload};
+            return {...state, loading: false, propertyList: propertyList.map(p => p.PropertyID != action.payload.PropertyID), selectedProperty: action.payload};
         case PropertyActionTypes.REQUEST_ERROR:
             return {...state, loading: false, error: action.payload}
         default:
