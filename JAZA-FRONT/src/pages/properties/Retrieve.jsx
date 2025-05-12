@@ -1,46 +1,43 @@
+import { Container, Grid, Icon, IconButton} from '@mui/material'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import React from 'react'
 
-function Retrieve() {
+function Retrieve(property) {
+    let daysListed = Math.abs(Date.now - property.listedDate) / (1000 * 60 * 60 * 24);
   return (
-    <>
-        <div className="row">
-            <div className="col">
-                <h1>Property List</h1>
-            </div>
-            <div className="col">
-                {/* TODO: Change the button color to a dark outline if favorite not marked*/}
-                <button className="btn btn-dark pull-right">Save</button>
-            </div>
-        </div>
-
-
-        <div className="row">
-            <div className="col">
-                {/* <img src="../wwwroot/11993-NOQXLF.jpg"/> */}
-            </div>
-        </div>
-        {/* TODO: Fill in property info for a specified property based on its id*/}
-        <div className="row">
-            <div className="col">
-                <pre>$0.00
-                    Address, City, State ZipCode
+    <Container>
+        <Grid container>
+            <Grid size={12}>
+                <img src={property.imageLink} alt={property.streetAddress}></img>
+                <IconButton aria-label='save'>
+                    <FavoriteIcon></FavoriteIcon>
+                </IconButton>
+            </Grid>
+            {/* TODO: Fill in property info for a specified property based on its id*/}
+            <Grid size={4}>
+                <pre>
+                    {property.startingPrice}
+                    {property.streetAddress}, {property.city}, {property.state}, {property.country} {property.zipCode}
                 </pre>
-            </div>
-            <div className="col">
-                <p>1 beds</p>
-                <p>1 baths</p>
-            </div>
-        </div>
-        <div className="row">
-            <div className="col">
-                <p>0 days</p>
-            </div>
-        </div>
-        <div className="row">
-            <p>Listing Created: Today</p>
-            <p>Listed by: Owner</p>
-        </div>
-    </>
+            </Grid>
+            <Grid size={4}>
+                <p>{property.Bedrooms} beds</p>
+            </Grid>
+            <Grid size={4}>
+                <p>{property.Bathrooms} baths</p>
+            </Grid>
+
+                <Grid size={12}>
+                    <p>{daysListed} days</p>
+                </Grid>
+
+            <Grid size={12}>
+                <p>Listing Created: {property.listedDate}</p>
+                <p>Listed by: {property.ownerID}</p>
+            </Grid>
+        </Grid>
+    </Container>
   )
 }
 
