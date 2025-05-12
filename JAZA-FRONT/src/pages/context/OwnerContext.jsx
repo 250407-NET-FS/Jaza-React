@@ -1,6 +1,7 @@
 import { createContext, useReducer, useContext, act, useCallback } from "react";
 import axios from "axios";
 import { data } from "react-router-dom";
+import { api } from "../services/api";
 
 const initialState = {
     selectedOwner: null,
@@ -37,7 +38,7 @@ export function OwnerProvider({children}) {
         dispatch({type: OwnerActionTypes.FETCH_START});
         // Try and fetch the results of GetUserById()
         try {
-            await axios.get(`http://localhost:5236/api/user`)
+            await api.get(`user`)
             .then(res => res.data)
             .then(data => dispatch({type: OwnerActionTypes.FETCH_OWNER_SUCCESS, payload: data}));
         }

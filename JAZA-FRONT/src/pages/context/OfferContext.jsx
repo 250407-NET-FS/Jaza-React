@@ -1,6 +1,7 @@
 import { createContext, useReducer, useContext, useCallback } from "react";
 import axios from "axios";
 import { data } from "react-router-dom";
+import { api } from "../services/api";
 
 const initialState = {
     offerList: [],
@@ -42,7 +43,7 @@ export function OfferProvider({children}) {
         dispatch({type: OfferActionTypes.REQUEST_START});
         // Try to fetch and pass the results of controller's GetAllOffers() method
         try {
-            await axios.get("http://localhost:5236/api/offer")
+            await api.get("offer")
             .then(res => res.data)
             .then(data => dispatch({type: OfferActionTypes.FETCH_LIST_SUCCESS, payload: data}));
         }
@@ -55,7 +56,7 @@ export function OfferProvider({children}) {
         dispatch({type: OfferActionTypes.REQUEST_START});
         // Try to fetch and pass the results of controller's GetOfferById() method
         try {
-            await axios.get(`http://localhost:5236/api/offer/id/${id}`)
+            await api.get(`offer/id/${id}`)
             .then(res => res.data)
             .then(data => dispatch({type: OfferActionTypes.FETCH_OFFER_SUCCESS, payload: data}));
         }
@@ -68,7 +69,7 @@ export function OfferProvider({children}) {
         dispatch({type: OfferActionTypes.REQUEST_START});
         // Try to fetch and pass the results of controller's GetAllOffersFromUser() method
         try {
-            await axios.get(`http://localhost:5236/api/offer/user/${userId}`)
+            await api.get(`offer/user/${userId}`)
             .then(res => res.data)
             .then(data => dispatch({type: OfferActionTypes.FETCH_LIST_SUCCESS, payload: data}));
         }
@@ -81,7 +82,7 @@ export function OfferProvider({children}) {
         dispatch({type: OfferActionTypes.REQUEST_START});
         // Try to fetch and pass the results of controller's GetAllOffersForProperty() method
         try {
-            await axios.get(`http://localhost:5236/api/offer/property/${propertyId}`)
+            await api.get(`offer/property/${propertyId}`)
             .then(res => res.data)
             .then(data => dispatch({type: OfferActionTypes.FETCH_LIST_SUCCESS, payload: data}));
         }
@@ -94,7 +95,7 @@ export function OfferProvider({children}) {
         dispatch({type: OfferActionTypes.REQUEST_START});
         // Try to fetch and pass the results of controller's GetOfferById() method
         try {
-            await axios.post(`http://localhost:5236/api/offer`, offerDTO)
+            await api.post(`api/offer`, offerDTO)
             .then(res => res.data)
             .then(data => dispatch({type: OfferActionTypes.CREATE_OFFER_SUCCESS, payload: data}));
         }
