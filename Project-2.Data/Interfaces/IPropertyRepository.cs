@@ -3,7 +3,8 @@ using Project_2.Models.DTOs;
 
 namespace Project_2.Data;
 
-public interface IPropertyRepository : IBaseRepository<Property> {
+public interface IPropertyRepository : IBaseRepository<Property>
+{
     public Task<IEnumerable<Property>> GetAllWithFilters(
         string country,
         string state,
