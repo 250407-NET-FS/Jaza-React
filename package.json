@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "jaza": "file:JAZA-FRONT"
+  }
+}
