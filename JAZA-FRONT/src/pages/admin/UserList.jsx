@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 
 
@@ -8,11 +9,54 @@ function UserList() {
 
 
   useEffect(() => {
-    fetch("http://localhost:5236/api/user/admin")
-      .then((res) => res.json())
-      .then((data) => setUsers(data))
+    axios
+    .get("http://localhost:5236/api/user/admin")
+      .then((res) => setUsers(res.data))
       .catch((err) => console.error(err));
   }, []);
+
+
+    const banHandler = (userId) => {
+    axios.
+    post(`http://localhost:5236/api/user/admin/ban/${userId}`)
+      .then((res) => {
+        const  updatedUser = res.data
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user.id === updatedUser.id ? { ...user, lockoutEnabled: true } : user
+          )
+        );
+      })
+      .catch((err) => console.error("Ban failed: ", err.message));
+  };
+
+  const unbanHandler = (userId) => {
+    console.log("Sending unban request for:", userId);
+    axios
+    .post(`http://localhost:5236/api/user/admin/unban/${userId}`)
+    .then((res) => {
+      const updatedUser = res.data;
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user.id === updatedUser.id ? { ...user, lockoutEnabled: false } : user
+          )
+        );
+      })
+      .catch((err) => console.error("Unban failed: ", err.message));
+  };
+
+  const deleteHandler = (userId) => {
+    axios
+    .delete(`http://localhost:5236/api/user/admin/${userId}`)
+      .then(() => {
+        setUsers((prevUsers) =>
+          prevUsers.filter((u) => u.id !== userId));
+
+      })
+      .catch((err) => console.error("Delete failed ", err.message));
+  };
+
+
 
   return (
     <>
@@ -24,10 +68,12 @@ function UserList() {
             key={u.id}
             name={u.fullName}
             id={u.id}
-            phone={u.phone ?? "Not Registered"}
-            isBanned={u.isBanned}
+            email={u.email}
+            lockoutEnabled={u.lockoutEnabled}
             role={u.role}/*going to need to consume conext here*/
-            setUsers={setUsers} //i can refactor if you want
+            banHandler={() => banHandler(u.id)}
+            unbanHandler={() => unbanHandler(u.id)}
+            deleteHandler={() => deleteHandler(u.id)}
           ></UserCard>
         ))}
       </ul>
@@ -41,82 +87,23 @@ function UserList() {
   );
 }
 
-function UserCard({ name, id, phone, isBanned, role, setUsers }) {
-  const banHandler = (userId) => {
-    fetch(`http://localhost:5236/api/user/admin/ban/${userId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Ban failed");
-        return res.json();
-      })
-      .then((updatedUser) => {
-        setUsers((prevUsers) =>
-          prevUsers.map((user) =>
-            user.id === updatedUser.id ? { ...user, isBanned: true } : user
-          )
-        );
-      })
-      .catch((err) => console.error(err.message));
-  };
+function UserCard({ name, id, email, lockoutEnabled, role, banHandler , unbanHandler, deleteHandler }) {
 
-  const unBanHandler = (userId) => {
-    fetch(`http://localhost:5236/api/user/admin/unban/${userId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Unban failed");
-        return res.json();
-      })
-      .then((updatedUser) => {
-        setUsers((prevUsers) =>
-          prevUsers.map((user) =>
-            user.id === updatedUser.id ? { ...user, isBanned: false } : user
-          )
-        );
-      })
-      .catch((err) => console.error(err.message));
-  };
-
-  const deleteHandler = (userId) => {
-    fetch(`http://localhost:5236/api/user/admin/${userId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Ban failed");
-        return res.json();
-      })
-      .then(() => {
-        setUsers((prevUsers) =>
-          prevUsers.filter((u) => u.id !== userId));
-
-      })
-      .catch((err) => console.error(err.message));
-  };
 
   return (
     //TODO TEST IF ADMIN DOES NOT SHOW WITH THOSE OPTIONS
     <li className="card">
       <h4>{name}</h4>
-      <p>Id {id}</p>
-      <p>Phone:{phone}</p>
+      <p>Id: {id}</p>
+      <p>Email: {email}</p>
       {!role?.includes("Admin") && (
         <>
-          {isBanned ? (
-            <button onClick={() => unBanHandler(id)}>Unban</button>
+          {lockoutEnabled ? (
+            <button onClick={unbanHandler}>Unban</button>
           ) : (
-            <button onClick={() => banHandler(id)}>Ban</button>
+            <button onClick={banHandler}>Ban</button>
           )}
-          <button onClick={() => deleteHandler(id)}>Delete</button>
+          <button onClick={deleteHandler}>Delete</button>
         </>
       )}
     </li>
