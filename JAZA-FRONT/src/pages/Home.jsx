@@ -5,6 +5,7 @@ import logo from '../assets/JAZA.png'; // Adjust if needed
 import { api } from './services/api';
 import { useAuth } from "./context/AuthContext";
 import PropertyCard from './properties/PropertyCard';
+import Login from "./Login";
 import '../App.css';
 
 export default function Home() {
@@ -65,10 +66,22 @@ export default function Home() {
                     {user?.fullName ? (
                     <button onClick={logout}>Logout</button>
                     ) : (
-                    <Popup
-                        trigger={<button>Login</button>}
+                    <Popup className="popup-login"
+                        trigger={<button onClick={login}>Login</button>}
                         modal
                         nested
+                        overlayStyle={{
+                        background: 'rgba(0, 0, 0, 0.5)', 
+                    }}
+                    contentStyle={{
+                        backgroundColor: '#f8f9fa', 
+                        borderRadius: '10px', 
+                        padding: '30px', 
+                        maxWidth: '450px', 
+                        margin: '100px auto', 
+                        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)', 
+                        fontFamily: 'Arial, sans-serif', 
+                    }}
                     >
                         <Login className="Login-form" />
                     </Popup>
