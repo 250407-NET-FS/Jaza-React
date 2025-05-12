@@ -40,7 +40,6 @@ export default function Home() {
         }, 5000);
         return () => clearInterval(timer);
     }, [currentIndex]);
-    console.log(propertyList);
     if (!propertyList.length) return <div>No properties available</div>;
 
     return (
@@ -50,7 +49,7 @@ export default function Home() {
                     <img src={logo} alt="JAZA Logo" className="logo-image" />
                     <h1 className="logo-text">JAZA</h1>
                     <h2 className="welcome-user">
-                        {user ? 'Welcome, ${user.name}' : 'Welcome, Guest'}
+                        {user ? `Welcome, ${user.fullName}` : 'Welcome, Guest'}
                     </h2>
                     {user?.fullName ? (
                     <button onClick={logout}>Logout</button>
