@@ -1,62 +1,68 @@
 import React from 'react'
 
-function Create() {
+function CreateProperty(property, onSubmit) {
   return (
-    <>
+    <Container>
         <h1>Create Property</h1>
         <hr />
-        <div className="row">
-            <div className="col-md-4">
-                <form method="post">
-                    <div className="text-danger"></div>
-                    <div className="form-group">
-                        <label className="control-label">Street Address</label>
-                        <input className="form-control" />
-                        <span className="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label className="control-label">City</label>
-                        <input className="form-control" />
-                        <span className="text-danger"></span>
-                    </div>
-                    <div className="form-group">
-                        <label className="control-label">State</label>
-                        <input className="form-control" />
-                        <span className="text-danger"></span>
-                    </div>
-                    <div className="form-group"></div>
-                    <label className="control-label">Zip Code</label>
-                    <input className="form-control" />
-                    <span className="text-danger"></span>
-
-                    <div className="form-group">
-                        <label className="control-label">Country</label>
-                        <input className="form-control" />
-                        <span className="text-danger"></span>
-                    </div>
-                    <div className="form-group">
-                        <label className="control-label">Bedrooms</label>
-                        <input className="form-control" />
-                        <span className="text-danger"></span>
-                    </div>
-                    <div className="form-group">
-                        <label className="control-label">Bathrooms</label>
-                        <input className="form-control" />
-                        <span className="text-danger"></span>
-                    </div>
-                    <div className="form-group">
-                        <label className="control-label">Starting Price</label>
-                        <input className="form-control" />
-                        <span className="text-danger"></span>
-                    </div>
-                    <div className="form-group">
-                        <input type="submit" value="Create" className="btn btn-outline-dark" />
-                    </div>
-
+        <Grid container>
+            <Grid size={12}>
+                <form method="post" onSubmit={onSubmit}>
+                    <FormGroup>
+                        <FormControlLabel>Street Address</FormControlLabel>
+                        <FormControl>
+                            <Input defaultValue={property.streetAddress}/>                        
+                        </FormControl>
+                    </FormGroup>
+                    <FormGroup>
+                        <FormControlLabel>City</FormControlLabel>
+                        <FormControl>
+                            <Input defaultValue={property.city}/>                        
+                        </FormControl>
+                    </FormGroup>
+                    <FormGroup>
+                        <FormControlLabel>State</FormControlLabel>
+                        <FormControl>
+                            <Input defaultValue={property.state}/>                        
+                        </FormControl>
+                    </FormGroup>
+                    <FormGroup>
+                        <FormControlLabel>Country</FormControlLabel>
+                        <FormControl>
+                            <Input defaultValue={property.country}/>                        
+                        </FormControl>
+                    </FormGroup>
+                    <FormGroup>
+                        <FormControlLabel>Bedrooms</FormControlLabel>
+                        <FormControl>
+                            <Input defaultValue={property.bedrooms}/>                        
+                        </FormControl>
+                    </FormGroup>
+                    <FormGroup>
+                        <FormControlLabel>Bathrooms</FormControlLabel>
+                        <FormControl>
+                            <Input defaultValue={property.bathrooms}/>                        
+                        </FormControl>
+                    </FormGroup>
+                    <FormGroup>
+                        <FormControlLabel>Garages</FormControlLabel>
+                        <FormControl>
+                            <Input defaultValue={property.garages}/>                        
+                        </FormControl>
+                    </FormGroup>
+                    <FormGroup>
+                        <FormControlLabel>Starting Price</FormControlLabel>
+                        <FormControl>
+                            <Input defaultValue={property.startingPrice}/>                        
+                        </FormControl>
+                    </FormGroup>
+                    <FormGroup>
+                        <Input type="submit" value="Create" color='primary'/>
+                    </FormGroup>
                 </form>
-            </div>
-        </div>
-    </>
+            </Grid>
+        </Grid>
+    </Container>
   )
 }
 
