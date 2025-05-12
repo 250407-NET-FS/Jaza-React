@@ -161,8 +161,8 @@ else
 }
 app.UseCors("AllowReactApp");
 app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.MapStaticAssets();
+// app.UseStaticFiles();
+// app.MapStaticAssets();
 
 app.UseRouting();
 app.UseAuthentication();
