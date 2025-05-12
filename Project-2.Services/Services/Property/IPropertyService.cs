@@ -5,7 +5,7 @@ namespace Project_2.Services.Services;
 
 public interface IPropertyService
 {
-    Task<IEnumerable<Property>> GetPropertiesAsync(
+    Task<IEnumerable<PropertyResponseDTO>> GetPropertiesAsync(
         string country,
         string state,
         string city,
@@ -22,6 +22,7 @@ public interface IPropertyService
         bool hasBasement,
         Guid? OwnerId);
     Task<Property?> GetPropertyByIdAsync(Guid guid);
+    Task<IEnumerable<PropertyResponseDTO>> GetPropertiesWithinDistOfAsync(Guid propertyId, int meters);
     Task<Guid> AddNewPropertyAsync(PropertyAddDTO propertyInfo);
     Task UpdatePropertyAsync(PropertyUpdateDTO dto, Guid userId);
     Task RemovePropertyAsync(Guid propertyId, Guid? currentUserId);

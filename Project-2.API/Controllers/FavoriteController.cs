@@ -13,6 +13,7 @@ namespace Project_2.API;
 // hint: If you use the [EntityName]Controller convention, we can essentially
 // parameterize the route name
 [ApiController]
+[Authorize]
 [Route("api/favorites")]
 public class FavoriteController : ControllerBase
 {
@@ -28,7 +29,6 @@ public class FavoriteController : ControllerBase
 
     // Get: api/favorites
     // Endpoint to retrieve all Favorites by the current user
-    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Favorite>>> GetAllFavorites()
     {
@@ -81,6 +81,7 @@ public class FavoriteController : ControllerBase
         }
     }
     //get api/favorites/top-favorites
+    [AllowAnonymous]
     [HttpGet("top-favorites")]
     public async Task<ActionResult<IEnumerable<Property>>> GetTopFavorited([FromQuery] int count = 7)
     {
@@ -107,6 +108,7 @@ public class FavoriteController : ControllerBase
         }
     }
     //front end test endpoint to check connection
+    [AllowAnonymous]
     [HttpGet("health")]
     public ActionResult CheckHealth()
     {

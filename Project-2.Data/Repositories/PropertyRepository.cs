@@ -80,6 +80,14 @@ public class PropertyRepository : BaseRepository<Property>, IPropertyRepository
         return await query.ToListAsync();
     }
 
+    public async Task<IEnumerable<PropertyResponseDTO>> GetAllWithinDistOf(Guid propertyId, int meters) {
+        Property? property = _dbContext.Property.Find(propertyId);
+        if (property is null) {
+            return new List<PropertyResponseDTO>();
+        }
+        return await _dbContext.Property.Where(p => p.Coordinates!.IsWithinDistance(property.Coordinates, meters)).Select(p => new PropertyResponseDTO(p)).ToListAsync();
+    }
+
     /* Marks an entity as to-be-upserted until its update/insertion into the db
      * in the next SaveChanges() call. 
      * ENSURE that SaveChanges() is called after this, as it has no effect otherwise

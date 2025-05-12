@@ -23,6 +23,7 @@ public class OfferController : ControllerBase{
 
     // Get: api/offer
     // Endpoint to retrieve all Offers
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Offer>>> GetAllOffers(){
         try
@@ -37,6 +38,7 @@ public class OfferController : ControllerBase{
 
     //POST: api/offer
     //Create a new offer
+    [Authorize]
     [HttpPost] // In this method, we explicity tell ASP to look for our dto in the body of the request
     public async Task<ActionResult<OfferResponseDTO>> CreateOffer([FromBody] OfferNewDTO dto)
     {
@@ -56,6 +58,7 @@ public class OfferController : ControllerBase{
 
     // Get: api/offer/id/{id}
     // Get offer by id
+    [Authorize]
     [HttpGet("id/{id}")]
     public async Task<ActionResult<Offer>> GetOfferById([FromRoute] Guid id){
         try{
@@ -67,6 +70,7 @@ public class OfferController : ControllerBase{
 
     // Get: api/offer/user/{id}
     // Get all offer from user
+    [Authorize]
     [HttpGet("user/{id}")]
     public async Task<ActionResult<IEnumerable<OfferResponseDTO>>> GetAllOffersFromUser([FromRoute] Guid id){
         try{
@@ -78,6 +82,7 @@ public class OfferController : ControllerBase{
 
     // Get: api/offer/property/{id}
     // Get all offers for property
+    [Authorize]
     [HttpGet("property/{id}")]
     public async Task<ActionResult<IEnumerable<Property>>> GetAllOffersForProperty([FromRoute] Guid id){
         try{

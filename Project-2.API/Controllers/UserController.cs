@@ -29,7 +29,7 @@ public class UserController : ControllerBase
 
     // Get: api/admin/user
     // Endpoint to retrieve all Users Admin Only
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpGet("admin")]
     public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
     {
@@ -45,7 +45,8 @@ public class UserController : ControllerBase
 
     // Get: api/admin/user/id/{id}
     // Get user by id Admin Only
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpGet("admin/{id}")]
     public async Task<ActionResult<UserDTO>> GetUserByAdminId([FromRoute] Guid id)
     {
@@ -61,7 +62,8 @@ public class UserController : ControllerBase
 
     // Delete: api/admin/user/{id}/
     // Delete user by id Admin Only
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpDelete("admin/{id}")]
     public async Task<ActionResult<bool>> DeleteUserById([FromRoute] Guid id)
     {
@@ -100,6 +102,7 @@ public class UserController : ControllerBase
         return await _userManager.GetUserAsync(HttpContext.User);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost("admin/ban/{id}")]
     public async Task<IActionResult> OnPostBanAsync([FromRoute] Guid id)
     {
@@ -119,7 +122,7 @@ public class UserController : ControllerBase
 
 
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpPost("admin/unban/{id}")]
     public async Task<IActionResult> OnPostUnBanAsync([FromRoute] Guid id)
     {

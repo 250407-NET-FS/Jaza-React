@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 
 
 
 function UserList() {
   const [users, setUsers] = useState([]);
-
+  const { user: admin } = useAuth();
 
   useEffect(() => {
     axios
@@ -70,7 +71,7 @@ function UserList() {
             id={u.id}
             email={u.email}
             lockoutEnabled={u.lockoutEnabled}
-            role={u.role}/*going to need to consume conext here*/
+            isAdmin={u.id === admin.id}/*going to need to consume conext here*/
             banHandler={() => banHandler(u.id)}
             unbanHandler={() => unbanHandler(u.id)}
             deleteHandler={() => deleteHandler(u.id)}
@@ -87,7 +88,7 @@ function UserList() {
   );
 }
 
-function UserCard({ name, id, email, lockoutEnabled, role, banHandler , unbanHandler, deleteHandler }) {
+function UserCard({ name, id, email, lockoutEnabled, isAdmin, banHandler , unbanHandler, deleteHandler }) {
 
 
   return (
@@ -96,7 +97,7 @@ function UserCard({ name, id, email, lockoutEnabled, role, banHandler , unbanHan
       <h4>{name}</h4>
       <p>Id: {id}</p>
       <p>Email: {email}</p>
-      {!role?.includes("Admin") && (
+      {!isAdmin && (
         <>
           {lockoutEnabled ? (
             <button onClick={unbanHandler}>Unban</button>
