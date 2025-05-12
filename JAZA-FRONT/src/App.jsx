@@ -5,6 +5,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import PropertyList from "./pages/admin/PropertyList";
 import FavoritesList from "./pages/properties/FavoritesList";
 import UserList from "./pages/admin/UserList";
+import Register from "./pages/Register";
 import { AuthProvider } from "./pages/context/AuthContext";
 import { PropertyProvider } from "./pages/context/PropertyContext";
 import { OwnerProvider } from "./pages/context/OwnerContext";
@@ -26,6 +27,7 @@ function App() {
                   <Route path="/UserList" element={<UserList />} />
                   <Route path="/listings" element={<UserPropertyList />} />
                   <Route path="/favorites" element={<FavoritesList />} />
+                  <Route path="/register" element={<Register />} />
                 </Routes>
               </Router>
             </OfferProvider>
