@@ -11,6 +11,8 @@ public class FavoriteService : IFavoriteService
     private readonly IPropertyRepository _propertyRepository;
     private readonly UserManager<User> _userManager;
 
+    private readonly int count = 5;
+
     public FavoriteService(IFavoriteRepository favoriteRepository, IPropertyRepository propertyRepository, UserManager<User> userManager)
     {
         _favoriteRepository = favoriteRepository;
@@ -102,7 +104,7 @@ public class FavoriteService : IFavoriteService
             Date = f.Date
         });
     }
-    public async Task<IEnumerable<Property>> GetTopFavoritedPropertiesAsync(int count = 5)
+    public async Task<IEnumerable<Property>> GetTopFavoritedPropertiesAsync(int count)
     {
         return await _favoriteRepository.GetTopFavoritedPropertiesAsync(count);
     }

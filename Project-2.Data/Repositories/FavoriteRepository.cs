@@ -23,7 +23,7 @@ public class FavoriteRepository : BaseRepository<Favorite>, IFavoriteRepository
     }
 
     // get top 5 favorite by linq and db directly
-    public async Task<IEnumerable<Property>> GetTopFavoritedPropertiesAsync(int count = 5)
+    public async Task<IEnumerable<Property>> GetTopFavoritedPropertiesAsync(int count)
     {
         return await _dbContext.Property
     .OrderByDescending(p => _dbContext.Favorite
