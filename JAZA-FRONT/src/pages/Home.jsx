@@ -1,58 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Popup from 'reactjs-popup';
 import logo from '../assets/JAZA.png'; // Adjust if needed
 import { api } from './services/api';
 import { useAuth } from "./context/AuthContext";
+import { useProperty } from "./context/PropertyContext";
 import PropertyCard from './properties/PropertyCard';
 import Login from "./Login";
 import '../App.css';
 
 export default function Home() {
     const [search, setSearch] = useState("");
-    const { user, login, logout } = useAuth()
-    const [properties, setProperties] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const { user, login, logout } = useAuth();
     const [currentIndex, setCurrentIndex] = useState(0);
+    const { 
+        propertyList, selectedProperty, fetchPropertyList, fetchProperty, 
+        createProperty, updateProperty, deleteProperty
+    } = useProperty();
+
+    useEffect(() => {
+        fetchPropertyList()
+    }, [fetchPropertyList]);
 
     // helper functions for carousel animation
     const nextSlide = () => {
         setCurrentIndex((prevIndex) =>
-            prevIndex + 1 >= properties.length - 4 ? 0 : prevIndex + 1
+            prevIndex + 1 >= propertyList.length - 4 ? 0 : prevIndex + 1
         );
     };
     const prevSlide = () => {
         setCurrentIndex((prevIndex) =>
-            prevIndex - 1 < 0 ? properties.length - 5 : prevIndex - 1
+            prevIndex - 1 < 0 ? propertyList.length - 5 : prevIndex - 1
         );
     };
+
     useEffect(() => {
         const timer = setInterval(() => {
             nextSlide();
         }, 5000);
-
         return () => clearInterval(timer);
     }, [currentIndex]);
-    //////////////////
-
-    useEffect(() => {
-        const getProperties = async () => {
-            try {
-                setLoading(true);
-                const { data } = await api.get('favorites/top-favorites');
-                setProperties(data || []);
-            } catch (err) {
-                setProperties([]);
-                console.error("Error fetching properties:", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        getProperties();
-    }, []);
-    if (!properties.length) return <div>No properties available</div>;
-
+    console.log(propertyList);
+    if (!propertyList.length) return <div>No properties available</div>;
 
     return (
         <div className="page">
@@ -90,6 +79,7 @@ export default function Home() {
                 <nav className="nav">
                     <Link to="/" className="nav-link">Home</Link>
                     <Link to="/listings" className="nav-link">Listings</Link>
+                    <Link to="/favorites" className="nav-link">Saved Searches</Link>
                 </nav>
             </header>
 
@@ -110,7 +100,7 @@ export default function Home() {
                 <div className="carousel-wrapper">
                     <button className="carousel-button prev" onClick={prevSlide}>&lt;</button>
                     <div className="carousel-container">
-                        {properties.slice(currentIndex, currentIndex + 5).map(property => (
+                        {propertyList.slice(currentIndex, currentIndex + 5).map(property => (
                             <PropertyCard
                                 key={property.propertyID}
                                 title={property.streetAddress}
