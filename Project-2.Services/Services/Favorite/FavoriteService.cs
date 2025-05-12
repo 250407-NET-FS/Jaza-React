@@ -39,12 +39,14 @@ public class FavoriteService : IFavoriteService
         IEnumerable<Favorite> favs = await _favoriteRepository.GetAllByUser(dto.UserId);
         Favorite? favoriteToRemove = favs.FirstOrDefault(f => f!.PropertyID == dto.PropertyId, null);
 
-        if (favoriteToRemove is null) {
+        if (favoriteToRemove is null)
+        {
             // no favorite exists, favorite it
             Favorite favorite = new Favorite(dto.PropertyId, dto.UserId);
             await _favoriteRepository.AddAsync(favorite);
         }
-        else {
+        else
+        {
             // favorite exists, unfavorite it
             _favoriteRepository.Remove(favoriteToRemove);
         }
@@ -53,8 +55,10 @@ public class FavoriteService : IFavoriteService
         await _favoriteRepository.SaveChangesAsync();
     }
 
-    public async Task<bool> CheckFavoritedAsync(FavoritesGetDTO dto) {
-        if (dto.UserId is null) {
+    public async Task<bool> CheckFavoritedAsync(FavoritesGetDTO dto)
+    {
+        if (dto.UserId is null)
+        {
             // user not logged in
             return false;
         }
@@ -97,5 +101,9 @@ public class FavoriteService : IFavoriteService
             PropertyId = f.PropertyID,
             Date = f.Date
         });
+    }
+    public async Task<IEnumerable<Property>> GetTopFavoritedPropertiesAsync(int count = 5)
+    {
+        return await _favoriteRepository.GetTopFavoritedPropertiesAsync(count);
     }
 }
