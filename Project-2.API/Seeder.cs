@@ -99,32 +99,35 @@ public static class Seeder
 
         if (!db.Property.Any())
         {
+            var property = new Property(
+                "USA",              // country
+                "Florida",          // state
+                "Miami",            // city
+                "33101",            // zipCode
+                "321 Pine St",      // streetAddress
+                25.7617,            // latitude
+                -80.1918,           // longitude
+                "",                 // imageLink
+                1000000m,           // startingPrice
+                3,                  // bedrooms
+                2.5m,               // bathrooms
+                1,                  // garages
+                1,                  // pools
+                true,               // hasBasement
+                user.Id             // ownerId
+                );
+            property.Coordinates = new Point(0, 0) { SRID = 4326 };
+
+
+
+
+
+            db.Property.Add(property);
+            await db.SaveChangesAsync();
         }
-        var property = new Property(
-    "USA",              // country
-    "Florida",          // state
-    "Miami",            // city
-    "33101",            // zipCode
-    "321 Pine St",      // streetAddress
-    25.7617,            // latitude
-    -80.1918,           // longitude
-    "",                 // imageLink
-    1000000m,           // startingPrice
-    3,                  // bedrooms
-    2.5m,               // bathrooms
-    1,                  // garages
-    1,                  // pools
-    true,               // hasBasement
-    user.Id             // ownerId
-);
-property.Coordinates = new Point(0, 0) { SRID = 4326 };
-
-
-
-        db.Property.Add(property);
-        await db.SaveChangesAsync();
     }
 }
+
 
 
 
