@@ -50,17 +50,12 @@ namespace Project_2.Tests
             // Arrange valid data
             OfferNewDTO offerDto = new OfferNewDTO
             {
-                PropertyId = Guid.NewGuid(),
-                UserId = Guid.NewGuid(),
+                PropertyId = SharedObjects.VALID_PROPERTY_ID_1,
+                UserId = SharedObjects.VALID_USER_ID_2,
                 BidAmount = 100.0m
             };
 
-            Property property = new Property(
-        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
-        100000m, 3, 2, 1, 0, false, Guid.NewGuid())
-            {
-                PropertyID = offerDto.PropertyId
-            };
+            Property property = SharedObjects.CloneValidProperty1();
 
             User user = new User
             {
@@ -147,10 +142,7 @@ namespace Project_2.Tests
                 new Offer(Guid.NewGuid(), Guid.NewGuid(), 150.0m)
             };
 
-            _propertyRepositoryMock.Setup(x => x.GetByIdAsync(propertyId)).ReturnsAsync(new Property(
-        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
-        100000m, 3, 2, 1, 0, false, Guid.NewGuid())
-            { PropertyID = propertyId });
+            _propertyRepositoryMock.Setup(x => x.GetByIdAsync(propertyId)).ReturnsAsync(SharedObjects.CloneValidProperty1());
             _offerRepositoryMock.Setup(x => x.GetAllForProperty(propertyId)).ReturnsAsync(offers);
 
             var result = await _offerService.GetAllForPropertyAsync(propertyId);

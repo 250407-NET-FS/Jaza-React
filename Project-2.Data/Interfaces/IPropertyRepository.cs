@@ -20,6 +20,7 @@ public interface IPropertyRepository : IBaseRepository<Property> {
         bool hasBasement,
         Guid? OwnerId);
 
+    public Task<IEnumerable<PropertyResponseDTO>> GetAllWithinDistOf(Guid propertyId, int meters);
     public void Update(PropertyUpdateDTO propertyInfo);
     public Task<IEnumerable<PropertyOwnerDTO>> GetPropertiesAdminAsync();
 }

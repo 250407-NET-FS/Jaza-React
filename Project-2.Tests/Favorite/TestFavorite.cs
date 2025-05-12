@@ -228,13 +228,7 @@ namespace Project_2.Tests
                 UserId = Guid.NewGuid()
             };
 
-            var property = new Property(
-        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
-        100000m, 3, 2, 1, 0, false, dto.UserId)
-            {
-                PropertyID = dto.PropertyId
-            };
-
+            var property = SharedObjects.CloneValidProperty1();
             var user = new User { Id = dto.UserId };
 
             _propertyRepositoryMock.Setup(x => x.GetByIdAsync(dto.PropertyId))
@@ -445,12 +439,9 @@ namespace Project_2.Tests
 
         private void SetupUserAndPropertyMocks(FavoritesDTO dto)
         {
-            var property = new Property(
-        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
-        100000m, 3, 2, 1, 0, false, dto.UserId)
-            {
-                PropertyID = dto.PropertyId
-            };
+            var property = SharedObjects.CloneValidProperty1();
+            property.PropertyID = dto.PropertyId;
+            property.OwnerID = dto.UserId;
             var user = new User { Id = dto.UserId };
 
             _propertyRepositoryMock.Setup(x => x.GetByIdAsync(dto.PropertyId))

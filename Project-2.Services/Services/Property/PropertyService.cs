@@ -13,7 +13,7 @@ public class PropertyService : IPropertyService
         _propertyRepository = propertyRepository;
     }
 
-    public async Task<IEnumerable<Property>> GetPropertiesAsync(
+    public async Task<IEnumerable<PropertyResponseDTO>> GetPropertiesAsync(
         string country,
         string state,
         string city,
@@ -35,7 +35,7 @@ public class PropertyService : IPropertyService
             country, state, city, zip, address, minPrice, maxPrice, bedrooms,
             bathrooms, garages, pools, forSale, hasBasement, OwnerId
         );
-        return propertyList;
+        return propertyList.Select(p => new PropertyResponseDTO(p));
     }
 
     public async Task<Property?> GetPropertyByIdAsync(Guid guid)
@@ -43,14 +43,18 @@ public class PropertyService : IPropertyService
         return await _propertyRepository.GetByIdAsync(guid);
     }
 
+    public async Task<IEnumerable<PropertyResponseDTO>> GetPropertiesWithinDistOfAsync(Guid propertyId, int meters) {
+        return await _propertyRepository.GetAllWithinDistOf(propertyId, meters);
+    }
+
     public async Task<Guid> AddNewPropertyAsync(PropertyAddDTO propertyInfo)
     {
         Property newProperty = new Property(
             propertyInfo.Country!, propertyInfo.State!, propertyInfo.City!,
-            propertyInfo.ZipCode!, propertyInfo.StreetAddress!, propertyInfo.ImageLink!,
-            propertyInfo.StartingPrice!, propertyInfo.Bedrooms!, propertyInfo.Bathrooms!,
-            propertyInfo.Garages!, propertyInfo.Pools!, propertyInfo.HasBasement!,
-            propertyInfo.OwnerID
+            propertyInfo.ZipCode!, propertyInfo.StreetAddress!, propertyInfo.Latitude,
+            propertyInfo.Longitude, propertyInfo.ImageLink!, propertyInfo.StartingPrice!, 
+            propertyInfo.Bedrooms!, propertyInfo.Bathrooms!, propertyInfo.Garages!, 
+            propertyInfo.Pools!, propertyInfo.HasBasement!, propertyInfo.OwnerID
         );
 
         await _propertyRepository.AddAsync(newProperty);
