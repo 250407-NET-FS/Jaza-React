@@ -14,6 +14,10 @@ public class PropertyAddDTO
     public string? ZipCode { get; set; }
     [Required]
     public string? StreetAddress { get; set; }
+    [Required]
+    public double Latitude { get; set; }
+    [Required]
+    public double Longitude { get; set; }
     public string? ImageLink { get; set; }
     [Required]
     public decimal StartingPrice { get; set; }
@@ -25,7 +29,7 @@ public class PropertyAddDTO
     public int Garages { get; set; }
     [Required]
     public int Pools { get; set; }
-    public bool HasBasement { get; set;}
+    public bool HasBasement { get; set;} 
     [Required]
     public DateTime ListDate { get; set; }
     [Required]

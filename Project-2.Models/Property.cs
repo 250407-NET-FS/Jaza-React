@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using NetTopologySuite.Geometries;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -24,6 +25,8 @@ public class Property {
     [Required]
     [StringLength(50)]
     public string? StreetAddress { get; set; }
+    [Required]
+    public Point? Coordinates { get; set; }
     public string? ImageLink {get; set;}
     [Required]
     [Precision(18, 2)]
@@ -57,12 +60,13 @@ public class Property {
 
     public Property() {}
 
-    public Property(string country, string state, string city, string zipCode,string streetAddress, string imageLink, decimal startingPrice, int bedrooms, decimal bathrooms, int garages, int pools, bool hasBasement, Guid ownerId) {
+    public Property(string country, string state, string city, string zipCode,string streetAddress, double latitude, double longitude, string imageLink, decimal startingPrice, int bedrooms, decimal bathrooms, int garages, int pools, bool hasBasement, Guid ownerId) {
         Country = country;
         State = state;
         City = city;
         ZipCode = zipCode;
         StreetAddress = streetAddress;
+        Coordinates = new Point(longitude, latitude);
         StartingPrice = startingPrice;
         Bedrooms = bedrooms;
         Bathrooms = bathrooms;

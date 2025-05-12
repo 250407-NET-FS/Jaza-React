@@ -3,6 +3,7 @@ using Project_2.Models;
 using Project_2.Services.Services;
 using Project_2.Data;
 using Project_2.Models.DTOs;
+using NetTopologySuite.Geometries;
 using Moq;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,30 +34,14 @@ namespace Project_2.Tests
             _propertyService = new PropertyService(_propertyRepositoryMock.Object, null);
         }
 
-
         [Fact]
         public async Task GetAllAsync_ShouldReturnAllProperties()
         {
-            var expectedProperties = new List<Property>
-            { //Property.Property(string Country, string State, string City, 
-            // string ZipCode, string ImageLink, int garages, string StreetAddress,
-            // decimal StartingPrice, int Bedrooms, decimal Bathrooms, int pools)
-                 new Property(
-                "USA", "Florida", "Orlando", "55555",
-                "123 Florida Man St", "image1.jpg", 0m,
-                1, 100, 20, 0, false, Guid.NewGuid()
-                ),
-                new Property(
-                    "Idk", "Moon", "Blackhole", "787878",
-                    "123 Oblivion", "image2.jpg", 0m,
-                    111, 1, 1, 100, true, Guid.NewGuid()
-                ),
-                new Property(
-                    "Canada", "Ontario", "Quebec", "88889",
-                    "123 Maple Street", "image3.jpg", 9999999999m,
-                    999, 100000, 200000, 0, false, Guid.NewGuid()
-                )
-                };
+            var expectedProperties = new List<Property>{ 
+                SharedObjects.CloneValidProperty1(),
+                SharedObjects.CloneValidProperty2(),
+                SharedObjects.CloneValidProperty3()
+            };
             var propertyRepositoryMock = new Mock<IPropertyRepository>();
             propertyRepositoryMock
                 .Setup(repo => repo.GetAllAsync())
@@ -69,24 +54,15 @@ namespace Project_2.Tests
         [Fact]
         public async Task RemovePropertyAsync_ShouldRemoveProperty()
         {
-            var propertyId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
-            var property = new Property(
-        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
-        100000m, 3, 2, 1, 0, false, Guid.NewGuid())
-            {
-                PropertyID = propertyId,
-                OwnerID = userId
-            };
-
+            Property property = SharedObjects.CloneValidProperty1();
             _propertyRepositoryMock
-                .Setup(repo => repo.GetByIdAsync(propertyId))
+                .Setup(repo => repo.GetByIdAsync(SharedObjects.VALID_PROPERTY_ID_1))
                 .ReturnsAsync(property);
             _propertyRepositoryMock
                 .Setup(repo => repo.SaveChangesAsync())
                 .ReturnsAsync(1);
 
-            await _propertyService.RemovePropertyAsync(propertyId, userId);
+            await _propertyService.RemovePropertyAsync(SharedObjects.VALID_PROPERTY_ID_1, SharedObjects.VALID_USER_ID_1);
 
             _propertyRepositoryMock.Verify(repo => repo.Remove(property));
         }
@@ -102,6 +78,8 @@ namespace Project_2.Tests
                 City = "NYC",
                 ZipCode = "10001",
                 StreetAddress = "123 Test St",
+                Latitude = 1.1,
+                Longitude = 1.1,
                 StartingPrice = 500000,
                 Bedrooms = 3,
                 Bathrooms = 2
@@ -121,24 +99,13 @@ namespace Project_2.Tests
         [Fact]
         public async Task RemovePropertyAsync_WhenUnauthorized_ShouldThrowException()
         {
-
-            var propertyId = Guid.NewGuid();
-            var ownerId = Guid.NewGuid();
-            var unauthorizedUserId = Guid.NewGuid();
-            var property = new Property(
-       "USA", "State", "City", "12345", "Test St", "test-image.jpg",
-       100000m, 3, 2, 1, 0, false, Guid.NewGuid())
-            {
-                PropertyID = propertyId,
-                OwnerID = ownerId
-            };
-
+            Property property = SharedObjects.CloneValidProperty1();
             _propertyRepositoryMock
-                .Setup(repo => repo.GetByIdAsync(propertyId))
+                .Setup(repo => repo.GetByIdAsync(SharedObjects.VALID_PROPERTY_ID_1))
                 .ReturnsAsync(property);
 
             var exception = await Assert.ThrowsAsync<Exception>(
-                () => _propertyService.RemovePropertyAsync(propertyId, unauthorizedUserId));
+                () => _propertyService.RemovePropertyAsync(SharedObjects.VALID_PROPERTY_ID_1, SharedObjects.INVALID_USER_ID));
             Assert.Equal("Unauthorized", exception.Message);
         }
 
@@ -153,6 +120,8 @@ namespace Project_2.Tests
                 City = "NYC",
                 ZipCode = "10001",
                 StreetAddress = "123 Test St",
+                Latitude = 1.1,
+                Longitude = 1.1,
                 StartingPrice = 500000,
                 Bedrooms = 3,
                 Bathrooms = 2
@@ -172,51 +141,39 @@ namespace Project_2.Tests
         [Fact]
         public async Task GetByIdAsync_ShouldReturnProperty()
         {
-
-            var propertyId = Guid.NewGuid();
-            var expected = new Property(
-        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
-        100000m, 3, 2, 1, 0, false, Guid.NewGuid())
-            {
-                PropertyID = propertyId
-            };
-
+            Property property = SharedObjects.CloneValidProperty1();
             _propertyRepositoryMock
-                .Setup(repo => repo.GetByIdAsync(propertyId))
-                .ReturnsAsync(expected);
+                .Setup(repo => repo.GetByIdAsync(SharedObjects.VALID_PROPERTY_ID_1))
+                .ReturnsAsync(property);
 
-
-            var result = await _propertyService.GetPropertyByIdAsync(propertyId);
+            var result = await _propertyService.GetPropertyByIdAsync(SharedObjects.VALID_PROPERTY_ID_1);
 
             Assert.NotNull(result);
-            Assert.Equal(propertyId, result.PropertyID);
-            _propertyRepositoryMock.Verify(repo => repo.GetByIdAsync(propertyId));
+            Assert.Equal(SharedObjects.VALID_PROPERTY_ID_1, result.PropertyID);
+            _propertyRepositoryMock.Verify(repo => repo.GetByIdAsync(SharedObjects.VALID_PROPERTY_ID_1));
         }
 
         [Fact]
         public async Task GetByIdAsync_WhenNotFound_ShouldReturnNull()
         {
-            var propertyId = Guid.NewGuid();
             _propertyRepositoryMock
-                .Setup(repo => repo.GetByIdAsync(propertyId))
+                .Setup(repo => repo.GetByIdAsync(SharedObjects.INVALID_PROPERTY_ID))
                 .ReturnsAsync((Property?)null);
 
 
-            var result = await _propertyService.GetPropertyByIdAsync(propertyId);
+            var result = await _propertyService.GetPropertyByIdAsync(SharedObjects.INVALID_PROPERTY_ID);
 
 
             Assert.Null(result);
-            _propertyRepositoryMock.Verify(repo => repo.GetByIdAsync(propertyId));
+            _propertyRepositoryMock.Verify(repo => repo.GetByIdAsync(SharedObjects.INVALID_PROPERTY_ID));
         }
 
         [Fact]
         public async Task UpdatePropertyAsync_ShouldUpdateProperty()
         {
-            var propertyId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
             var propertyDTO = new PropertyUpdateDTO
             {
-                PropertyID = propertyId,
+                PropertyID = SharedObjects.VALID_PROPERTY_ID_1,
                 Country = "USA",
                 State = "NY",
                 City = "NYC",
@@ -227,22 +184,16 @@ namespace Project_2.Tests
                 Bathrooms = 2
             };
 
-            var existingProperty = new Property(
-        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
-        100000m, 3, 2, 1, 0, false, Guid.NewGuid())
-            {
-                PropertyID = propertyId,
-                OwnerID = userId
-            };
+            var existingProperty = SharedObjects.CloneValidProperty1();
 
             _propertyRepositoryMock
-                .Setup(repo => repo.GetByIdAsync(propertyId))
+                .Setup(repo => repo.GetByIdAsync(SharedObjects.VALID_PROPERTY_ID_1))
                 .ReturnsAsync(existingProperty);
             _propertyRepositoryMock
                 .Setup(repo => repo.SaveChangesAsync())
                 .ReturnsAsync(1);
 
-            await _propertyService.UpdatePropertyAsync(propertyDTO, userId);
+            await _propertyService.UpdatePropertyAsync(propertyDTO, SharedObjects.VALID_USER_ID_1);
 
             _propertyRepositoryMock.Verify(repo => repo.Update(propertyDTO), Times.Once);
             _propertyRepositoryMock.Verify(repo => repo.SaveChangesAsync(), Times.Once);
@@ -251,57 +202,44 @@ namespace Project_2.Tests
         [Fact]
         public async Task UpdatePropertyAsync_WhenPropertyNotFound_ShouldThrowException()
         {
-            var propertyId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
-            var propertyDTO = new PropertyUpdateDTO { PropertyID = propertyId };
+            var propertyDTO = new PropertyUpdateDTO { PropertyID = SharedObjects.INVALID_PROPERTY_ID };
 
             _propertyRepositoryMock
-                .Setup(repo => repo.GetByIdAsync(propertyId))
+                .Setup(repo => repo.GetByIdAsync(SharedObjects.INVALID_PROPERTY_ID))
                 .ReturnsAsync((Property?)null);
 
             var exception = await Assert.ThrowsAsync<Exception>(
-                () => _propertyService.UpdatePropertyAsync(propertyDTO, userId));
+                () => _propertyService.UpdatePropertyAsync(propertyDTO, SharedObjects.VALID_USER_ID_1));
             Assert.Equal("Property not found", exception.Message);
         }
 
         [Fact]
         public async Task UpdatePropertyAsync_WhenSaveFails_ShouldThrowException()
         {
-            var propertyId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
-            var propertyDTO = new PropertyUpdateDTO { PropertyID = propertyId };
-            var existingProperty = new Property(
-        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
-        100000m, 3, 2, 1, 0, false, Guid.NewGuid())
-            {
-                PropertyID = propertyId,
-                OwnerID = userId
-            };
+            var propertyDTO = new PropertyUpdateDTO { PropertyID = SharedObjects.VALID_PROPERTY_ID_1 };
+            var existingProperty = SharedObjects.CloneValidProperty1();
 
             _propertyRepositoryMock
-                .Setup(repo => repo.GetByIdAsync(propertyId))
+                .Setup(repo => repo.GetByIdAsync(SharedObjects.VALID_PROPERTY_ID_1))
                 .ReturnsAsync(existingProperty);
             _propertyRepositoryMock
                 .Setup(repo => repo.SaveChangesAsync())
                 .ReturnsAsync(0);
 
             var exception = await Assert.ThrowsAsync<Exception>(
-                () => _propertyService.UpdatePropertyAsync(propertyDTO, userId));
+                () => _propertyService.UpdatePropertyAsync(propertyDTO, SharedObjects.VALID_USER_ID_1));
             Assert.Equal("Failed to update property", exception.Message);
         }
 
         [Fact]
         public async Task RemovePropertyAsync_WhenPropertyNotFound_ShouldThrowException()
         {
-            var propertyId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
-
             _propertyRepositoryMock
-                .Setup(repo => repo.GetByIdAsync(propertyId))
+                .Setup(repo => repo.GetByIdAsync(   SharedObjects.INVALID_PROPERTY_ID))
                 .ReturnsAsync((Property?)null);
 
             var exception = await Assert.ThrowsAsync<Exception>(
-                () => _propertyService.RemovePropertyAsync(propertyId, userId));
+                () => _propertyService.RemovePropertyAsync(SharedObjects.INVALID_PROPERTY_ID, SharedObjects.VALID_USER_ID_1));
             Assert.Equal("Property not found", exception.Message);
         }
 
