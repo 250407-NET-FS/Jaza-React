@@ -1,8 +1,10 @@
-import React from "react";
-import { useEffect, useContext, } from "react";
+
 import { Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 function Dashboard() {
+
+  
   return (
     <div className="Admin-Layout">
       <h1 className="display-4">Welcome Admin!</h1>
@@ -12,12 +14,14 @@ function Dashboard() {
           className="Admin-Options"
         >
           <li style={{ marginRight: "20px" }}>
-            <Link to="/UserList">View all Users</Link>
+            <Link to="UserList">View all Users</Link>
           </li>
           <li className="col-6">
-            <Link to="/PropertyList">View All Properties</Link>
+            <Link to="PropertyList">View All Properties</Link>
           </li>
         </ul>
+        <Outlet /> 
+        {/* https://api.reactrouter.com/v7/functions/react_router.Outlet.html */}
       </div>
     </div>
   );
