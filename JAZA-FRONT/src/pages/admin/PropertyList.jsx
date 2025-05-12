@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { api } from "../services/api";
 
 function PropertyList() {
   const [properties, setProperties] = useState([]);
+  const token = localStorage.getItem("jwt");
 
   useEffect(() => {
-    axios
+    api
       .get("http://localhost:5236/api/properties/admin")
       .then((res) => setProperties(res.data))
       .catch((err) => console.error(err));
   }, []);
 
   const deleteHandler = (propertyId, ownerId) => {
-    axios
+    api
       .delete(
-        `http://localhost:5236/api/properties/admin/${propertyId}/${ownerId}`
-      )
+        `http://localhost:5236/api/properties/admin/${propertyId}/${ownerId}`)
       .then((res) => {
         setProperties((prevPropeties) =>
           prevPropeties.filter((p) => p.propertyID !== propertyId)
         );
       })
-      .catch((err) => console.error("Delete failed" , err));
+      .catch((err) => console.error("Delete failed", err));
   };
 
   return (
@@ -54,9 +54,7 @@ function PropertyCard({
   ownerId,
   deleteHandler,
 }) {
-  
   return (
-    
     <li className="card">
       <h4>{id}</h4>
       <p>Address: {address}</p>
