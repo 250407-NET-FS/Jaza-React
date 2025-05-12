@@ -49,6 +49,7 @@ export default function Home() {
 
         getProperties();
     }, []);
+    if (loading) return <div>Loading properties...</div>;
     if (!properties.length) return <div>No properties available</div>;
 
 
