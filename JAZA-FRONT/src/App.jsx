@@ -3,10 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home"; // or './Home' if not in a folder
 import Dashboard from "./pages/admin/Dashboard";
 import PropertyList from "./pages/admin/PropertyList";
+import FavoritesList from "./pages/properties/FavoritesList";
 import UserList from "./pages/admin/UserList";
 import { AuthProvider } from "./pages/context/AuthContext";
 import { PropertyProvider } from "./pages/context/PropertyContext";
-import { OwnerProvider } from ".pages/context/OwnerContext";
+import { OwnerProvider } from "./pages/context/OwnerContext";
 import UserPropertyList from "./pages/properties/UserPropertyList";
 import { FavoritesProvider } from "./pages/context/FavoritesContext";
 import { OfferProvider } from "./pages/context/OfferContext";

@@ -38,8 +38,8 @@ export function OwnerProvider({children}) {
         // Try and fetch the results of GetUserById()
         try {
             await axios.get(`http://localhost:5236/api/user`)
-            .then(res => res.json)
-            .then(data => dispatch({type: OwnerActionTypes.FETCH_OWNER_SUCCESS, payload: data.results}));
+            .then(res => res.data)
+            .then(data => dispatch({type: OwnerActionTypes.FETCH_OWNER_SUCCESS, payload: data}));
         }
         catch (err) {
             dispatch({type: OwnerActionTypes.FETCH_ERROR, error: err.message});

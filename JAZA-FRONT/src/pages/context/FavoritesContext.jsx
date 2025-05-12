@@ -40,7 +40,7 @@ const reducer = (action, state) => {
 
 const FavoritesContext = createContext();
 
-export function FavoritesProvider([children]) {
+export function FavoritesProvider({children}) {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     // Obtain the full list of favorited properties for the logged user
@@ -49,8 +49,8 @@ export function FavoritesProvider([children]) {
         // Try to fetch and pass the results of controller's GetAllFavorites() to our state
         try {
             await axios.get("http://localhost:5236/api/favorites")
-            .then(res => res.json)
-            .then(data => dispatch({type: FavoritesActionTypes.FETCH_LIST_SUCCESS, payload: data.results}));
+            .then(res => res.data)
+            .then(data => dispatch({type: FavoritesActionTypes.FETCH_LIST_SUCCESS, payload: data}));
         }
         catch (err) {
             dispatch({type: FavoritesActionTypes.REQUEST_ERROR, payload: err.message});
@@ -62,8 +62,8 @@ export function FavoritesProvider([children]) {
         // Try to fetch and pass the results of controller's CheckIfFavorited() to our state
         try {
             await axios.get(`http://localhost:5236/api/favorites/${propertyId}`)
-            .then(res => res.json)
-            .then(data => dispatch({type: FavoritesActionTypes.FETCH_BOOKMARK_SUCCESS, payload: data.results}));
+            .then(res => res.data)
+            .then(data => dispatch({type: FavoritesActionTypes.FETCH_BOOKMARK_SUCCESS, payload: data}));
         }
         catch (err) {
             dispatch({type: FavoritesActionTypes.REQUEST_ERROR, payload: err.message});
@@ -76,8 +76,8 @@ export function FavoritesProvider([children]) {
         try {
             let favoriteDTO = {PropertyID: propertyId, UserId: userId};
             await axios.post("http://localhost:5236/api/favorites", favoriteDTO)
-            .then(res => res.json)
-            .then(data => dispatch({type: FavoritesActionTypes.FETCH_BOOKMARK_SUCCESS, payload: data.results}));
+            .then(res => res.data)
+            .then(data => dispatch({type: FavoritesActionTypes.FETCH_BOOKMARK_SUCCESS, payload: data}));
         }
         catch (err) {
             dispatch({type: FavoritesActionTypes.REQUEST_ERROR, payload: err.message});

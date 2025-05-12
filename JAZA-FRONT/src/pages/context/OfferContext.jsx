@@ -43,8 +43,8 @@ export function OfferProvider({children}) {
         // Try to fetch and pass the results of controller's GetAllOffers() method
         try {
             await axios.get("http://localhost:5236/api/offer")
-            .then(res => res.json)
-            .then(data => dispatch({type: OfferActionTypes.FETCH_LIST_SUCCESS, payload: data.results}));
+            .then(res => res.data)
+            .then(data => dispatch({type: OfferActionTypes.FETCH_LIST_SUCCESS, payload: data}));
         }
         catch (err) {
             dispatch({type: OfferActionTypes.REQUEST_ERROR, error: err.message});
@@ -56,8 +56,8 @@ export function OfferProvider({children}) {
         // Try to fetch and pass the results of controller's GetOfferById() method
         try {
             await axios.get(`http://localhost:5236/api/offer/id/${id}`)
-            .then(res => res.json)
-            .then(data => dispatch({type: OfferActionTypes.FETCH_OFFER_SUCCESS, payload: data.results}));
+            .then(res => res.data)
+            .then(data => dispatch({type: OfferActionTypes.FETCH_OFFER_SUCCESS, payload: data}));
         }
         catch (err) {
             dispatch({type: OfferActionTypes.REQUEST_ERROR, error: err.message});
@@ -69,8 +69,8 @@ export function OfferProvider({children}) {
         // Try to fetch and pass the results of controller's GetAllOffersFromUser() method
         try {
             await axios.get(`http://localhost:5236/api/offer/user/${userId}`)
-            .then(res => res.json)
-            .then(data => dispatch({type: OfferActionTypes.FETCH_LIST_SUCCESS, payload: data.results}));
+            .then(res => res.data)
+            .then(data => dispatch({type: OfferActionTypes.FETCH_LIST_SUCCESS, payload: data}));
         }
         catch (err) {
             dispatch({type: OfferActionTypes.REQUEST_ERROR, error: err.message});
@@ -82,8 +82,8 @@ export function OfferProvider({children}) {
         // Try to fetch and pass the results of controller's GetAllOffersForProperty() method
         try {
             await axios.get(`http://localhost:5236/api/offer/property/${propertyId}`)
-            .then(res => res.json)
-            .then(data => dispatch({type: OfferActionTypes.FETCH_LIST_SUCCESS, payload: data.results}));
+            .then(res => res.data)
+            .then(data => dispatch({type: OfferActionTypes.FETCH_LIST_SUCCESS, payload: data}));
         }
         catch (err) {
             dispatch({type: OfferActionTypes.REQUEST_ERROR, error: err.message});
@@ -95,8 +95,8 @@ export function OfferProvider({children}) {
         // Try to fetch and pass the results of controller's GetOfferById() method
         try {
             await axios.post(`http://localhost:5236/api/offer`, offerDTO)
-            .then(res => res.json)
-            .then(data => dispatch({type: OfferActionTypes.CREATE_OFFER_SUCCESS, payload: data.results}));
+            .then(res => res.data)
+            .then(data => dispatch({type: OfferActionTypes.CREATE_OFFER_SUCCESS, payload: data}));
         }
         catch (err) {
             dispatch({type: OfferActionTypes.REQUEST_ERROR, error: err.message});

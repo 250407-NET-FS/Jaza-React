@@ -4,12 +4,12 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import React from 'react'
 
 function Retrieve(property) {
-    let daysListed = Math.abs(Date.now - property.ListedDate) / (1000 * 60 * 60 * 24);
+    let daysListed = Math.abs(Date.now - property.listedDate) / (1000 * 60 * 60 * 24);
   return (
     <Container>
         <Grid container>
             <Grid size={12}>
-                <img src={property.imageLink} alt={property.StreetAddress}></img>
+                <img src={property.imageLink} alt={property.streetAddress}></img>
                 <IconButton aria-label='save'>
                     <FavoriteIcon></FavoriteIcon>
                 </IconButton>
@@ -17,8 +17,8 @@ function Retrieve(property) {
             {/* TODO: Fill in property info for a specified property based on its id*/}
             <Grid size={4}>
                 <pre>
-                    {property.StartingPrice}
-                    {property.StreetAddress}, {property.City}, {property.State}, {property.Country} {property.ZipCode}
+                    {property.startingPrice}
+                    {property.streetAddress}, {property.city}, {property.state}, {property.country} {property.zipCode}
                 </pre>
             </Grid>
             <Grid size={4}>
@@ -33,8 +33,8 @@ function Retrieve(property) {
                 </Grid>
 
             <Grid size={12}>
-                <p>Listing Created: {property.ListedDate}</p>
-                <p>Listed by: {property.OwnerID}</p>
+                <p>Listing Created: {property.listedDate}</p>
+                <p>Listed by: {property.ownerID}</p>
             </Grid>
         </Grid>
     </Container>

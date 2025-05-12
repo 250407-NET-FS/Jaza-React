@@ -1,8 +1,8 @@
 import { Card, CardContent, Container, Grid } from '@mui/material'
 import { useProperty } from "../context/PropertyContext";
-import React from 'react'
+import React, {useEffect} from 'react'
 
-function UserPropertyList(list) {
+function UserPropertyList() {
     const { 
         propertyList, selectedProperty, fetchPropertyList, fetchProperty, 
         createProperty, updateProperty, deleteProperty
@@ -17,13 +17,13 @@ function UserPropertyList(list) {
         <h1>Homes</h1>
         <Grid container>
             {
-                list.map(p => 
+                propertyList.map(p => 
                     <Grid size={2}>
-                        <Card key={p.PropertyID}>
+                        <Card key={p.propertyID}>
                             <CardContent>
-                                <h3>{p.StartingPrice}</h3>
-                                <p>{p.Bedrooms} | {p.Bathrooms} - {p.ForSale}</p>
-                                <p>{p.StreetAddress}, {p.City}, {p.State}, {p.Country} {p.ZipCode}</p>
+                                <h3>{p.startingPrice}</h3>
+                                <p>{p.bedrooms} | {p.bathrooms} - {p.forSale}</p>
+                                <p>{p.streetAddress}, {p.city}, {p.state}, {p.country} {p.zipCode}</p>
                             </CardContent>
                         </Card>
                     </Grid>

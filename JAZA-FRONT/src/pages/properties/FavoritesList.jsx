@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
+import { Card, CardContent, Container, Grid } from '@mui/material'
 import { useFavorite } from '../context/FavoritesContext';
 import { useProperty } from '../context/PropertyContext';
 import { useOwner } from '../context/OwnerContext';
 
-function SavedList() {
+function FavoritesList() {
     const {
         favoritesList, foundFavorite, 
         fetchFavoritesList, fetchCurrentFavorite, markFavorite
@@ -28,14 +29,14 @@ function SavedList() {
         fetchLoggedOwner()
     }, [selectedOwner]);
 
-    propertyList = propertyList.filter(p => favoritesList.some(f => f.PropertyID == p.PropertyID));
+    let savedList = propertyList.map(p => favoritesList.some(f => f.PropertyID == p.PropertyID));
   return (
     <Container>
         <h1>Your Listings</h1>
         <Grid container>
-            {!propertyList && <p class="text-muted">You have no listings yet.</p>}
+            {!savedList && <p class="text-muted">You have no listings yet.</p>}
             {
-                propertyList.map(p => {
+                savedList.map(p => {
                     return (
                         <Grid key={p.PropertyID}>
                             <Card>
@@ -63,4 +64,4 @@ function SavedList() {
   )
 }
 
-export default SavedList
+export default FavoritesList

@@ -52,8 +52,8 @@ export function PropertyProvider({children}) {
         // Try to fetch and pass the results of controller's GetAllProperties() to our state
         try {
             await axios.get("http://localhost:5236/api/properties")
-            .then(res => res.json)
-            .then(data => dispatch({type: PropertyActionTypes.FETCH_LIST_SUCCESS, payload: data.results}));
+            .then(res => res.data)
+            .then(data => dispatch({type: PropertyActionTypes.FETCH_LIST_SUCCESS, payload: data}));
         }
         catch (err) {
             dispatch({type: PropertyActionTypes.REQUEST_ERROR, payload: err.message});
@@ -65,8 +65,8 @@ export function PropertyProvider({children}) {
         // Try to fetch and pass the results of controller's GetPropertyById() to our state
         try {
             await axios.get(`http://localhost:5236/api/properties/${id}`)
-            .then(res => res.json)
-            .then(data => dispatch({type: PropertyActionTypes.FETCH_PROPERTY_SUCCESS, payload: data.results}));
+            .then(res => res.data)
+            .then(data => dispatch({type: PropertyActionTypes.FETCH_PROPERTY_SUCCESS, payload: data}));
         }
         catch (err) {
             dispatch({type: PropertyActionTypes.REQUEST_ERROR, payload: err.message});
@@ -78,8 +78,8 @@ export function PropertyProvider({children}) {
         // Try to create and pass the results of controller's CreateProperty() to our state
         try {
             await axios.post("http://localhost:5236/api/properties")
-            .then(res => res.json)
-            .then(data => dispatch({type: PropertyActionTypes.CREATE_PROPERTY_SUCCESS, payload: data.results}));
+            .then(res => res.data)
+            .then(data => dispatch({type: PropertyActionTypes.CREATE_PROPERTY_SUCCESS, payload: data}));
         }
         catch (err) {
             dispatch({type: PropertyActionTypes.REQUEST_ERROR, payload: err.message});
@@ -91,7 +91,7 @@ export function PropertyProvider({children}) {
         // Try to update and pass the results of controller's UpdateProperty() to our state
         try {
             await axios.put("http://localhost:5236/api/properties")
-            .then(res => res.json)
+            .then(res => res.data)
             .then(data => dispatch({type: PropertyActionTypes.UPDATE_PROPERTY_SUCCESS, payload: data.results}));
         }
         catch (err) {
@@ -104,8 +104,8 @@ export function PropertyProvider({children}) {
         // Try to update and pass the results of controller's DeleteProperty() to our state
         try {
             await axios.delete(`http://localhost:5236/api/properties/${id}`)
-            .then(res => res.json)
-            .then(data => dispatch({type: PropertyActionTypes.DELETE_PROPERTY_SUCCESS, payload: data.results}));
+            .then(res => res.data)
+            .then(data => dispatch({type: PropertyActionTypes.DELETE_PROPERTY_SUCCESS, payload: data}));
         }
         catch (err) {
             dispatch({type: PropertyActionTypes.REQUEST_ERROR, payload: err.message});

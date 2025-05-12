@@ -10,6 +10,7 @@ import '../App.css';
 export default function Home() {
     const [search, setSearch] = useState("");
     const { user, login, logout } = useAuth();
+    const [currentIndex, setCurrentIndex] = useState(0);
     const { 
         propertyList, selectedProperty, fetchPropertyList, fetchProperty, 
         createProperty, updateProperty, deleteProperty
@@ -37,6 +38,7 @@ export default function Home() {
         }, 5000);
         return () => clearInterval(timer);
     }, [currentIndex]);
+    console.log(propertyList);
     if (!propertyList.length) return <div>No properties available</div>;
 
     return (
@@ -53,6 +55,7 @@ export default function Home() {
                 <nav className="nav">
                     <Link to="/" className="nav-link">Home</Link>
                     <Link to="/listings" className="nav-link">Listings</Link>
+                    <Link to="/favorites" className="nav-link">Saved Searches</Link>
                 </nav>
             </header>
 
