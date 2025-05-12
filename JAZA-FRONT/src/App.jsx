@@ -12,6 +12,7 @@ import { OwnerProvider } from "./pages/context/OwnerContext";
 import UserPropertyList from "./pages/properties/UserPropertyList";
 import { FavoritesProvider } from "./pages/context/FavoritesContext";
 import { OfferProvider } from "./pages/context/OfferContext";
+import RequireAdmin from "./pages/admin/RequireAdmin";
 
 function App() {
   return (
@@ -23,8 +24,18 @@ function App() {
               <Router>
                 <Routes>
                   <Route path="/" element={<Home />} />
-                  <Route path="/admin/Dashboard" element={<Dashboard />} />
-                  <Route path="/UserList" element={<UserList />} />
+                  <Route
+                    path="/admin/Dashboard"
+                    element={
+                      <RequireAdmin>
+                        <Dashboard />
+                      </RequireAdmin>
+                    }
+                  > 
+                  {/* This will allow the nested views! */}
+                    <Route path="PropertyList" element={<PropertyList />} />
+                    <Route path="UserList" element={<UserList />} />
+                  </Route>
                   <Route path="/listings" element={<UserPropertyList />} />
                   <Route path="/favorites" element={<FavoritesList />} />
                   <Route path="/register" element={<Register />} />
