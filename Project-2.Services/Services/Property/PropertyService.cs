@@ -47,9 +47,9 @@ public class PropertyService : IPropertyService
     {
         Property newProperty = new Property(
             propertyInfo.Country!, propertyInfo.State!, propertyInfo.City!,
-            propertyInfo.ZipCode!, propertyInfo.StreetAddress!, propertyInfo.ImageLink,
-            propertyInfo.StartingPrice, propertyInfo.Bedrooms, propertyInfo.Bathrooms,
-            propertyInfo.Garages, propertyInfo.Pools, propertyInfo.HasBasement,
+            propertyInfo.ZipCode!, propertyInfo.StreetAddress!, propertyInfo.ImageLink!,
+            propertyInfo.StartingPrice!, propertyInfo.Bedrooms!, propertyInfo.Bathrooms!,
+            propertyInfo.Garages!, propertyInfo.Pools!, propertyInfo.HasBasement!,
             propertyInfo.OwnerID
         );
 

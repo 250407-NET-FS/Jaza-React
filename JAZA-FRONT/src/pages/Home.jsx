@@ -1,29 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Popup from 'reactjs-popup';
 import logo from '../assets/JAZA.png'; // Adjust if needed
+import { api } from './services/api';
 import { useAuth } from "./context/AuthContext";
-import Login from "./Login";
+import PropertyCard from './properties/PropertyCard';
 import '../App.css';
 
 export default function Home() {
     const [search, setSearch] = useState("");
-    const { user, login, logout } = useAuth();
+    const { user, login, logout } = useAuth()
+    const [properties, setProperties] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
-    const listings = [
-        { title: "Rustic Farmhouse", description: "3 bed · 2 bath · Countryside" },
-        { title: "Cozy Bungalow", description: "2 bed · 1 bath · Urban charm" },
-        { title: "Modern Loft", description: "1 bed · 1 bath · Downtown vibes" },
-        { title: "Rustic Farmhouse", description: "3 bed · 2 bath · Countryside" },
-        { title: "Cozy Bungalow", description: "2 bed · 1 bath · Urban charm" },
-        { title: "Modern Loft", description: "1 bed · 1 bath · Downtown vibes" },
-        // ... add more listings as needed  
-    ];
+    // helper functions for carousel animation
+    const nextSlide = () => {
+        setCurrentIndex((prevIndex) =>
+            prevIndex + 1 >= properties.length - 4 ? 0 : prevIndex + 1
+        );
+    };
+    const prevSlide = () => {
+        setCurrentIndex((prevIndex) =>
+            prevIndex - 1 < 0 ? properties.length - 5 : prevIndex - 1
+        );
+    };
+    useEffect(() => {
+        const timer = setInterval(() => {
+            nextSlide();
+        }, 5000);
 
-    const filteredListings = listings.filter(l =>
-        l.title.toLowerCase().includes(search.toLowerCase()) ||
-        l.description.toLowerCase().includes(search.toLowerCase())
-    );
+        return () => clearInterval(timer);
+    }, [currentIndex]);
+    //////////////////
+
+    useEffect(() => {
+        const getProperties = async () => {
+            try {
+                setLoading(true);
+                const { data } = await api.get('favorites/top-favorites');
+                setProperties(data || []);
+            } catch (err) {
+                setProperties([]);
+                console.error("Error fetching properties:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        getProperties();
+    }, []);
+    if (!properties.length) return <div>No properties available</div>;
+
 
     return (
         <div className="page">
@@ -32,7 +60,7 @@ export default function Home() {
                     <img src={logo} alt="JAZA Logo" className="logo-image" />
                     <h1 className="logo-text">JAZA</h1>
                     <h2 className="welcome-user">
-                        {user?.fullName ? `Welcome, ${user.fullName}` : 'Welcome, Guest'}
+                        {user ? 'Welcome, ${user.name}' : 'Welcome, Guest'}
                     </h2>
                     {user?.fullName ? (
                     <button onClick={logout}>Logout</button>
@@ -66,25 +94,24 @@ export default function Home() {
 
             <main className="listings">
                 <h3 className="section-title">Featured Listings</h3>
-                <div className="cards">
-                    {filteredListings.map((listing, index) => (
-                        <PropertyCard key={index} title={listing.title} description={listing.description} />
-                    ))}
+                <div className="carousel-wrapper">
+                    <button className="carousel-button prev" onClick={prevSlide}>&lt;</button>
+                    <div className="carousel-container">
+                        {properties.slice(currentIndex, currentIndex + 5).map(property => (
+                            <PropertyCard
+                                key={property.propertyID}
+                                title={property.streetAddress}
+                                description={`${property.city}, ${property.state}`}
+                            />
+                        ))}
+                    </div>
+                    <button className="carousel-button next" onClick={nextSlide}>&gt;</button>
                 </div>
             </main>
 
             <footer className="footer">
                 <p>© 2025 JAZA Properties · All rights reserved.</p>
             </footer>
-        </div>
-    );
-}
-
-function PropertyCard({ title, description }) {
-    return (
-        <div className="card">
-            <h4>{title}</h4>
-            <p>{description}</p>
         </div>
     );
 }

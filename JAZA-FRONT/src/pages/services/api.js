@@ -18,15 +18,15 @@ export const api = axios.create({
 // It checks if a JWT token is present in local storage
 // and attaches it to the Authorization header of the request
 api.interceptors.request.use((config) => {
-  
+
   // Get JWT from localStorage
   const token = localStorage.getItem("jwt");
-  
+
   if (token) {
     // Attach to Authorization header as Bearer token
     config.headers.Authorization = `Bearer ${token}`;
   }
-  
+
   return config;
 });
 

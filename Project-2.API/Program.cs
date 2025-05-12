@@ -151,7 +151,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseCors("AllowReactApp");
+    
 }
 else
 {
@@ -159,7 +159,7 @@ else
     app.UseHsts();
     //need to add cors for not dev
 }
-
+app.UseCors("AllowReactApp");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.MapStaticAssets();
