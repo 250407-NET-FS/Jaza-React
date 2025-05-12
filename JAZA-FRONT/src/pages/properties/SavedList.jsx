@@ -1,10 +1,13 @@
-import { Card, CardContent, CardHeader, Container } from '@mui/material';
-import { useOwner } from '../context/OwnerContext';
-import { useProperty } from "../context/PropertyContext";
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useFavorite } from '../context/FavoritesContext';
+import { useProperty } from '../context/PropertyContext';
+import { useOwner } from '../context/OwnerContext';
 
-function OwnerPropertyList() {
+function SavedList() {
+    const {
+        favoritesList, foundFavorite, 
+        fetchFavoritesList, fetchCurrentFavorite, markFavorite
+    } = useFavorite();
 
     const { 
         propertyList, selectedProperty, fetchPropertyList, fetchProperty, 
@@ -14,6 +17,10 @@ function OwnerPropertyList() {
     const {selectedOwner, fetchLoggedOwner} = useOwner();
 
     useEffect(() => {
+        fetchFavoritesList()
+    }, [fetchFavoritesList]);
+
+    useEffect(() => {
         fetchPropertyList()
     }, [fetchPropertyList]);
 
@@ -21,8 +28,7 @@ function OwnerPropertyList() {
         fetchLoggedOwner()
     }, [selectedOwner]);
 
-    propertyList = propertyList.filter(p => p.OwnerID == selectedOwner.Id);
-
+    propertyList = propertyList.filter(p => favoritesList.some(f => f.PropertyID == p.PropertyID));
   return (
     <Container>
         <h1>Your Listings</h1>
@@ -41,8 +47,7 @@ function OwnerPropertyList() {
                                         Beds: {p.Bedrooms} Baths: {p.Bathrooms}<br />
                                         Price: ${p.StartingPrice}
                                     </pre>
-                                    <Link to={`../properties/${p.StreetAddress}/edit`}>Edit</Link>
-                                    <form method="post" onSubmit={() => deleteProperty(p.PropertyID)}>
+                                    <form method="post" onSubmit={() => markFavorite(p.PropertyID, selectedOwner.Id)}>
                                         <Button type="submit">
                                             Delete
                                         </Button>
@@ -58,4 +63,4 @@ function OwnerPropertyList() {
   )
 }
 
-export default OwnerPropertyList
+export default SavedList

@@ -19,7 +19,7 @@ function UserPropertyList(list) {
             {
                 list.map(p => 
                     <Grid size={2}>
-                        <Card>
+                        <Card key={p.PropertyID}>
                             <CardContent>
                                 <h3>{p.StartingPrice}</h3>
                                 <p>{p.Bedrooms} | {p.Bathrooms} - {p.ForSale}</p>
