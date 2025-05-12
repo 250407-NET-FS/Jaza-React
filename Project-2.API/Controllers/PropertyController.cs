@@ -28,7 +28,7 @@ public class PropertyController : ControllerBase{
     // Get: api/properties
     // Endpoint to retrieve all Properties
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Property>>> GetAllProperties(
+    public async Task<ActionResult<IEnumerable<PropertyResponseDTO>>> GetAllProperties(
         [FromQuery] string country = "",
         [FromQuery] string state = "",
         [FromQuery] string city = "",
@@ -60,11 +60,27 @@ public class PropertyController : ControllerBase{
         }
     }
 
+    // Get: api/properties/distance/{id}
+    // Endpoint to retrieve all Properties
+    [HttpGet("distance/{propertyId}")]
+    public async Task<ActionResult<IEnumerable<PropertyResponseDTO>>> GetAllPropertiesWithinDistOf([FromRoute] Guid propertyId, [FromQuery] int meters = 500) {
+        try
+        {
+            return Ok(
+                await _propertyService.GetPropertiesWithinDistOfAsync(propertyId, meters)
+            );
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
     // Get: api/admin/properties
     // Get all properties Admin Only
     [Authorize(Roles = "Admin")]
     [HttpGet("admin")]
-    public async Task<ActionResult<IEnumerable<Property>>> GetAllPropertiesAdmin(){
+    public async Task<ActionResult<IEnumerable<PropertyResponseDTO>>> GetAllPropertiesAdmin(){
         try{
             return Ok(
                 await _propertyService.GetPropertiesAdminAsync()
@@ -140,7 +156,7 @@ public class PropertyController : ControllerBase{
 
     // Get: api/properties/id/{id}
     // Get property by id
-    [HttpGet("{id}")]
+    [HttpGet("id/{id}")]
     public async Task<ActionResult<Property>> GetPropertyById([FromRoute] Guid id){
         try{
             return Ok(await _propertyService.GetPropertyByIdAsync(id));

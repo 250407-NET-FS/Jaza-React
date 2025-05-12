@@ -104,16 +104,13 @@ public class TestPurchase
     [Fact] //test accept offer
     public async Task AcceptOfferAsync_ValidPurchase_ReturnsPurchase()
     {
-        var ownerId = Guid.NewGuid();
-        var buyerId = Guid.NewGuid();
-        var propertyId = Guid.NewGuid();
+        var ownerId = SharedObjects.VALID_USER_ID_1;
+        var buyerId = SharedObjects.VALID_USER_ID_2;
+        var propertyId = SharedObjects.VALID_PROPERTY_ID_1;
         var offerId = Guid.NewGuid();
         decimal bidAmount = 100000;
 
-        var property = new Property(
-        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
-        100000m, 3, 2, 1, 0, false, Guid.NewGuid())
-        { PropertyID = propertyId, OwnerID = ownerId, ForSale = true };
+        var property = SharedObjects.CloneValidProperty1();
         var offer = new Offer(buyerId, propertyId, bidAmount) { OfferID = offerId };
         var purchaseDto = new CreatePurchaseDTO { PropertyId = propertyId, UserId = ownerId, OfferId = offerId };
 
@@ -132,21 +129,14 @@ public class TestPurchase
     public async Task CreateAsync_ShouldCreatePurchase()
     {
         // Create GUIDs and test data
-        var propertyId = Guid.NewGuid();
-        var buyerId = Guid.NewGuid();
+        var propertyId = SharedObjects.VALID_PROPERTY_ID_1;
+        var ownerId = SharedObjects.VALID_USER_ID_1;
+        var buyerId = SharedObjects.VALID_USER_ID_2;
         var offerId = Guid.NewGuid();
-        var ownerId = Guid.NewGuid();
         decimal bidAmount = 2500000000000;
 
         // Setup property
-        var property = new Property(
-        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
-        100000m, 3, 2, 1, 0, false, Guid.NewGuid())
-        {
-            PropertyID = propertyId,
-            OwnerID = ownerId,
-            ForSale = true
-        };
+        var property = SharedObjects.CloneValidProperty1();
 
         // Setup mocks using class fields
         _propertyRepositoryMock
@@ -191,18 +181,12 @@ public class TestPurchase
     [Fact]
     public async Task CreateAsync_ShouldThrowException_WhenPropertyNotForSale()
     {
-        var propertyId = Guid.NewGuid();
+        var propertyId = SharedObjects.VALID_PROPERTY_ID_1;
         var ownerId = Guid.NewGuid();
         var offerId = Guid.NewGuid();
 
-        var property = new Property(
-        "USA", "State", "City", "12345", "Test St", "test-image.jpg",
-        100000m, 3, 2, 1, 0, false, Guid.NewGuid())
-        {
-            PropertyID = propertyId,
-            OwnerID = ownerId,
-            ForSale = false  // Set ForSale to false to test the error
-        };
+        var property = SharedObjects.CloneValidProperty1();
+        property.ForSale = false;
 
         var purchaseDTO = new CreatePurchaseDTO
         {

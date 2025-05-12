@@ -12,9 +12,29 @@ public class PropertyResponseDTO
     public decimal StartingPrice { get; set; }
     public int Bedrooms { get; set; }
     public decimal Bathrooms { get; set; }
+    public int Garages { get; set; }
     public int Pools { get; set; }
     public bool HasBasement { get; set; }
     public DateTime ListDate { get; set; }
     public Guid OwnerID { get; set; }
     public bool ForSale { get; set; }
+    
+    public PropertyResponseDTO(Property property) {
+        PropertyID = property.PropertyID;
+        Country = property.Country!;
+        State = property.State!;
+        City = property.City!;
+        ZipCode = property.ZipCode!;
+        StreetAddress = property.StreetAddress!;
+        ImageLink = property.ImageLink;
+        StartingPrice = property.StartingPrice;
+        Bedrooms = property.Bedrooms;
+        Bathrooms = property.Bathrooms;
+        Garages = property.Garages;
+        Pools = property.Pools;
+        HasBasement = property.HasBasement;
+        ListDate = property.ListDate;
+        OwnerID = (Guid)property.OwnerID!;
+        ForSale = property.ForSale;
+    }
 }

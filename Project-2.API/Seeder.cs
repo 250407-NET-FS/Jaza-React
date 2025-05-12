@@ -4,6 +4,7 @@ using Project_2.Models;
 
 using Microsoft.AspNetCore.Identity;
 using Project_2.Data;
+using NetTopologySuite.Geometries;
 
 namespace Project_2.API;
 
@@ -100,20 +101,25 @@ public static class Seeder
         {
         }
         var property = new Property(
-            "USA",              // country
-            "Florida",          // state
-            "Miami",            // city
-            "33101",            // zipCode
-            "321 Pine St",      // streetAddress
-            "",                 // imageLink
-            1000000m,           // startingPrice
-            3,                  // bedrooms
-            2.5m,               // bathrooms
-            1,                  // garages
-            1,                  // pools
-            true,               // hasBasement
-            user.Id             // ownerId
-        );
+    "USA",              // country
+    "Florida",          // state
+    "Miami",            // city
+    "33101",            // zipCode
+    "321 Pine St",      // streetAddress
+    25.7617,            // latitude
+    -80.1918,           // longitude
+    "",                 // imageLink
+    1000000m,           // startingPrice
+    3,                  // bedrooms
+    2.5m,               // bathrooms
+    1,                  // garages
+    1,                  // pools
+    true,               // hasBasement
+    user.Id             // ownerId
+);
+property.Coordinates = new Point(0, 0) { SRID = 4326 };
+
+
 
         db.Property.Add(property);
         await db.SaveChangesAsync();
