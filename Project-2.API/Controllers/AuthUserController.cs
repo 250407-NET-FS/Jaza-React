@@ -1,6 +1,7 @@
 using Project_2.Models;
 using Project_2.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 using Microsoft.AspNetCore.Mvc;
 
