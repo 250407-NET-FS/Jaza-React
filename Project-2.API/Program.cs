@@ -173,22 +173,22 @@ app.MapControllers();
 
 
 // For first timec
-// using (var scope = app.Services.CreateScope())
-// {
-//     var services = scope.ServiceProvider;
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
 
-//     try
-//     {
-//         await Seeder.SeedAdmin(services);
-//         await Seeder.SeedUser(services);
-//         await Seeder.SeedProperty(services);
-//     }
-//     catch (Exception ex)
-//     {
-//         var logger = services.GetRequiredService<ILogger<Program>>();
-//         logger.LogError(ex, "Error seeding roles");
-//     }
-// }
+    try
+    {
+        await Seeder.SeedAdmin(services);
+        await Seeder.SeedUser(services);
+        await Seeder.SeedProperty(services);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Error seeding roles");
+    }
+}
 
 
 app.Run();
