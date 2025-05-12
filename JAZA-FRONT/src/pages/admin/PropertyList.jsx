@@ -1,31 +1,21 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { api } from "../services/api";
 
 function PropertyList() {
   const [properties, setProperties] = useState([]);
   const token = localStorage.getItem("jwt");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5236/api/properties/admin", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    api
+      .get("http://localhost:5236/api/properties/admin")
       .then((res) => setProperties(res.data))
       .catch((err) => console.error(err));
   }, []);
 
   const deleteHandler = (propertyId, ownerId) => {
-    axios
+    api
       .delete(
-        `http://localhost:5236/api/properties/admin/${propertyId}/${ownerId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+        `http://localhost:5236/api/properties/admin/${propertyId}/${ownerId}`)
       .then((res) => {
         setProperties((prevPropeties) =>
           prevPropeties.filter((p) => p.propertyID !== propertyId)
