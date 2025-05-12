@@ -29,7 +29,7 @@ public class UserController : ControllerBase
 
     // Get: api/admin/user
     // Endpoint to retrieve all Users Admin Only
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpGet("admin")]
     public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
     {
