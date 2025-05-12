@@ -10,4 +10,5 @@ public interface IFavoriteService
     Task<bool> CheckFavoritedAsync(FavoritesGetDTO dto);
     Task<IEnumerable<FavoritesDTO>> GetAllForPropertyAsync(Guid propertyId); // unused stretch goal 
     Task<IEnumerable<FavoriteListForUserDTO>> GetAllByUserAsync(Guid userId);
+    Task<IEnumerable<Property>> GetTopFavoritedPropertiesAsync(int count);
 }
