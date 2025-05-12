@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from "./context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const { register } = useAuth();
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     fullName: "",
     email: "",
@@ -13,35 +15,36 @@ function Register() {
   });
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    // logging and user messages
-    if (credentials.email === '' || credentials.password === '' || credentials.fullName === '') {
-      setErrorMessage('Please fill in all fields');
-      setSuccessMessage('');
+  // Validate input fields
+  if (!credentials.email || !credentials.password || !credentials.fullName) {
+    setErrorMessage('Please fill in all fields');
+    setSuccessMessage('');
+    return;
+  }
+
+  // Log registration attempt
+  console.log('Registering with:', credentials);
+
+  try {
+    const success = await register(credentials);
+    console.log("Registration statues: ", success);
+
+    if (success) {
+      setSuccessMessage('Registration successful!');
+      setErrorMessage('');
+      navigate("/");
     } else {
-      // logging
-      console.log('Registering with:', {
-            email: credentials.email,
-            fullName: credentials.fullName,
-            password: credentials.password
-        });
-
-        // Attempt to log in the user with the provided credentials
-        try {
-            const success = await register(credentials);
-        if (success) {
-            // user message
-            setSuccessMessage('Register successful!');
-            setErrorMessage('');
-            navigate("/");
-        }
-        } catch (error) {
-            setErrorMessage("Invalid credentials. Please try again.");
-        }
+      setErrorMessage('Registration failed. Please try again.');
+      setSuccessMessage('');
     }
-
-  };
+  } catch (error) {
+    console.error('Registration error');
+    setErrorMessage('Invalid credentials. Please try again.');
+    setSuccessMessage('');
+  }
+};
 
   return (
     <>

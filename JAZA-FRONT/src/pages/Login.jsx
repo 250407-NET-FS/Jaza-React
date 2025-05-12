@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from "./context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const { login } = useAuth();
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -18,6 +20,8 @@ function Login() {
     if (credentials.email === '' || credentials.password === '') {
       setErrorMessage('Please fill in all fields');
       setSuccessMessage('');
+      credentials.email = "";
+      credentials.password = "";
     } else {
       // logging
       console.log('Logging in with:', {
@@ -28,14 +32,19 @@ function Login() {
         // Attempt to log in the user with the provided credentials
         try {
             const success = await login(credentials);
-        if (success) {
-            // user message
-            setSuccessMessage('Login successful!');
-            setErrorMessage('');
-            navigate("/");
-        }
-        } catch (error) {
+          if (success) {
+              // user message
+              setSuccessMessage('Login successful!');
+              setErrorMessage(null);
+              navigate("/");
+          } else {
+            setErrorMessage('Login failed. Please try again.');
+            credentials.email = "";
+            credentials.password = "";
+          }
+        } catch (errorMessage) {
             setErrorMessage("Invalid credentials. Please try again.");
+            return;
         }
     }
 

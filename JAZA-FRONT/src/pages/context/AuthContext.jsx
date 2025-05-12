@@ -16,7 +16,7 @@ const normalizeClaims = (decoded) => ({
     "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
   ],
   role: decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
-  name: decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
+  fullName: decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
 });
 
 // finite state machine for authContext
@@ -61,6 +61,9 @@ export const AuthProvider = ({ children }) => {
         // sends post request to api service with base url attached to front and
         // credentials attached to body
         const response = await api.post("auth/login", credentials);
+        if (response.status < 200 || response.status >= 300) {
+            return false;
+        }
         const token = response.data.token;
         // assigns token to localStorage
         localStorage.setItem("jwt", token);
@@ -75,18 +78,35 @@ export const AuthProvider = ({ children }) => {
         dispatch({type: "LOGOUT"});
     };
 
-    // function to handle login action
     const register = async (credentials) => {
-        // sends post request to api service with base url attached to front and
-        // credentials attached to body
+    try {
         const response = await api.post("auth/register", credentials);
-        const token = response.data.token;
-        // assigns token to localStorage
-        localStorage.setItem("jwt", token);
-        const decoded = jwtDecode(token);
-        dispatch({type: "REGISTER", payload: normalizeClaims(decoded)});
-        return true;
-    };
+
+        // Check if the status is successful
+        if (response.status >= 200 && response.status < 300) {
+            // Check if Auth Controller sends good message
+            if (response.data && response.data.message) {
+                console.log(response.data.message);
+                return true;  // Registration is successful
+            }
+
+            console.error("No success message.");
+            return false;
+        } else {
+            console.error("Failed to register:", response.status, response.data);
+            return false;
+        }
+        
+    } catch (error) {
+        // Handle errors (network issues or unexpected issues)
+        if (!error.response) {
+            console.error("Network error or no response from server:", error.message);
+        } else {
+            console.error("Registration Error:", error.response.status, error.response.data);
+        }
+        return false;
+    }
+};
 
     // user should remain logged in when page refreshes
     // useEffect triggers once when component is mounting

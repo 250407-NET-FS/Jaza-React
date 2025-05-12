@@ -8,7 +8,7 @@ import '../App.css';
 
 export default function Home() {
     const [search, setSearch] = useState("");
-    const { user, login, logout } = useAuth()
+    const { user, login, logout } = useAuth();
 
     const listings = [
         { title: "Rustic Farmhouse", description: "3 bed · 2 bath · Countryside" },
@@ -32,11 +32,19 @@ export default function Home() {
                     <img src={logo} alt="JAZA Logo" className="logo-image" />
                     <h1 className="logo-text">JAZA</h1>
                     <h2 className="welcome-user">
-                        {user ? 'Welcome, ${user.name}': 'Welcome, Guest'}
+                        {user?.fullName ? `Welcome, ${user.fullName}` : 'Welcome, Guest'}
                     </h2>
-                    <Popup trigger = {user ? <button onClick={logout}>logout</button> : <button onClick={login}>login</button>}>
-                        <Login className="Login-form"></Login>
+                    {user?.fullName ? (
+                    <button onClick={logout}>Logout</button>
+                    ) : (
+                    <Popup
+                        trigger={<button>Login</button>}
+                        modal
+                        nested
+                    >
+                        <Login className="Login-form" />
                     </Popup>
+                    )}
                 </div>
                 <nav className="nav">
                     <Link to="/" className="nav-link">Home</Link>
