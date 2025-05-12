@@ -66,7 +66,7 @@ public class Property {
         City = city;
         ZipCode = zipCode;
         StreetAddress = streetAddress;
-        Coordinates = new Point(longitude, latitude);
+        Coordinates = new Point(longitude, latitude) { SRID = 4236 };
         StartingPrice = startingPrice;
         Bedrooms = bedrooms;
         Bathrooms = bathrooms;
@@ -75,6 +75,5 @@ public class Property {
         Garages = garages;
         HasBasement = hasBasement;
         Pools = pools;
-        
     }
 }
