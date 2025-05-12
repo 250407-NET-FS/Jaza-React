@@ -29,15 +29,15 @@ const reducer = (state, action) => {
 
 const OwnerContext = createContext();
 
-export function UserProvider({children}) {
+export function OwnerProvider({children}) {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     // Obtain a specific owner using a property's owner id 
-    const fetchUser = useCallback(async (id) => {
+    const fetchLoggedOwner = useCallback(async () => {
         dispatch({type: OwnerActionTypes.FETCH_START});
-        // Try and fetch the results of GetUserByAdminId()
+        // Try and fetch the results of GetUserById()
         try {
-            await axios.get(`http://localhost:5236/api/user/admin/${id}`)
+            await axios.get(`http://localhost:5236/api/user`)
             .then(res => res.json)
             .then(data => dispatch({type: OwnerActionTypes.FETCH_OWNER_SUCCESS, payload: data.results}));
         }
@@ -50,7 +50,7 @@ export function UserProvider({children}) {
         <OwnerContext.Provider
             value={{
                 ...state,
-                fetchUser
+                fetchLoggedOwner
             }}
         >
             {children}
@@ -58,7 +58,7 @@ export function UserProvider({children}) {
     )
 }
 
-export const useUser = () => {
+export const useOwner = () => {
     const ownerContext = useContext(OwnerContext);
 
     if (!ownerContext) {

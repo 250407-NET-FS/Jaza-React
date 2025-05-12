@@ -61,7 +61,7 @@ export function FavoritesProvider([children]) {
         dispatch({type: FavoritesActionTypes.REQUEST_START});
         // Try to fetch and pass the results of controller's CheckIfFavorited() to our state
         try {
-            await axios.get("http://localhost:5236/api/favorites/{id}")
+            await axios.get(`http://localhost:5236/api/favorites/${propertyId}`)
             .then(res => res.json)
             .then(data => dispatch({type: FavoritesActionTypes.FETCH_BOOKMARK_SUCCESS, payload: data.results}));
         }
@@ -70,10 +70,11 @@ export function FavoritesProvider([children]) {
         }
     }, []);
     // (Usually) Post a new favorite to the list of marked listings
-    const markFavorite = useCallback(async(favoriteDTO) => {
+    const markFavorite = useCallback(async(propertyId, userId) => {
         dispatch({type: FavoritesActionTypes.REQUEST_START});
         // Try to create and pass the results of controller's MarkUnmarkFavorite() to our state
         try {
+            let favoriteDTO = {PropertyID: propertyId, UserId: userId};
             await axios.post("http://localhost:5236/api/favorites", favoriteDTO)
             .then(res => res.json)
             .then(data => dispatch({type: FavoritesActionTypes.FETCH_BOOKMARK_SUCCESS, payload: data.results}));
