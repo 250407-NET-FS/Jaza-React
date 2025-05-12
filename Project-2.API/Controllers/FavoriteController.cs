@@ -14,7 +14,8 @@ namespace Project_2.API;
 // parameterize the route name
 [ApiController]
 [Route("api/favorites")]
-public class FavoriteController : ControllerBase{
+public class FavoriteController : ControllerBase
+{
 
     private readonly UserManager<User> _userManager;
     private readonly IFavoriteService _favoriteService;
@@ -29,7 +30,8 @@ public class FavoriteController : ControllerBase{
     // Endpoint to retrieve all Favorites by the current user
     [Authorize]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Favorite>>> GetAllFavorites(){
+    public async Task<ActionResult<IEnumerable<Favorite>>> GetAllFavorites()
+    {
         try
         {
             return Ok(await _favoriteService.GetAllByUserAsync(Guid.Parse(_userManager.GetUserId(this.User)!)));
@@ -42,7 +44,8 @@ public class FavoriteController : ControllerBase{
 
     // Get: api/favorites/{propertyId}
     [HttpGet("{propertyId}")]
-    public async Task<ActionResult<IEnumerable<Favorite>>> CheckIfFavorited(Guid propertyId){
+    public async Task<ActionResult<IEnumerable<Favorite>>> CheckIfFavorited(Guid propertyId)
+    {
         try
         {
             string? currentUserId = _userManager.GetUserId(this.User);
@@ -64,7 +67,8 @@ public class FavoriteController : ControllerBase{
         {
             //Explicitly checking the modelstate to make sure that out dto conforms
             //to whatever we need it to be
-            if (!ModelState.IsValid) {
+            if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
             }
 
@@ -75,5 +79,37 @@ public class FavoriteController : ControllerBase{
         {
             return BadRequest(e.Message);
         }
+    }
+    //get api/favorites/top-favorites
+    [HttpGet("top-favorites")]
+    public async Task<ActionResult<IEnumerable<Property>>> GetTopFavorited([FromQuery] int count = 7)
+    {
+        try
+        {
+            var properties = await _favoriteService.GetTopFavoritedPropertiesAsync(count);
+            Console.WriteLine($"Retrieved {properties.Count()} properties");
+
+            if (!properties.Any())
+            {
+                Console.WriteLine("No properties found");
+                return Ok(Array.Empty<Property>());
+            }
+
+            var firstProperty = properties.First();
+            Console.WriteLine($"First property: ID={firstProperty.PropertyID}, Address={firstProperty.StreetAddress}");
+
+            return Ok(properties);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error in GetTopFavorited: {e.Message}");
+            return BadRequest(e.Message);
+        }
+    }
+    //front end test endpoint to check connection
+    [HttpGet("health")]
+    public ActionResult CheckHealth()
+    {
+        return Ok(new { status = "healthy", timestamp = DateTime.UtcNow });
     }
 }
