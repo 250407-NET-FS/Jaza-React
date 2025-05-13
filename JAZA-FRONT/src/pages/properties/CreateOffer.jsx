@@ -95,4 +95,4 @@ function CreateOffer(property) {
   );
 }
 
-export default createOffer;
+export default CreateOffer;

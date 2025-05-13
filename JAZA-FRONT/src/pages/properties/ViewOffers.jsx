@@ -81,4 +81,4 @@ function ViewOffers(property){
 
 }
 
-export default viewOffers;
+export default ViewOffers;
