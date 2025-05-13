@@ -140,6 +140,13 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
+
+    options.AddPolicy("AllowAzure", policy =>
+    {
+        policy.WithOrigins("https://jaza-bnerbvbkfadkhkbf.canadacentral-01.azurewebsites.net") // React dev server
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
 });
 
 
@@ -159,10 +166,10 @@ else
     app.UseHsts();
     //need to add cors for not dev
 }
+app.UseCors("AllowAzure");
 app.UseCors("AllowReactApp");
 app.UseHttpsRedirection();
-// app.UseStaticFiles();
-// app.MapStaticAssets();
+
 
 app.UseRouting();
 app.UseAuthentication();
