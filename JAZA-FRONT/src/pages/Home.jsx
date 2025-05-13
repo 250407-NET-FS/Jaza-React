@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Popup from "reactjs-popup";
+import SearchBar from "./properties/SearchBar"
 import logo from "../assets/JAZA.png"; // Adjust if needed
 import { api } from "./services/api";
 import { useAuth } from "./context/AuthContext";
@@ -100,16 +101,10 @@ export default function Home() {
                 </nav>
             </header>
 
+
             <section className="hero">
                 <h2 className="hero-title">Find Your Warmth</h2>
-
-                <input
-                    type="text"
-                    placeholder="Search listings..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="search-bar"
-                />
+                <SearchBar/>
             </section>
 
             <main className="listings">

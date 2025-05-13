@@ -61,13 +61,29 @@ public class PropertyController : ControllerBase{
     }
 
     // Get: api/properties/distance/{id}
-    // Endpoint to retrieve all Properties
+    // Endpoint to retrieve all Properties within a linear distance of the specified property
     [HttpGet("distance/{propertyId}")]
     public async Task<ActionResult<IEnumerable<PropertyResponseDTO>>> GetAllPropertiesWithinDistOf([FromRoute] Guid propertyId, [FromQuery] int meters = 500) {
         try
         {
             return Ok(
                 await _propertyService.GetPropertiesWithinDistOfAsync(propertyId, meters)
+            );
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    // Get: api/properties/search/{address}
+    // Endpoint to service the search bar
+    [HttpGet("search/{address}")]
+    public async Task<ActionResult<IEnumerable<PropertyResponseDTO>>> AssistSearchBar([FromRoute] string address) {
+        try
+        {
+            return Ok(
+                await _propertyService.GetPropertiesByAddressCharsAsync(address)
             );
         }
         catch (Exception e)

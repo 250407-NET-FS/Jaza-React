@@ -23,6 +23,7 @@ public interface IPropertyService
         Guid? OwnerId);
     Task<Property?> GetPropertyByIdAsync(Guid guid);
     Task<IEnumerable<PropertyResponseDTO>> GetPropertiesWithinDistOfAsync(Guid propertyId, int meters);
+    Task<IEnumerable<PropertySearchResponseDTO>> GetPropertiesByAddressCharsAsync(string addressChars);
     Task<Guid> AddNewPropertyAsync(PropertyAddDTO propertyInfo);
     Task UpdatePropertyAsync(PropertyUpdateDTO dto, Guid userId);
     Task RemovePropertyAsync(Guid propertyId, Guid? currentUserId);
