@@ -64,4 +64,4 @@ function AcceptOffer(property, offer, credentials) {
       );
 }
 
-export default createOffer;
+export default AcceptOffer;
