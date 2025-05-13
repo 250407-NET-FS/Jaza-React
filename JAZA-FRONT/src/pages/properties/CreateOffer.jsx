@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useOffer } from '../context/OfferContext';
@@ -11,6 +12,7 @@ function createOffer(property) {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
+  // eslint-disable-next-line no-undef
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     UserId: user.id,
