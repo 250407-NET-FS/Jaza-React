@@ -159,6 +159,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseCors("AllowReactApp");
+    Console.WriteLine("allowed dev");
     
 }
 else
@@ -166,6 +167,7 @@ else
     app.UseExceptionHandler("/Error");
     app.UseHsts();
     app.UseCors("AllowFrontend");
+    Console.WriteLine("allowed front end");
 
 }
 
