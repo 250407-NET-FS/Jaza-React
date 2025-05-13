@@ -156,9 +156,10 @@ namespace Project_2.Tests
         [Fact]
         public async Task GetByIdAsync_WhenNotFound_ShouldReturnNull()
         {
+            Property? property = null;
             _propertyRepositoryMock
                 .Setup(repo => repo.GetByIdAsync(SharedObjects.INVALID_PROPERTY_ID))
-                .ReturnsAsync((Property?)null);
+                .ReturnsAsync(property);
 
 
             var result = await _propertyService.GetPropertyByIdAsync(SharedObjects.INVALID_PROPERTY_ID);
