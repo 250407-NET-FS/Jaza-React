@@ -158,7 +158,8 @@ function UserPropertyList() {
                                 background: 'none',
                                 border: 'none',
                                 fontSize: '24px',
-                                cursor: 'pointer'
+                                cursor: 'pointer',
+                                color: 'black'
                             }}
                         >
                             ×
