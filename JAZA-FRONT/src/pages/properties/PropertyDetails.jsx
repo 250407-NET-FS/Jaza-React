@@ -5,6 +5,7 @@ import React, {useEffect} from 'react';
 import { Link } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import { useFavorite} from '../context/FavoritesContext';
+import apartmentImage from '../../assets/apartment.png';
 
 function PropertyDetails({property}) {
     const { user, login, logout } = useAuth();
@@ -24,7 +25,18 @@ function PropertyDetails({property}) {
     <Container>
         <Grid container>
             <Grid size={12}>
-                <img src={property.imageLink} alt={property.streetAddress}></img>
+                    <img
+                        // src={property.imageLink || houseImage}
+                        // alt={property.streetAddress}
+                        src={apartmentImage}
+                        alt="Property address"
+                        style={{
+                            width: '45%',
+                            height: 'auto',
+                            objectFit: 'cover',
+                            borderRadius: '8px',
+                        }}
+                    />
                 <IconButton aria-label='save' onClick={() => markFavorite(property.propertyID, user?.id)}>
                     {
                         favoritesList.find(f => f.propertyId == property.propertyID) ?

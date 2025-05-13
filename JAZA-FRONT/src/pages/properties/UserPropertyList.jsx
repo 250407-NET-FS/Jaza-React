@@ -1,18 +1,30 @@
 import { Card, CardContent, Container, Grid } from '@mui/material'
 import { useProperty } from "../context/PropertyContext";
-import React, {useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
 import Popup from "reactjs-popup";
 import PropertyDetails from './PropertyDetails';
+import houseImage from '../../assets/house.png';
 
 function UserPropertyList() {
-    const { 
-        propertyList, selectedProperty, fetchPropertyList, fetchProperty, 
+    const {
+        propertyList, selectedProperty, fetchPropertyList, fetchProperty,
         createProperty, updateProperty, deleteProperty
     } = useProperty();
-    
+
+    const [selectedProp, setSelectedProp] = useState(null);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
     useEffect(() => {
         fetchPropertyList()
     }, [fetchPropertyList]);
+
+    const handleClick = (propertyID) => {
+        const property = propertyList.find(p => p.propertyID === propertyID);
+        if (property) {
+            setSelectedProp(property);
+            setIsPopupOpen(true);
+        }
+    };
 
   return (
     <Container>
@@ -25,8 +37,19 @@ function UserPropertyList() {
                             className="popup-login"
                             trigger={
                                 <Card sx={{height: '100%'}}>
-                                    <button>
+                                    <button onClick={() => handleClick(p.propertyID)} style={{ all: 'unset', cursor: 'pointer' }}>
                                         <CardContent>
+                                            <img
+                                                src={houseImage}
+                                                // alt={property.streetAddress}
+                                                alt="Property address"
+                                                style={{
+                                                    width: '45%',
+                                                    height: 'auto',
+                                                    objectFit: 'cover',
+                                                    borderRadius: '8px',
+                                                }}
+                                            />
                                             <h3>{p.startingPrice}</h3>
                                             <p>{p.bedrooms} | {p.bathrooms} - {p.forSale}</p>
                                             <p>{p.streetAddress}, {p.city}, {p.state}, {p.country} {p.zipCode}</p>
@@ -52,9 +75,51 @@ function UserPropertyList() {
                             <PropertyDetails property={p} />
                         </Popup>
                     </Grid>
+                    
                 )
             }
         </Grid>
+            <Popup
+                open={isPopupOpen}
+                closeOnDocumentClick
+                onClose={() => setIsPopupOpen(false)}
+                modal
+                nested
+                overlayStyle={{
+                    background: "rgba(0, 0, 0, 0.5)",
+                }}
+                contentStyle={{
+                    backgroundColor: "#f8f9fa",
+                    borderRadius: "10px",
+                    padding: "30px",
+                    maxWidth: "800px",
+                    width: "90%",
+                    margin: "100px auto",
+                    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+                    fontFamily: "Arial, sans-serif",
+                    position: 'relative'
+                }}
+            >
+                {selectedProp && (
+                    <div>
+                        <button
+                            onClick={() => setIsPopupOpen(false)}
+                            style={{
+                                position: 'absolute',
+                                top: '10px',
+                                right: '10px',
+                                background: 'none',
+                                border: 'none',
+                                fontSize: '24px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            ×
+                        </button>
+                        <PropertyDetails property={selectedProp} />
+                    </div>
+                )}
+            </Popup>
     </Container>
   )
 }
