@@ -23,11 +23,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
         
       - name: Build and push backend
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/jaza-backend:latest .
-
-      - name: Push to DockerHub
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/jaza-backend:latest
-
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Project-2.API/Dockerfile
+          push: true
+          tags: amablearistya/jaza-backend:latest
 
       - name: Build and push frontend
         uses: docker/build-push-action@v5
