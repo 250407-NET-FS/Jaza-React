@@ -143,7 +143,9 @@ builder.Services.AddCors(options =>
 
     options.AddPolicy("AllowFrontend", policy =>
     {
+
         policy.WithOrigins("https://jaza-bnerbvbkfadkhkbf.canadaeast-01.azurewebsites.net") // azure
+
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
