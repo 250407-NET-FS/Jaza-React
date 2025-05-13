@@ -2,6 +2,7 @@ import { Button, Container, Grid, Icon, IconButton} from '@mui/material'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import React, {useEffect} from 'react';
+import Popup from "reactjs-popup";
 import { Link } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import { useFavorite} from '../context/FavoritesContext';
@@ -67,7 +68,24 @@ function PropertyDetails({property}) {
                     {
                         (user?.id == property.ownerID) ?
                         <Link to="/offers">View Offers</Link> :
-                        <Link to="/offers/create">Create Offer</Link>
+                        <Popup
+                            className="popup-login"
+                            modal
+                            nested
+                            overlayStyle={{
+                                background: "rgba(0, 0, 0, 0.5)",
+                            }}
+                            contentStyle={{
+                                backgroundColor: "#f8f9fa",
+                                borderRadius: "10px",
+                                padding: "30px",
+                                maxWidth: "900px",
+                                margin: "100px auto",
+                                boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+                                fontFamily: "Arial, sans-serif",
+                            }}>
+                                Create Offer
+                        </Popup>
                     }
                 </Button>
 
