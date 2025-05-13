@@ -141,9 +141,11 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 
-    options.AddPolicy("AllowAzure", policy =>
+    options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("https://jaza-bnerbvbkfadkhkbf.canadacentral-01.azurewebsites.net") // azure
+
+        policy.WithOrigins("https://jaza-bnerbvbkfadkhkbf.canadaeast-01.azurewebsites.net") // azure
+
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -158,16 +160,18 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors("AllowReactApp");
     
 }
 else
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
-    //need to add cors for not dev
+    app.UseCors("AllowFrontend");
+
 }
-app.UseCors("AllowAzure");
-app.UseCors("AllowReactApp");
+
+
 app.UseHttpsRedirection();
 
 
