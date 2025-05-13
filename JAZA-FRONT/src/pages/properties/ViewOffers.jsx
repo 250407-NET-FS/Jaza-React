@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useOffer } from '../context/OfferContext';
 import { Navigate } from 'react-router-dom';
 import { AcceptOffer } from './AcceptOffer';
+import { CardContent } from '@mui/material';
 
 function viewOffers(property){
     const { offerlist, selectedOffer, fetchPropertyOffers, fetchOffer } = useOffer();
@@ -33,6 +34,14 @@ function viewOffers(property){
                     offerlist.map(o => 
                         <Grid size={2} key={o.OfferID}>
                             <Card>
+                                <CardContent>
+                                    <div>
+                                        <h1>Offer ID: {o.OfferID}</h1>
+                                        <h2>Bid Amount: {o.BidAmount}</h2>
+                                        <h3>User ID: {o.UserId}</h3>
+                                        <h4>Date Posted: {o.Date}</h4>
+                                    </div>
+                                </CardContent>
                                 <Popup
                                     className="popup-accept-offer"
                                     trigger={<button onClick={fetchOffer(o.OfferID)}>Accept Offer</button>}
@@ -62,7 +71,6 @@ function viewOffers(property){
                                     }
                                     <AcceptOffer property={property} offer={selectedOffer} credentials={sendOff}></AcceptOffer>
                                 </Popup>
-
                             </Card>
                         </Grid>
                     )
