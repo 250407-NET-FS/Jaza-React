@@ -39,6 +39,7 @@ function App() {
                   <Route path="/listings" element={<UserPropertyList />} />
                   <Route path="/favorites" element={<FavoritesList />} />
                   <Route path="/register" element={<Register />} />
+                  <Route path="/offers" element={<ViewOffers />} />
                 </Routes>
               </Router>
             </OfferProvider>
