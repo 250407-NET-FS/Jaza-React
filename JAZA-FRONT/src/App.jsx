@@ -10,6 +10,7 @@ import { AuthProvider } from "./pages/context/AuthContext";
 import { PropertyProvider } from "./pages/context/PropertyContext";
 import { OwnerProvider } from "./pages/context/OwnerContext";
 import UserPropertyList from "./pages/properties/UserPropertyList";
+import ViewOffers from "./pages/properties/ViewOffers";
 import { FavoritesProvider } from "./pages/context/FavoritesContext";
 import { OfferProvider } from "./pages/context/OfferContext";
 import RequireAdmin from "./pages/admin/RequireAdmin";
@@ -39,6 +40,7 @@ function App() {
                   <Route path="/listings" element={<UserPropertyList />} />
                   <Route path="/favorites" element={<FavoritesList />} />
                   <Route path="/register" element={<Register />} />
+                  <Route path="/offers" element={<ViewOffers />} />
                 </Routes>
               </Router>
             </OfferProvider>
