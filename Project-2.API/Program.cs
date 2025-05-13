@@ -178,7 +178,10 @@ else
     app.UseHsts();
 
 }
-
+        //debuggin i am every confused now
+    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
     app.UseCors("AllowAll");
     Console.WriteLine("allowed All"); //trying to fix issue
 
