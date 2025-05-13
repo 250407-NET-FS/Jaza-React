@@ -8,5 +8,5 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 5173
-CMD ["serve", "-s", "dist", "-l", "5173"]
+EXPOSE 80
+CMD ["serve", "-s", "dist", "-l", "80"]
