@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { api } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 
 function UserList() {
@@ -9,23 +9,15 @@ function UserList() {
   const token = localStorage.getItem("jwt");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5236/api/user/admin", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    api
+      .get("http://localhost:5236/api/user/admin")
       .then((res) => setUsers(res.data))
       .catch((err) => console.error(err));
   }, []);
 
   const banHandler = (userId) => {
-    axios
-      .post(`http://localhost:5236/api/user/admin/ban/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    api
+      .post(`http://localhost:5236/api/user/admin/ban/${userId}`)
       .then((res) => {
         const updatedUser = res.data;
         setUsers((prevUsers) =>
@@ -41,12 +33,8 @@ function UserList() {
 
   const unbanHandler = (userId) => {
     console.log("Sending unban request for:", userId);
-    axios
-      .post(`http://localhost:5236/api/user/admin/unban/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    api
+      .post(`http://localhost:5236/api/user/admin/unban/${userId}`)
       .then((res) => {
         const updatedUser = res.data;
         setUsers((prevUsers) =>
@@ -61,12 +49,8 @@ function UserList() {
   };
 
   const deleteHandler = (userId) => {
-    axios
-      .delete(`http://localhost:5236/api/user/admin/${userId}`,  {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    api
+      .delete(`http://localhost:5236/api/user/admin/${userId}`)
       .then(() => {
         setUsers((prevUsers) => prevUsers.filter((u) => u.id !== userId));
       })
