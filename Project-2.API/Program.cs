@@ -149,6 +149,12 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
 });
 
 
@@ -166,12 +172,15 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
+    // app.UseCors("AllowFrontend");
+    // Console.WriteLine("allowed front end");
     app.UseExceptionHandler("/Error");
     app.UseHsts();
-    app.UseCors("AllowFrontend");
-    Console.WriteLine("allowed front end");
 
 }
+
+    app.UseCors("AllowAll");
+    Console.WriteLine("allowed All"); //trying to fix issue
 
 
 app.UseHttpsRedirection();
