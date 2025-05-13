@@ -78,7 +78,7 @@ export function OfferProvider({children}) {
         }
     }, []);
     // Obtain a filtered list of offers associated with a particular property
-    const fetchProeprtyOffers = useCallback(async(propertyId) => {
+    const fetchPropertyOffers = useCallback(async(propertyId) => {
         dispatch({type: OfferActionTypes.REQUEST_START});
         // Try to fetch and pass the results of controller's GetAllOffersForProperty() method
         try {
@@ -113,7 +113,7 @@ export function OfferProvider({children}) {
                 fetchOfferList,
                 fetchOffer,
                 fetchUserOffers,
-                fetchProeprtyOffers,
+                fetchPropertyOffers,
                 makeOffer
             }}
         >
