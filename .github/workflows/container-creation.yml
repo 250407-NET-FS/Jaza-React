@@ -28,7 +28,7 @@ jobs:
           context: .
           file: ./Project-2.API/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/jaza-backend:latest
+          tags: amablearistya/jaza-backend:latest
 
       - name: Build and push frontend
         uses: docker/build-push-action@v5
@@ -36,4 +36,4 @@ jobs:
           context: ./JAZA-FRONT
           file: ./JAZA-FRONT/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/jaza-frontend:latest
+          tags: amablearistya/jaza-frontend:latest
