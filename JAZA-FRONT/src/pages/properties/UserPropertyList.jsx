@@ -99,7 +99,7 @@ function UserPropertyList() {
             <h3>Listings</h3>
             <Grid container spacing={3}>
                 {propertyList.map(p => (
-                    <Grid item xs={12} sm={6} md={4} lg={3} key={p.propertyID}>
+                    <Grid size={{xs: 12, sm: 6, md: 4, lg: 3}} key={p.propertyID}>
                         <Card
                             sx={{
                                 height: '100%',
@@ -163,6 +163,7 @@ function UserPropertyList() {
                     padding: "30px",
                     maxWidth: "800px",
                     width: "90%",
+                    height: '100%',
                     margin: "100px auto",
                     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
                     fontFamily: "Arial, sans-serif",
@@ -181,7 +182,7 @@ function UserPropertyList() {
                                 border: 'none',
                                 fontSize: '24px',
                                 cursor: 'pointer',
-                                color: 'black'
+                                color: 'black',
                             }}
                         >
                             ×

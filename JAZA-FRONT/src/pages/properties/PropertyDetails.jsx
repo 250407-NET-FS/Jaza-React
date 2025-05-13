@@ -33,14 +33,14 @@ function PropertyDetails({property}) {
   return (
     <Container>
         <Grid container>
-            <Grid size={4}>
+            <Grid size={12}>
                     <img
                         // src={property.imageLink || houseImage}
                         // alt={property.streetAddress}
                         src={apartmentImage}
                         alt="Property address"
                         style={{
-                            width: '45%',
+                            width: '100%',
                             height: 'auto',
                             objectFit: 'cover',
                             borderRadius: '8px',
@@ -54,22 +54,22 @@ function PropertyDetails({property}) {
                     }
                 </IconButton>
             </Grid>
-            <Grid size={1}>
+            <Grid size={4}>
                 <p>${property.startingPrice}</p>
                 <p> 
                     {property.streetAddress}, {property.city}, {property.state}, {property.country} {property.zipCode}
                 </p>
             </Grid>
-            <Grid size={1}>
+            <Grid size={4}>
                 <p>{property.bedrooms} </p>
                 <p>beds</p>
             </Grid>
-            <Grid size={1}>
+            <Grid size={4}>
                 <p>{property.bathrooms} </p>
                 <p>baths</p>
             </Grid>
-            <Grid size={1}>
-                <p>{daysListed} days</p>
+            <Grid size={6}>
+                <p>Days Listed: {daysListed} days</p>
             </Grid>
             <Grid size={6}>
                     {
@@ -79,7 +79,7 @@ function PropertyDetails({property}) {
                     }
 
             </Grid>
-            <Grid size={2}>
+            <Grid size={12}>
                 <p>Listing Created: {property.listDate}</p>
                 <p>Listed by: {property.ownerID}</p>
             </Grid>
@@ -97,8 +97,9 @@ function PropertyDetails({property}) {
                 backgroundColor: "#f8f9fa",
                 borderRadius: "10px",
                 padding: "30px",
-                maxWidth: "800px",
+                maxWidth: "400px",
                 width: "90%",
+                height: "50%",
                 margin: "100px auto",
                 boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
                 fontFamily: "Arial, sans-serif",
