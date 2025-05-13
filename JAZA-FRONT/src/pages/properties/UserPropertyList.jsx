@@ -100,7 +100,7 @@ function UserPropertyList() {
             <Grid container>
                 {
                     propertyList.map(p =>
-                        <Grid item xs={2} key={p.propertyID}>
+                        <Grid item size={4} key={p.propertyID}>
                             <Card>
                                 <CardContent>
                                     <button onClick={() => handleClick(p.propertyID)} style={{ all: 'unset', cursor: 'pointer' }}>
@@ -158,7 +158,8 @@ function UserPropertyList() {
                                 background: 'none',
                                 border: 'none',
                                 fontSize: '24px',
-                                cursor: 'pointer'
+                                cursor: 'pointer',
+                                color: 'black'
                             }}
                         >
                             ×

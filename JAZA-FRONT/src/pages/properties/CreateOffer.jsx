@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useOffer } from '../context/OfferContext';
 import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
@@ -17,7 +17,7 @@ function CreateOffer(property) {
   const [credentials, setCredentials] = useState({
     UserId: user.id,
     PropertyId: property.propertyID,
-    BidAmount: null
+    BidAmount: 0.00
   });
 
   const handleSubmit = async (e) => {
