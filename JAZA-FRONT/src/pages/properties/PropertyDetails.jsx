@@ -1,16 +1,17 @@
 import { Button, Container, Grid, Icon, IconButton} from '@mui/material'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Popup from "reactjs-popup";
 import { Link } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import { useFavorite} from '../context/FavoritesContext';
-import apartmentImage from '../../assets/apartment.png';
 import CreateOffer from './CreateOffer';
+import apartmentImage from '../../assets/apartment.png';
 
 function PropertyDetails({property}) {
     const { user, login, logout } = useAuth();
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const {
         favoritesList, foundFavorite, 
@@ -20,6 +21,12 @@ function PropertyDetails({property}) {
     useEffect(() => {
         fetchFavoritesList()
     }, [fetchFavoritesList]);
+
+    const handleClick = () => {
+        if (property) {
+            setIsPopupOpen(true);
+        }
+    };
 
     let daysListed = Math.abs(new Date() - new Date(property.listDate).getTime()) / (1000 * 60 * 60 * 24);
     daysListed = Math.ceil(daysListed);
@@ -64,31 +71,12 @@ function PropertyDetails({property}) {
             <Grid size={1}>
                 <p>{daysListed} days</p>
             </Grid>
-            <Grid size={1}>
-                <Button>
+            <Grid size={6}>
                     {
                         (user?.id == property.ownerID) ?
-                        <Link to="/offers">View Offers</Link> :
-                        <Popup
-                            className="popup-login"
-                            modal
-                            nested
-                            overlayStyle={{
-                                background: "rgba(0, 0, 0, 0.5)",
-                            }}
-                            contentStyle={{
-                                backgroundColor: "#f8f9fa",
-                                borderRadius: "10px",
-                                padding: "30px",
-                                maxWidth: "900px",
-                                margin: "100px auto",
-                                boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
-                                fontFamily: "Arial, sans-serif",
-                            }}>
-                                <CreateOffer>Create Offer</CreateOffer>
-                        </Popup>
+                        <Button><Link to="/offers">View Offers</Link></Button> :
+                        <Button onClick={() => handleClick(property.propertyID)} sx={{ all: 'unset', cursor: 'pointer' }}>Create Offer</Button>
                     }
-                </Button>
 
             </Grid>
             <Grid size={2}>
@@ -96,6 +84,48 @@ function PropertyDetails({property}) {
                 <p>Listed by: {property.ownerID}</p>
             </Grid>
         </Grid>
+        <Popup
+            open={isPopupOpen}
+            closeOnDocumentClick
+            onClose={() => setIsPopupOpen(false)}
+            modal
+            nested
+            overlayStyle={{
+                background: "rgba(0, 0, 0, 0.5)",
+            }}
+            contentStyle={{
+                backgroundColor: "#f8f9fa",
+                borderRadius: "10px",
+                padding: "30px",
+                maxWidth: "800px",
+                width: "90%",
+                margin: "100px auto",
+                boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+                fontFamily: "Arial, sans-serif",
+                position: 'relative'
+            }}
+        >
+            {property && (
+                <div>
+                    <button
+                        onClick={() => setIsPopupOpen(false)}
+                        style={{
+                            position: 'absolute',
+                            top: '10px',
+                            right: '10px',
+                            background: 'none',
+                            border: 'none',
+                            fontSize: '24px',
+                            cursor: 'pointer',
+                            color: 'black'
+                        }}
+                    >
+                        ×
+                    </button>
+                    <CreateOffer property={property} />
+                </div>
+            )}
+        </Popup>
     </Container>
   )
 }
