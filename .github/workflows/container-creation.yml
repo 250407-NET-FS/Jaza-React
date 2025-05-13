@@ -1,5 +1,4 @@
-name: Build and Push Frontend and Backend to Docker Hub
-
+name: build-and-push
 on:
   push:
     branches: [main]
@@ -21,14 +20,14 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-        
+
       - name: Build and push backend
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Project-2.API/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/jaza-backend:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/jaza-backend:${{ github.sha }}
 
       - name: Build and push frontend
         uses: docker/build-push-action@v5
@@ -36,4 +35,24 @@ jobs:
           context: ./JAZA-FRONT
           file: ./JAZA-FRONT/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/jaza-frontend:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/jaza-frontend:${{ github.sha }}
+
+  deploy-to-azure: # a second job that runs after the build and push to dockerhub
+    needs: build-and-push # here we say that we NEED to succesfully complete the previous job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Backend to Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: jazaback
+          publish-profile: ${{ secrets.JAZA_BACK_PUBLISH }}
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/jaza-backend:${{ github.sha }}
+
+      - name: Deploy Front to Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: jaza
+          publish-profile: ${{ secrets.JAZA_FRONT_PUBLISH }}
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/jaza-frontend:${{ github.sha }}
+
+      
