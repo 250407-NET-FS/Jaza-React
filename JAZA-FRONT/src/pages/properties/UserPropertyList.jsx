@@ -24,8 +24,8 @@ function UserPropertyList() {
                         <Popup
                             className="popup-login"
                             trigger={
-                                <Card>
-                                    <button onClick={fetchProperty}>
+                                <Card sx={{height: '100%'}}>
+                                    <button>
                                         <CardContent>
                                             <h3>{p.startingPrice}</h3>
                                             <p>{p.bedrooms} | {p.bathrooms} - {p.forSale}</p>
