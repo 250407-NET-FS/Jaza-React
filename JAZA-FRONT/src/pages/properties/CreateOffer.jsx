@@ -4,7 +4,7 @@ import { useOffer } from '../context/OfferContext';
 import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
 
-function createOffer(property) {
+function CreateOffer(property) {
   const { makeOffer } = useOffer();
   const { user } = useAuth();
 
