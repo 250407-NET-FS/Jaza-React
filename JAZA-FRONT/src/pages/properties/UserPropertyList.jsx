@@ -18,8 +18,8 @@ function UserPropertyList() {
         <Grid container>
             {
                 propertyList.map(p => 
-                    <Grid size={2}>
-                        <Card key={p.propertyID}>
+                    <Grid size={2}  key={p.propertyID}>
+                        <Card>
                             <CardContent>
                                 <h3>{p.startingPrice}</h3>
                                 <p>{p.bedrooms} | {p.bathrooms} - {p.forSale}</p>
