@@ -33,49 +33,46 @@ function UserPropertyList() {
             {
                 propertyList.map(p => 
                     <Grid size={2}  key={p.propertyID}>
-                        <Popup
-                            className="popup-login"
-                            trigger={
-                                <Card sx={{height: '100%'}}>
-                                    <button onClick={() => handleClick(p.propertyID)} style={{ all: 'unset', cursor: 'pointer' }}>
-                                        <CardContent>
-                                            <img
-                                                src={houseImage}
-                                                // alt={property.streetAddress}
-                                                alt="Property address"
-                                                style={{
-                                                    width: '45%',
-                                                    height: 'auto',
-                                                    objectFit: 'cover',
-                                                    borderRadius: '8px',
-                                                }}
-                                            />
-                                            <h3>{p.startingPrice}</h3>
-                                            <p>{p.bedrooms} | {p.bathrooms} - {p.forSale}</p>
-                                            <p>{p.streetAddress}, {p.city}, {p.state}, {p.country} {p.zipCode}</p>
-                                        </CardContent>
-                                    </button>
-                                </Card>
-                            }
-                            modal
-                            nested
-                            overlayStyle={{
-                                background: "rgba(0, 0, 0, 0.5)",
-                            }}
-                            contentStyle={{
-                                backgroundColor: "#f8f9fa",
-                                borderRadius: "10px",
-                                padding: "30px",
-                                maxWidth: "900px",
-                                margin: "100px auto",
-                                boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
-                                fontFamily: "Arial, sans-serif",
-                            }}
-                        >
-                            <PropertyDetails property={p} />
-                        </Popup>
-                    </Grid>
-                    
+                        <Card sx={{height: '100%'}}>
+                            <Popup
+                                className="popup-login"
+                                modal
+                                nested
+                                overlayStyle={{
+                                    background: "rgba(0, 0, 0, 0.5)",
+                                }}
+                                contentStyle={{
+                                    backgroundColor: "#f8f9fa",
+                                    borderRadius: "10px",
+                                    padding: "30px",
+                                    maxWidth: "900px",
+                                    margin: "100px auto",
+                                    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+                                    fontFamily: "Arial, sans-serif",
+                                }}
+                            >
+                                <PropertyDetails property={p} />
+                            </Popup>
+                            <CardContent>
+                                <button onClick={() => handleClick(p.propertyID)} style={{ all: 'unset', cursor: 'pointer' }}>
+                                    <img
+                                        src={houseImage}
+                                        // alt={property.streetAddress}
+                                        alt="Property address"
+                                        style={{
+                                            width: '45%',
+                                            height: 'auto',
+                                            objectFit: 'cover',
+                                            borderRadius: '8px',
+                                        }}
+                                    />
+                                    <h3>{p.startingPrice}</h3>
+                                    <p>{p.bedrooms} | {p.bathrooms} - {p.forSale}</p>
+                                    <p>{p.streetAddress}, {p.city}, {p.state}, {p.country} {p.zipCode}</p>
+                                </button>
+                            </CardContent>
+                        </Card>
+                    </Grid>   
                 )
             }
         </Grid>
