@@ -10,6 +10,7 @@ import { AuthProvider } from "./pages/context/AuthContext";
 import { PropertyProvider } from "./pages/context/PropertyContext";
 import { OwnerProvider } from "./pages/context/OwnerContext";
 import UserPropertyList from "./pages/properties/UserPropertyList";
+import ViewOffers from "./pages/properties/ViewOffers";
 import { FavoritesProvider } from "./pages/context/FavoritesContext";
 import { OfferProvider } from "./pages/context/OfferContext";
 import RequireAdmin from "./pages/admin/RequireAdmin";
