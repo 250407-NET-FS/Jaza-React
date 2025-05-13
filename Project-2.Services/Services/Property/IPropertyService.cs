@@ -21,7 +21,7 @@ public interface IPropertyService
         bool forsale,
         bool hasBasement,
         Guid? OwnerId);
-    Task<PropertyResponseDTO?> GetPropertyByIdAsync(Guid guid);
+    Task<Property?> GetPropertyByIdAsync(Guid guid);
     Task<IEnumerable<PropertyResponseDTO>> GetPropertiesWithinDistOfAsync(Guid propertyId, int meters);
     Task<Guid> AddNewPropertyAsync(PropertyAddDTO propertyInfo);
     Task UpdatePropertyAsync(PropertyUpdateDTO dto, Guid userId);

@@ -38,10 +38,9 @@ public class PropertyService : IPropertyService
         return propertyList.Select(p => new PropertyResponseDTO(p));
     }
 
-    public async Task<PropertyResponseDTO?> GetPropertyByIdAsync(Guid guid)
+    public async Task<Property?> GetPropertyByIdAsync(Guid guid)
     {
-        Property p = await _propertyRepository.GetByIdAsync(guid);
-        return new PropertyResponseDTO(p);
+        return await _propertyRepository.GetByIdAsync(guid);
     }
 
     public async Task<IEnumerable<PropertyResponseDTO>> GetPropertiesWithinDistOfAsync(Guid propertyId, int meters) {
