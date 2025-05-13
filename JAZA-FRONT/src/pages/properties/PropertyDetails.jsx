@@ -3,8 +3,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import React from 'react'
 
-function Retrieve(property) {
-    let daysListed = Math.abs(Date.now - property.listedDate) / (1000 * 60 * 60 * 24);
+function PropertyDetails({property}) {
+    let daysListed = Math.abs(Date() - property.listDate.getTime) / (1000 * 60 * 60 * 24);
+    console.log(Date() - Date(property.listDate));
   return (
     <Container>
         <Grid container>
@@ -14,26 +15,26 @@ function Retrieve(property) {
                     <FavoriteIcon></FavoriteIcon>
                 </IconButton>
             </Grid>
-            {/* TODO: Fill in property info for a specified property based on its id*/}
             <Grid size={4}>
-                <pre>
-                    {property.startingPrice}
+                <p>${property.startingPrice}</p>
+                <p> 
                     {property.streetAddress}, {property.city}, {property.state}, {property.country} {property.zipCode}
-                </pre>
+                </p>
             </Grid>
             <Grid size={4}>
-                <p>{property.Bedrooms} beds</p>
+                <p>{property.bedrooms} </p>
+                <p>beds</p>
             </Grid>
             <Grid size={4}>
-                <p>{property.Bathrooms} baths</p>
+                <p>{property.bathrooms} </p>
+                <p>baths</p>
             </Grid>
-
                 <Grid size={12}>
                     <p>{daysListed} days</p>
                 </Grid>
 
             <Grid size={12}>
-                <p>Listing Created: {property.listedDate}</p>
+                <p>Listing Created: {property.listDate}</p>
                 <p>Listed by: {property.ownerID}</p>
             </Grid>
         </Grid>
@@ -41,4 +42,4 @@ function Retrieve(property) {
   )
 }
 
-export default Retrieve
+export default PropertyDetails
