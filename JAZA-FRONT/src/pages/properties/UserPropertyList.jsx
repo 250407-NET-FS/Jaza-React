@@ -97,34 +97,56 @@ function UserPropertyList() {
 
             </div>
             <h3>Listings</h3>
-            <Grid container>
-                {
-                    propertyList.map(p =>
-                        <Grid item size={4} key={p.propertyID}>
-                            <Card>
-                                <CardContent>
-                                    <button onClick={() => handleClick(p.propertyID)} style={{ all: 'unset', cursor: 'pointer' }}>
-                                        <CardContent>
-                                            <img
-                                                src={houseImage}
-                                                alt="Property address"
-                                                style={{
-                                                    width: '45%',
-                                                    height: 'auto',
-                                                    objectFit: 'cover',
-                                                    borderRadius: '8px',
-                                                }}
-                                            />
-                                            <h3>{p.startingPrice}</h3>
-                                            <p>{p.bedrooms} | {p.bathrooms} - {p.forSale}</p>
-                                            <p>{p.streetAddress}, {p.city}, {p.state}, {p.country} {p.zipCode}</p>
-                                        </CardContent>
-                                    </button>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    )
-                }
+            <Grid container spacing={3}>
+                {propertyList.map(p => (
+                    <Grid item xs={12} sm={6} md={4} lg={3} key={p.propertyID}>
+                        <Card
+                            sx={{
+                                height: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                transition: 'transform 0.2s ease-in-out',
+                                '&:hover': {
+                                    transform: 'scale(1.03)',
+                                    boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)'
+                                }
+                            }}
+                            onClick={() => handleClick(p.propertyID)}
+                        >
+                            <CardContent sx={{
+                                flexGrow: 1,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                padding: 2
+                            }}>
+                                <div style={{
+                                    marginBottom: '12px',
+                                    width: '100%',
+                                    height: '180px',
+                                    overflow: 'hidden',
+                                    borderRadius: '8px'
+                                }}>
+                                    <img
+                                        src={houseImage}
+                                        alt="Property address"
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                        }}
+                                    />
+                                </div>
+                                <h3 style={{ margin: '0 0 8px 0' }}>${Number(p.startingPrice).toLocaleString()}</h3>
+                                <p style={{ margin: '0 0 4px 0' }}>
+                                    {p.bedrooms} beds | {p.bathrooms} baths - {p.forSale ? "For Sale" : "Not For Sale"}
+                                </p>
+                                <p style={{ margin: 0 }}>
+                                    {p.streetAddress}, {p.city}, {p.state}
+                                </p>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
             </Grid>
             <Popup
                 open={isPopupOpen}
@@ -173,3 +195,6 @@ function UserPropertyList() {
 }
 
 export default UserPropertyList
+
+
+

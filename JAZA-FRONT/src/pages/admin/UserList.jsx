@@ -10,14 +10,14 @@ function UserList() {
 
   useEffect(() => {
     api
-      .get("http://localhost:5236/api/user/admin")
+      .get("user/admin")
       .then((res) => setUsers(res.data))
       .catch((err) => console.error(err));
   }, []);
 
   const banHandler = (userId) => {
     api
-      .post(`http://localhost:5236/api/user/admin/ban/${userId}`)
+      .post(`user/admin/ban/${userId}`)
       .then((res) => {
         const updatedUser = res.data;
         setUsers((prevUsers) =>
@@ -34,7 +34,7 @@ function UserList() {
   const unbanHandler = (userId) => {
     console.log("Sending unban request for:", userId);
     api
-      .post(`http://localhost:5236/api/user/admin/unban/${userId}`)
+      .post(`user/admin/unban/${userId}`)
       .then((res) => {
         const updatedUser = res.data;
         setUsers((prevUsers) =>
@@ -50,7 +50,7 @@ function UserList() {
 
   const deleteHandler = (userId) => {
     api
-      .delete(`http://localhost:5236/api/user/admin/${userId}`)
+      .delete(`user/admin/${userId}`)
       .then(() => {
         setUsers((prevUsers) => prevUsers.filter((u) => u.id !== userId));
       })
@@ -69,9 +69,7 @@ function UserList() {
               id={u.id}
               email={u.email}
               lockoutEnabled={u.lockoutEnabled}
-              isAdmin={
-                u.id === admin.id
-              } /*going to need to consume conext here*/
+              isAdmin={u.id === admin.id}
               banHandler={() => banHandler(u.id)}
               unbanHandler={() => unbanHandler(u.id)}
               deleteHandler={() => deleteHandler(u.id)}
