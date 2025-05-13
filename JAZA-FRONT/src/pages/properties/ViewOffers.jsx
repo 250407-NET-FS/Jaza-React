@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 import { AcceptOffer } from './AcceptOffer';
 import { CardContent } from '@mui/material';
 
-function viewOffers(property){
+function ViewOffers(property){
     const { offerlist, selectedOffer, fetchPropertyOffers, fetchOffer } = useOffer();
 
     const sendOff = {
