@@ -117,11 +117,6 @@ public static class Seeder
                 user.Id             // ownerId
                 );
             property.Coordinates = new Point(0, 0) { SRID = 4326 };
-
-
-
-
-
             db.Property.Add(property);
             await db.SaveChangesAsync();
         }

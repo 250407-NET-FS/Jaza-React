@@ -7,7 +7,7 @@ function PropertyList() {
 
   useEffect(() => {
     api
-      .get("http://localhost:5236/api/properties/admin")
+      .get("properties/admin")
       .then((res) => setProperties(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -15,7 +15,7 @@ function PropertyList() {
   const deleteHandler = (propertyId, ownerId) => {
     api
       .delete(
-        `http://localhost:5236/api/properties/admin/${propertyId}/${ownerId}`)
+        `properties/admin/${propertyId}/${ownerId}`)
       .then((res) => {
         setProperties((prevPropeties) =>
           prevPropeties.filter((p) => p.propertyID !== propertyId)
