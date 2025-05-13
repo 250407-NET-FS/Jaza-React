@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import { useFavorite} from '../context/FavoritesContext';
 import apartmentImage from '../../assets/apartment.png';
+import CreateOffer from './CreateOffer';
 
 function PropertyDetails({property}) {
     const { user, login, logout } = useAuth();
@@ -25,7 +26,7 @@ function PropertyDetails({property}) {
   return (
     <Container>
         <Grid container>
-            <Grid size={12}>
+            <Grid size={4}>
                     <img
                         // src={property.imageLink || houseImage}
                         // alt={property.streetAddress}
@@ -46,24 +47,24 @@ function PropertyDetails({property}) {
                     }
                 </IconButton>
             </Grid>
-            <Grid size={4}>
+            <Grid size={1}>
                 <p>${property.startingPrice}</p>
                 <p> 
                     {property.streetAddress}, {property.city}, {property.state}, {property.country} {property.zipCode}
                 </p>
             </Grid>
-            <Grid size={4}>
+            <Grid size={1}>
                 <p>{property.bedrooms} </p>
                 <p>beds</p>
             </Grid>
-            <Grid size={4}>
+            <Grid size={1}>
                 <p>{property.bathrooms} </p>
                 <p>baths</p>
             </Grid>
-            <Grid size={6}>
+            <Grid size={1}>
                 <p>{daysListed} days</p>
             </Grid>
-            <Grid size={6}>
+            <Grid size={1}>
                 <Button>
                     {
                         (user?.id == property.ownerID) ?
@@ -84,13 +85,13 @@ function PropertyDetails({property}) {
                                 boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
                                 fontFamily: "Arial, sans-serif",
                             }}>
-                                Create Offer
+                                <CreateOffer>Create Offer</CreateOffer>
                         </Popup>
                     }
                 </Button>
 
             </Grid>
-            <Grid size={12}>
+            <Grid size={2}>
                 <p>Listing Created: {property.listDate}</p>
                 <p>Listed by: {property.ownerID}</p>
             </Grid>
