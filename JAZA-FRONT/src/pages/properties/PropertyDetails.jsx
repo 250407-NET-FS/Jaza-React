@@ -19,8 +19,8 @@ function PropertyDetails({property}) {
         fetchFavoritesList()
     }, [fetchFavoritesList]);
 
-    let daysListed = Math.abs(Date() - property.listDate.getTime) / (1000 * 60 * 60 * 24);
-    //console.log(Date() - Date(property.listDate));
+    let daysListed = Math.abs(new Date() - new Date(property.listDate).getTime()) / (1000 * 60 * 60 * 24);
+    daysListed = Math.ceil(daysListed);
   return (
     <Container>
         <Grid container>
