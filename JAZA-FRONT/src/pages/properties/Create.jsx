@@ -66,4 +66,4 @@ function CreateProperty(property, onSubmit) {
   )
 }
 
-export default Create;
+export default CreateProperty;
