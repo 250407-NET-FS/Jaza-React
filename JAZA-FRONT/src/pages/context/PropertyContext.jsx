@@ -28,13 +28,11 @@ const reducer = (state, action) => {
         case PropertyActionTypes.FETCH_PROPERTY_SUCCESS:
             return {...state, loading: false, selectedProperty: action.payload};
         case PropertyActionTypes.CREATE_PROPERTY_SUCCESS:
-            state.propertyList.push(action.payload);
             return {...state, loading: false, selectedProperty: action.payload};
         case PropertyActionTypes.UPDATE_PROPERTY_SUCCESS:
-            state.propertyList[state.propertyList.findIndex(p => p.PropertyID = action.payload.PropertyID)] = action.payload;
             return {...state, loading: false, selectedProperty: action.payload};
         case PropertyActionTypes.DELETE_PROPERTY_SUCCESS:
-            return {...state, loading: false, propertyList: propertyList.map(p => p.PropertyID != action.payload.PropertyID), selectedProperty: action.payload};
+            return {...state, loading: false, selectedProperty: action.payload};
         case PropertyActionTypes.REQUEST_ERROR:
             return {...state, loading: false, error: action.payload}
         default:
@@ -80,7 +78,10 @@ export function PropertyProvider({children}) {
         try {
             await api.post("properties")
             .then(res => res.data)
-            .then(data => dispatch({type: PropertyActionTypes.CREATE_PROPERTY_SUCCESS, payload: data}));
+            .then(data => {
+                dispatch({type: PropertyActionTypes.CREATE_PROPERTY_SUCCESS, payload: data});
+                fetchPropertyList(); // Sync property List
+            });
         }
         catch (err) {
             dispatch({type: PropertyActionTypes.REQUEST_ERROR, payload: err.message});
@@ -93,7 +94,10 @@ export function PropertyProvider({children}) {
         try {
             await api.put("properties")
             .then(res => res.data)
-            .then(data => dispatch({type: PropertyActionTypes.UPDATE_PROPERTY_SUCCESS, payload: data.results}));
+            .then(data => {
+                dispatch({type: PropertyActionTypes.UPDATE_PROPERTY_SUCCESS, payload: data.results});
+                fetchPropertyList();
+            });
         }
         catch (err) {
             dispatch({type: PropertyActionTypes.REQUEST_ERROR, payload: err.message});
@@ -106,7 +110,10 @@ export function PropertyProvider({children}) {
         try {
             await api.delete(`properties/${id}`)
             .then(res => res.data)
-            .then(data => dispatch({type: PropertyActionTypes.DELETE_PROPERTY_SUCCESS, payload: data}));
+            .then(data => {
+                dispatch({type: PropertyActionTypes.DELETE_PROPERTY_SUCCESS, payload: data});
+                fetchPropertyList();
+            });
         }
         catch (err) {
             dispatch({type: PropertyActionTypes.REQUEST_ERROR, payload: err.message});

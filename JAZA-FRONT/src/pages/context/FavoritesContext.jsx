@@ -26,12 +26,6 @@ const reducer = (state, action) => {
         case FavoritesActionTypes.FETCH_BOOKMARK_SUCCESS:
             return {...state, loading: false, foundFavorite: action.payload};
         case FavoritesActionTypes.CREATE_FAVORITE_SUCCESS:
-            if (state.favoritesList.some(action.payload)) {
-                state.favoritesList.delete(action.payload);
-            }
-            else {
-                state.favoritesList = state.favoritesList.map(f => f.favoriteID != action.payload.favoriteID);
-            }
             return {...state, loading: false, foundFavorite: action.payload};
         case FavoritesActionTypes.REQUEST_ERROR:
             return {...state, loading: false, error: action.payload};
@@ -79,7 +73,10 @@ export function FavoritesProvider({children}) {
             let favoriteDTO = {PropertyID: propertyId, UserId: userId};
             await api.post("favorites", favoriteDTO)
             .then(res => res.data)
-            .then(data => dispatch({type: FavoritesActionTypes.CREATE_FAVORITE_SUCCESS, payload: data}));
+            .then(data => {
+                dispatch({type: FavoritesActionTypes.CREATE_FAVORITE_SUCCESS, payload: data})
+                fetchFavoritesList();
+            });
         }
         catch (err) {
             dispatch({type: FavoritesActionTypes.REQUEST_ERROR, payload: err.message});
