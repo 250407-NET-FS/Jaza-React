@@ -143,7 +143,7 @@ builder.Services.AddCors(options =>
 
     options.AddPolicy("AllowAzure", policy =>
     {
-        policy.WithOrigins("https://jaza-bnerbvbkfadkhkbf.canadacentral-01.azurewebsites.net") // React dev server
+        policy.WithOrigins("https://jaza-bnerbvbkfadkhkbf.canadacentral-01.azurewebsites.net") // azure
               .AllowAnyHeader()
               .AllowAnyMethod();
     });

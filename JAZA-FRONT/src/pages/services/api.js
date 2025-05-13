@@ -9,8 +9,11 @@ import { toast } from "react-toastify";
 
 // Create Axios instance with base URL
 // This instance will be used to make API calls to the .NET backend
+const baseURL = import.meta.env.DEV
+  ? "http://localhost:5236/api" // Local .NET backend
+  : "https://jazaback-gndrbbftb8fchyf2.canadaeast-01.azurewebsites.net/api";
 export const api = axios.create({
-  baseURL: "http://localhost:5236/api", // .NET API base URL
+  baseURL, // .NET API base URL
 });
 
 // Request interceptor to attach JWT token to every request
