@@ -8,7 +8,6 @@ import { useAuth } from '../context/AuthContext';
 import { useFavorite} from '../context/FavoritesContext';
 import CreateOffer from './CreateOffer';
 import apartmentImage from '../../assets/apartment.png';
-import CreateOffer from './CreateOffer';
 
 function PropertyDetails({property}) {
     const { user, login, logout } = useAuth();
