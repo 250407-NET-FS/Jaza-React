@@ -4,7 +4,7 @@ import { api } from "../services/api";
 
 const initialState = {
     favoritesList: [],
-    foundFavorite: null,
+    foundFavorite: {},
     loading: false,
     error: null
 };

@@ -5,7 +5,7 @@ import { api } from "../services/api";
 
 const initialState = {
     offerList: [],
-    selectedOffer: null,
+    selectedOffer: {},
     loading: false,
     error: null
 };

@@ -4,7 +4,7 @@ import { api } from "../services/api";
 
 const initialState = {
     propertyList: [],
-    selectedProperty: null,
+    selectedProperty: {},
     loading: false,
     error: null
 };
