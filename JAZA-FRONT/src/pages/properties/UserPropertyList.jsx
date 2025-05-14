@@ -32,7 +32,7 @@ function UserPropertyList() {
     const [selectedProp, setSelectedProp] = useState(null);
     const [createPopupOpen, setCreatePopupOpen] = useState(false);
     const [detailPopupOpen, setDetailPopupOpen] = useState(false);
-    const [search, setSearch] = useState("");
+
 
     useEffect(() => {
         fetchPropertyList()
