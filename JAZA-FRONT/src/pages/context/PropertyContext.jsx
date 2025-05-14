@@ -74,20 +74,6 @@ export function PropertyProvider({children}) {
     // Create a property in the app's "create property page"
     const createProperty = useCallback(async (property) => {
         dispatch({type: PropertyActionTypes.REQUEST_START});
-        // fetch coords from google api
-        try{
-            const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${property.streetAddress}&key=AIzaSyDf5j82IEnLq-X8TEtqbfWe12mp6ThG-8c`);
-            const data = response.results[0];
-            property.coordinates = {
-                lat: data.geometry.location.lat,
-                lng: data.geometry.location.lng
-            }
-            console.log("Property Coordinates: ", property.coordinates);
-        } catch (error){
-            console.log("Fetch Coordinates Error");
-            dispatch({type: PropertyActionTypes.REQUEST_ERROR, payload: error.message});
-            return false;
-        }
         // Try to create and pass the results of controller's CreateProperty() to our state
         try {
             await api.post("properties", property)
