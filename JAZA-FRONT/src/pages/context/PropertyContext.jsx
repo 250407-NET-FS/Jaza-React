@@ -90,18 +90,20 @@ export function PropertyProvider({children}) {
     // Create a property in the app's "create property page"
     const createProperty = useCallback(async (propertyInfo) => {
         dispatch({type: PropertyActionTypes.REQUEST_START});
+        console.log(propertyInfo);
         //fetch coords from google api
         try{
-            const response = axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${property.streetAddress}&key=AIzaSyDf5j82IEnLq-X8TEtqbfWe12mp6ThG-8c`);
-            const data = response.results[0];
+            const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${propertyInfo.streetAddress}&key=AIzaSyDf5j82IEnLq-X8TEtqbfWe12mp6ThG-8c`);
+            console.log(response);
+            const data = response.data.results[0];
 
-            property.latitude = data.geometry.location.lat;
-            property.longitude = data.geometry.location.lng;
+            propertyInfo.latitude = data.geometry.location.lat.toString();
+            propertyInfo.longitude = data.geometry.location.lng.toString();
 
             console.log("successfully fetched coordinates");
 
         } catch(error){
-            console.log("Failed to fetch coordinates");
+            console.log("Failed to fetch coordinates: ", response);
             dispatch({type: PropertyActionTypes.REQUEST_ERROR, payload: err.message});
             return false;
         }
