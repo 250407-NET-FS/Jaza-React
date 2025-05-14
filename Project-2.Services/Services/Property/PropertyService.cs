@@ -1,6 +1,9 @@
 using Project_2.Data;
 using Project_2.Models;
 using Project_2.Models.DTOs;
+using System.Net.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Project_2.Services.Services;
 
@@ -8,9 +11,12 @@ public class PropertyService : IPropertyService
 {
     private readonly IPropertyRepository _propertyRepository;
 
-    public PropertyService(IPropertyRepository propertyRepository, JazaContext context)
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public PropertyService(IPropertyRepository propertyRepository, IHttpClientFactory httpClientFactory, JazaContext context)
     {
         _propertyRepository = propertyRepository;
+        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<IEnumerable<PropertyResponseDTO>> GetPropertiesAsync(
@@ -115,5 +121,10 @@ public class PropertyService : IPropertyService
     public async Task<IEnumerable<PropertyOwnerDTO>> GetPropertiesAdminAsync()
     {
         return await _propertyRepository.GetPropertiesAdminAsync();
+    }
+
+    public async Task<PropertyAddDTO> GetPropertyCoordinatesAsync(PropertyAddDTO dto){
+        var client = _httpClientFactory.CreateClient();
+        var response = await client.GetAsync()
     }
 }
