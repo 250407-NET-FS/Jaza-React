@@ -103,7 +103,9 @@ public class PropertyController : ControllerBase{
             if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
-
+            //fetch property coords using google api
+            dto = await _propertyService.GetPropertyCoordinatesAsync(dto);
+            
             Guid newPropertyID = await _propertyService.AddNewPropertyAsync(dto);
             return Ok(newPropertyID);
         }
