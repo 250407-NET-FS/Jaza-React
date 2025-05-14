@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { api } from "../services/api";
 import { Autocomplete, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom"
 
 const SearchBar = () => {
     const [loading, setLoading] = useState(false);
@@ -8,6 +9,8 @@ const SearchBar = () => {
     const [open, setOpen] = useState(false);
     const [error, setError] = useState(null);
     const [selectedOption, setSelectedOption] = useState(null);
+
+    const navigate = useNavigate();
 
     const fetchData = async (value) => {
         setLoading(true);
@@ -43,8 +46,7 @@ const SearchBar = () => {
             return;
         }
         try {
-            console.log(selectedOption.propertyID);
-            // unfinished final query that should redirect to property page with results
+            navigate(`/search?search=${selectedOption.propertyID}`);
         } 
         catch (error) {
             setError(error.message);

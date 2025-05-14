@@ -12,6 +12,7 @@ const initialState = {
 const PropertyActionTypes = {
     REQUEST_START: "REQUEST_START",
     FETCH_LIST_SUCCESS: "FETCH_LIST_SUCCESS",
+    FETCH_SEARCH_SUCCESS: "FETCH_SEARCH_SUCCESS",
     FETCH_PROPERTY_SUCCESS: "FETCH_PROPERTY_SUCCESS",
     CREATE_PROPERTY_SUCCESS: "CREATE_PROPERTY_SUCCESS",
     UPDATE_PROPERTY_SUCCESS: "UPDATE_PROPERTY_SUCCESS",
@@ -24,6 +25,8 @@ const reducer = (state, action) => {
         case PropertyActionTypes.REQUEST_START: 
             return {...state, loading: true, error: null};
         case PropertyActionTypes.FETCH_LIST_SUCCESS:
+            return {...state, loading: false, propertyList: action.payload};
+        case PropertyActionTypes.FETCH_SEARCH_SUCCESS:
             return {...state, loading: false, propertyList: action.payload};
         case PropertyActionTypes.FETCH_PROPERTY_SUCCESS:
             return {...state, loading: false, selectedProperty: action.payload};
@@ -55,6 +58,19 @@ export function PropertyProvider({children}) {
             await api.get("properties")
             .then(res => res.data)
             .then(data => dispatch({type: PropertyActionTypes.FETCH_LIST_SUCCESS, payload: data}));
+        }
+        catch (err) {
+            dispatch({type: PropertyActionTypes.REQUEST_ERROR, payload: err.message});
+        }
+    }, []);
+    // Obtain a list of properties within 500 meters of a specific property (non-admin)
+    const fetchSearchList = useCallback(async (id) => {
+        dispatch({type: PropertyActionTypes.REQUEST_START});
+        // Try to fetch and pass the results of controller's GetAllPropertiesWithinDistOf() to our state
+        try {
+            await api.get(`properties/distance/${id}`)
+            .then(res => res.data)
+            .then(data => dispatch({type: PropertyActionTypes.FETCH_SEARCH_SUCCESS, payload: data}));
         }
         catch (err) {
             dispatch({type: PropertyActionTypes.REQUEST_ERROR, payload: err.message});
@@ -118,6 +134,7 @@ export function PropertyProvider({children}) {
             value={{
                 ...state,
                 fetchPropertyList,
+                fetchSearchList,
                 fetchProperty,
                 createProperty,
                 updateProperty,
