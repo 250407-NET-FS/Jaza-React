@@ -1,10 +1,11 @@
-import { Card, CardContent, Container, Grid } from '@mui/material'
+import { Button, Card, CardContent, Container, Grid } from '@mui/material'
 import { useProperty } from "../context/PropertyContext";
 import { useAuth } from "../context/AuthContext";
 import React, { useEffect, useState } from 'react'
 import Popup from "reactjs-popup";
 import { Link } from 'react-router-dom';
 import PropertyDetails from './PropertyDetails';
+import CreateProperty from './CreateProperty';
 import houseImage from '../../assets/house.png';
 import logo from "../../assets/JAZA.png";
 import Login from "../Login";
@@ -20,7 +21,8 @@ function UserPropertyList() {
 
 
     const [selectedProp, setSelectedProp] = useState(null);
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [createPopupOpen, setCreatePopupOpen] = useState(false);
+    const [detailPopupOpen, setDetailPopupOpen] = useState(false);
     const [search, setSearch] = useState("");
 
     useEffect(() => {
@@ -31,8 +33,12 @@ function UserPropertyList() {
         const property = propertyList.find(p => p.propertyID === propertyID);
         if (property) {
             setSelectedProp(property);
-            setIsPopupOpen(true);
+            setDetailPopupOpen(true);
         }
+    };
+
+    const handleCreate = () => {
+        setCreatePopupOpen(true);
     };
 
     return (
@@ -96,8 +102,13 @@ function UserPropertyList() {
                 </section>
 
             </div>
-            <h3>Listings</h3>
             <Grid container spacing={3}>
+                <Grid size={11}>
+                    <h3>Listings</h3>
+                </Grid>
+                <Grid size={1}>
+                    {user && <Button onClick={handleCreate} sx={{ all: 'unset', cursor: 'pointer', marginTop: '15px'}}>Create Listing</Button>}
+                </Grid>
                 {propertyList.map(p => (
                     <Grid size={{xs: 12, sm: 6, md: 4, lg: 3}} key={p.propertyID}>
                         <Card
@@ -149,9 +160,9 @@ function UserPropertyList() {
                 ))}
             </Grid>
             <Popup
-                open={isPopupOpen}
+                open={createPopupOpen}
                 closeOnDocumentClick
-                onClose={() => setIsPopupOpen(false)}
+                onClose={() => setCreatePopupOpen(false)}
                 modal
                 nested
                 overlayStyle={{
@@ -164,7 +175,48 @@ function UserPropertyList() {
                     maxWidth: "800px",
                     width: "90%",
                     height: '100%',
-                    margin: "100px auto",
+                    margin: "auto",
+                    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+                    fontFamily: "Arial, sans-serif",
+                    position: 'relative'
+                }}
+            >
+                <div>
+                    <button
+                        onClick={() => setCreatePopupOpen(false)}
+                        style={{
+                            position: 'absolute',
+                            top: '10px',
+                            right: '10px',
+                            background: 'none',
+                            border: 'none',
+                            fontSize: '24px',
+                            cursor: 'pointer',
+                            color: 'black',
+                        }}
+                    >
+                        ×
+                    </button>
+                    <CreateProperty />
+                </div>
+            </Popup>
+            <Popup
+                open={detailPopupOpen}
+                closeOnDocumentClick
+                onClose={() => setDetailPopupOpen(false)}
+                modal
+                nested
+                overlayStyle={{
+                    background: "rgba(0, 0, 0, 0.5)",
+                }}
+                contentStyle={{
+                    backgroundColor: "#f8f9fa",
+                    borderRadius: "10px",
+                    padding: "30px",
+                    maxWidth: "800px",
+                    width: "90%",
+                    height: '100%',
+                    margin: "auto",
                     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
                     fontFamily: "Arial, sans-serif",
                     position: 'relative'
@@ -173,7 +225,7 @@ function UserPropertyList() {
                 {selectedProp && (
                     <div>
                         <button
-                            onClick={() => setIsPopupOpen(false)}
+                            onClick={() => setDetailPopupOpen(false)}
                             style={{
                                 position: 'absolute',
                                 top: '10px',

@@ -1,60 +1,212 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { useProperty } from '../context/PropertyContext';
+import { useAuth } from '../context/AuthContext';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { Container, Grid, FormGroup, FormControl, FormControlLabel, FormLabel, Input, Checkbox } from '@mui/material';
 
-function CreateProperty(property, onSubmit) {
+function CreateProperty() {
+    const {createProperty} = useProperty();
+    const {user} = useAuth();
+
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [propertyInfo, setPropertyInfo] = useState({
+        streetAddress: "",
+        city: "",
+        state: "",
+        country: "",
+        zipCode: "",
+        imagelink: null,
+        latitude: 0.0,
+        longitude: 0.0,
+        startingPrice: 0.00,
+        bedrooms: 0,
+        bathrooms: 0,
+        garages: 0,
+        pools: 0,
+        hasBasement: false,
+        listDate: null,
+        ownerID: user.id
+    });
+
+    // eslint-disable-next-line no-undef
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+        propertyInfo.listDate = new Date(Date.now);
+        const success = await createProperty(propertyInfo);
+
+        if (success) {
+            setSuccessMessage('Create property successful!');
+            setErrorMessage(null);
+            navigate("/listings");
+        } else {
+            setErrorMessage('Create property failed. Please try again.');
+            propertyInfo = null;
+        }
+        } catch (errorMessage) {
+            setErrorMessage("Invalid credentials. Please try again.");
+            return;
+        }
+    }
+
     return (
         <Container>
             <h1>Create Property</h1>
+            {/* Alert Messages */}
+            {errorMessage && (
+                <div className="alert alert-danger" role="alert">
+                {errorMessage}
+                </div>
+            )}
+
+            {successMessage && (
+                <div className="alert alert-success" role="alert">
+                {successMessage}
+                </div>
+            )}
             <hr />
             <Grid container>
                 <Grid size={12}>
-                    <form method="post" onSubmit={onSubmit}>
+                    <form method="post" onSubmit={handleSubmit}>
                         <FormGroup>
-                            <FormControlLabel>Street Address</FormControlLabel>
+                            <FormLabel>Street Address</FormLabel>
                             <FormControl>
-                                <Input defaultValue={property.streetAddress} />
+                                <Input type="text" value={propertyInfo.streetAddress} 
+                                    onChange={(e) =>
+                                        setPropertyInfo({ ...propertyInfo, streetAddress: e.target.value })
+                                    }
+                                    required
+                                />
                             </FormControl>
                         </FormGroup>
                         <FormGroup>
-                            <FormControlLabel>City</FormControlLabel>
+                            <FormLabel>City</FormLabel>
                             <FormControl>
-                                <Input defaultValue={property.city} />
+                                <Input type="text" value={propertyInfo.city} 
+                                    onChange={(e) =>
+                                        setPropertyInfo({ ...propertyInfo, city: e.target.value })
+                                    }
+                                    required
+                                />
                             </FormControl>
                         </FormGroup>
                         <FormGroup>
-                            <FormControlLabel>State</FormControlLabel>
+                            <FormLabel>State</FormLabel>
                             <FormControl>
-                                <Input defaultValue={property.state} />
+                                <Input type="text" value={propertyInfo.state} 
+                                    onChange={(e) =>
+                                        setPropertyInfo({ ...propertyInfo, state: e.target.value })
+                                    }
+                                    required
+                                />
                             </FormControl>
                         </FormGroup>
                         <FormGroup>
-                            <FormControlLabel>Country</FormControlLabel>
+                            <FormLabel>Country</FormLabel>
                             <FormControl>
-                                <Input defaultValue={property.country} />
+                                <Input type="text" value={propertyInfo.country} 
+                                    onChange={(e) =>
+                                        setPropertyInfo({ ...propertyInfo, country: e.target.value })
+                                    }
+                                    required
+                                />
                             </FormControl>
                         </FormGroup>
                         <FormGroup>
-                            <FormControlLabel>Bedrooms</FormControlLabel>
+                            <FormLabel>Zip Code</FormLabel>
                             <FormControl>
-                                <Input defaultValue={property.bedrooms} />
+                                <Input type="text" value={propertyInfo.zipCode}
+                                    onChange={(e) =>
+                                        setPropertyInfo({ ...propertyInfo, zipCode: e.target.value })
+                                    }
+                                    required
+                                />
                             </FormControl>
                         </FormGroup>
                         <FormGroup>
-                            <FormControlLabel>Bathrooms</FormControlLabel>
+                            <FormLabel>Bedrooms</FormLabel>
                             <FormControl>
-                                <Input defaultValue={property.bathrooms} />
+                                <Input type="number" value={propertyInfo.bedrooms} 
+                                    onChange={(e) =>
+                                        setPropertyInfo({ ...propertyInfo, bedrooms: e.target.value })
+                                    }
+                                    required
+                                />
                             </FormControl>
                         </FormGroup>
                         <FormGroup>
-                            <FormControlLabel>Garages</FormControlLabel>
+                            <FormLabel>Bathrooms</FormLabel>
                             <FormControl>
-                                <Input defaultValue={property.garages} />
+                                <Input type="number" value={propertyInfo.bathrooms} 
+                                    onChange={(e) =>
+                                        setPropertyInfo({ ...propertyInfo, bathrooms: e.target.value })
+                                    }
+                                    required
+                                />
                             </FormControl>
                         </FormGroup>
                         <FormGroup>
-                            <FormControlLabel>Starting Price</FormControlLabel>
+                            <FormLabel>Garages</FormLabel>
                             <FormControl>
-                                <Input defaultValue={property.startingPrice} />
+                                <Input type="number" value={propertyInfo.garages} 
+                                    onChange={(e) =>
+                                        setPropertyInfo({ ...propertyInfo, garages: e.target.value })
+                                    }
+                                    required
+                                />
                             </FormControl>
+                        </FormGroup>
+                        <FormGroup>
+                            <FormLabel>Pools</FormLabel>
+                            <FormControl>
+                                <Input type="number" value={propertyInfo.pools}
+                                    onChange={(e) =>
+                                        setPropertyInfo({ ...propertyInfo, pools: e.target.value })
+                                    }
+                                    required
+                                />
+                            </FormControl>
+                        </FormGroup>
+                        <FormGroup>
+                            <FormLabel>Has Basement?</FormLabel>
+                            <FormControlLabel control={<Checkbox value={propertyInfo.hasBasement}
+                                    onChange={(e) => 
+                                        setPropertyInfo({ ...propertyInfo, hasBasement: e.target.value })
+                                    }
+                                    required
+                                ></Checkbox>
+                            }>
+                            </FormControlLabel>
+                        </FormGroup>
+                        <FormGroup>
+                            <FormLabel>Starting Price</FormLabel>
+                            <FormControl>
+                                <Input type="money" value={propertyInfo.startingPrice} 
+                                    onChange={(e) =>
+                                        setPropertyInfo({ ...propertyInfo, startingPrice: e.target.value })
+                                    }
+                                    required
+                                />
+                            </FormControl>
+                        </FormGroup>
+                        <FormGroup>
+                            <FormLabel>Coordinates (Latitude, Longitude)</FormLabel>
+                                <Input type="number" value={propertyInfo.latitude}
+                                    onChange={(e) => 
+                                        setPropertyInfo({ ...propertyInfo, latitude: e.target.value })
+                                    }
+                                    required
+                                />
+                                <Input type="number" value={propertyInfo.longitude}
+                                    onChange={(e) => 
+                                        setPropertyInfo({ ...propertyInfo, longitude: e.target.value })
+                                    }
+                                    required
+                                />
                         </FormGroup>
                         <FormGroup>
                             <Input type="submit" value="Create" color='primary' />

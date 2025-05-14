@@ -7,11 +7,13 @@ import { Link } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import { useFavorite} from '../context/FavoritesContext';
 import CreateOffer from './CreateOffer';
+import UpdateProperty from './Update';
 import apartmentImage from '../../assets/apartment.png';
 
 function PropertyDetails({property}) {
     const { user, login, logout } = useAuth();
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [offerPopupOpen, setOfferPopupOpen] = useState(false);
+    const [updatePopupOpen, setUpdatePopupOpen] = useState(false);
 
     const {
         favoritesList, foundFavorite, 
@@ -24,8 +26,12 @@ function PropertyDetails({property}) {
 
     const handleClick = () => {
         if (property) {
-            setIsPopupOpen(true);
+            setOfferPopupOpen(true);
         }
+    };
+
+    const handleUpdate = () => {
+        setUpdatePopupOpen(true);
     };
 
     let daysListed = Math.abs(new Date() - new Date(property.listDate).getTime()) / (1000 * 60 * 60 * 24);
@@ -68,26 +74,32 @@ function PropertyDetails({property}) {
                 <p>{property.bathrooms} </p>
                 <p>baths</p>
             </Grid>
-            <Grid size={6}>
+            <Grid size={8}>
                 <p>Days Listed: {daysListed} days</p>
             </Grid>
-            <Grid size={6}>
+            <Grid size={4}>
                     {
                         (user?.id == property.ownerID) ?
                         <Button><Link to="/offers">View Offers</Link></Button> :
-                        <Button onClick={() => handleClick(property.propertyID)} sx={{ all: 'unset', cursor: 'pointer' }}>Create Offer</Button>
+                        <Button onClick={handleClick} sx={{ all: 'unset', cursor: 'pointer' }}>Create Offer</Button>
                     }
 
             </Grid>
-            <Grid size={12}>
+            <Grid size={8}>
                 <p>Listing Created: {property.listDate}</p>
                 <p>Listed by: {property.ownerID}</p>
             </Grid>
+            <Grid size={4}>
+                {
+                    (user?.id == property.ownerID) &&
+                    <Button onClick={handleUpdate} sx={{ all: `unset`, cursor: 'pointer'}}>Update Property</Button>
+                }
+            </Grid>
         </Grid>
         <Popup
-            open={isPopupOpen}
+            open={offerPopupOpen}
             closeOnDocumentClick
-            onClose={() => setIsPopupOpen(false)}
+            onClose={() => setOfferPopupOpen(false)}
             modal
             nested
             overlayStyle={{
@@ -109,7 +121,7 @@ function PropertyDetails({property}) {
             {property && (
                 <div>
                     <button
-                        onClick={() => setIsPopupOpen(false)}
+                        onClick={() => setOfferPopupOpen(false)}
                         style={{
                             position: 'absolute',
                             top: '10px',
@@ -124,6 +136,49 @@ function PropertyDetails({property}) {
                         ×
                     </button>
                     <CreateOffer property={property} />
+                </div>
+            )}
+        </Popup>
+        <Popup
+            open={updatePopupOpen}
+            closeOnDocumentClick
+            onClose={() => setUpdatePopupOpen(false)}
+            modal
+            nested
+            overlayStyle={{
+                background: "rgba(0, 0, 0, 0.5)",
+            }}
+            contentStyle={{
+                backgroundColor: "#f8f9fa",
+                borderRadius: "10px",
+                padding: "30px",
+                maxWidth: "400px",
+                width: "90%",
+                height: "50%",
+                margin: "100px auto",
+                boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+                fontFamily: "Arial, sans-serif",
+                position: 'relative'
+            }}
+        >
+            {property && (
+                <div>
+                    <button
+                        onClick={() => setUpdatePopupOpen(false)}
+                        style={{
+                            position: 'absolute',
+                            top: '10px',
+                            right: '10px',
+                            background: 'none',
+                            border: 'none',
+                            fontSize: '24px',
+                            cursor: 'pointer',
+                            color: 'black'
+                        }}
+                    >
+                        ×
+                    </button>
+                    <UpdateProperty property={property} />
                 </div>
             )}
         </Popup>
