@@ -83,7 +83,7 @@ function UserPropertyList() {
         };
 
         fetchPropertiesWithFilters();
-    }, [bed, bath, search]);
+    }, [bed, bath]);
 
 
     return (
@@ -145,26 +145,6 @@ function UserPropertyList() {
                     Saved Searches
                 </Link>
             </nav>
-
-            <section className="hero" style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '20px',
-                backgroundColor: '#f8f9fa',
-                borderRadius: '10px',
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                marginBottom: '20px'
-            }}>
-                <input
-                    type="text"
-                    placeholder="Search listings..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="search-bar"
-                />
-            </section>
             <Grid container spacing={3}>
                 <Grid size={8}>
                     <h3>Listings</h3>
