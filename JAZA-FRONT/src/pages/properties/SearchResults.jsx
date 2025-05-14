@@ -1,7 +1,8 @@
-import { Card, CardContent, Container, Grid } from '@mui/material'
+import { Container } from '@mui/material'
 import { useProperty } from "../context/PropertyContext";
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom';
+import PropertyCard from './PropertyCard';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 
@@ -36,7 +37,7 @@ function SearchResultDisplay() {
     }, [propertyList]);
 
     return (
-        <Container style={{"padding-left": 0, "padding-right": 0}}>
+        <Container style={{"paddingLeft": 0, "paddingRight": 0}}>
             <MapContainer center={center} zoom={14} scrollWheelZoom={false} style={{height: "100vh", width: "100vw"}}>
             <ChangeMapCenter center={center} />
             <TileLayer
@@ -46,13 +47,7 @@ function SearchResultDisplay() {
             {propertyList.map(p =>
                 <Marker key={p.propertyID} position={[p.longitude, p.latitude]}>
                     <Popup>
-                        <Card>
-                            <CardContent>
-                                <h3>${p.startingPrice}</h3>
-                                <p>{p.bedrooms} | {p.bathrooms}</p>
-                                <p>{p.streetAddress}, {p.city}, {p.state}, {p.country} {p.zipCode}</p>
-                            </CardContent>
-                        </Card>
+                        <PropertyCard property={p}/>
                     </Popup>
                 </Marker>
             )}
