@@ -14,21 +14,15 @@ body,
   background-color: var(--beige);
   color: var(--brown);
   height: 100%;
-  /* Ensure the body takes up the full height */
   width: 100%;
-  /* Ensure the body takes up the full width */
   box-sizing: border-box;
-  /* Include padding/borders in width/height */
 }
 
 .page {
   display: flex;
   flex-direction: column;
-  /* Stack header, hero, listings, and footer vertically */
   min-height: 100vh;
-  /* Ensures the page takes up at least the full viewport height */
   width: 100%;
-  /* Ensure page fills the full width */
 }
 
 header,
@@ -36,12 +30,10 @@ header,
 .footer,
 .listings {
   width: 100%;
-  /* Make sure each section takes up the full width */
 }
 
 .header {
   background-color: var(--orange-red);
-  padding: 1rem 2rem;
 }
 
 .logo {
@@ -53,9 +45,13 @@ header,
   background-color: var(--dark-green);
   color: white;
   text-align: center;
-  padding: 4rem 2rem;
   flex-grow: 1;
-  /* Allow hero section to grow and take more space if needed */
+  background: linear-gradient(to bottom,
+      var(--dark-green) 40%,
+      var(--dark-green) 60%,
+      var(--beige) 100%);
+  padding: 2rem 0;
+  margin-bottom: 1rem;
 }
 
 .hero-title {
@@ -72,7 +68,6 @@ header,
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
 }
 
 .section-title {
@@ -103,7 +98,6 @@ header,
   background-color: var(--brown);
   color: white;
   text-align: center;
-  padding: 1rem;
   margin-top: 2rem;
   flex-shrink: 0;
   /* Prevents footer from shrinking */
@@ -134,6 +128,7 @@ header,
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
+  background: linear-gradient(to bottom, var(--orange-red), #8097B7);
 }
 
 /* Nav Links */
@@ -215,7 +210,6 @@ header,
 .carousel-container {
   display: flex;
   transition: transform 0.5s ease-in-out;
-  gap: 1rem;
 }
 
 .carousel-item {
@@ -224,6 +218,7 @@ header,
   transform: translateX(calc(-100% * var(--current-index)));
   opacity: 0.7;
   transition: opacity 0.3s ease;
+  background-color: var(--golden-yellow);
 }
 
 .carousel-item:hover {

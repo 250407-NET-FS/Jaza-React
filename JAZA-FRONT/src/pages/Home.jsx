@@ -104,29 +104,85 @@ export default function Home() {
 
             <section className="hero">
                 <h2 className="hero-title">Find Your Warmth</h2>
-                <SearchBar/>
+                <div id="searchb" style={{
+                    width: '100vw',
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    alignItems: 'center',
+                    margin: '0 auto',
+                    paddingBottom: '20px',
+                }}>
+                    <SearchBar />
+                </div>
             </section>
 
             <main className="listings">
-                <h3 className="section-title">Featured Listings</h3>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '15px'
+                }}>
+                    <h3 className="section-title">Featured Listings</h3>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <button
+                            className="carousel-button prev"
+                            onClick={prevSlide}
+                            style={{
+                                border: 'none',
+                                background: 'green',
+                                borderRadius: '50%',
+                                width: '30px',
+                                height: '30px',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                cursor: 'pointer',
+                                fontSize: '20px'
+                            }}
+                        >
+                            &lt;
+                        </button>
+                        <button
+                            className="carousel-button next"
+                            onClick={nextSlide}
+                            style={{
+                                border: 'none',
+                                background: 'green',
+                                borderRadius: '50%',
+                                width: '30px',
+                                height: '30px',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                cursor: 'pointer',
+                                fontSize: '20px'
+                            }}
+                        >
+                            &gt;
+                        </button>
+                    </div>
+                </div>
+
                 <div className="carousel-wrapper">
-                    <button className="carousel-button prev" onClick={prevSlide}>
-                        &lt;
-                    </button>
-                    <div className="carousel-container">
+                    <div className="carousel-container" style={{
+                        border: '10px solid #ccc',
+                        borderRadius: '10px',
+                        gap: '15px',
+                        backgroundColor: '#ccc',
+                    }}>
                         {propertyList
                             .slice(currentIndex, currentIndex + 5)
                             .map((property) => (
                                 <PropertyCard
                                     key={property.propertyID}
                                     title={property.streetAddress}
-                                    description={`${property.city}, ${property.state}`}
+                                    description={`${property.city},
+                                     ${property.state}`
+                                    }
                                 />
                             ))}
                     </div>
-                    <button className="carousel-button next" onClick={nextSlide}>
-                        &gt;
-                    </button>
                 </div>
             </main>
 
