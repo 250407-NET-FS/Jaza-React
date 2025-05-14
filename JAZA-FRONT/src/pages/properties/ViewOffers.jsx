@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useOffer } from '../context/OfferContext';
-import { useNavigate } from 'react-router-dom';
+import { useProperty } from '../context/PropertyContext';
+import { useNavigate, useLocation } from 'react-router-dom';
 import AcceptOffer from './AcceptOffer';
-import { CardContent } from '@mui/material';
+import { CardContent, Container, Grid,  } from '@mui/material';
+import Popup from "reactjs-popup";
 
-function ViewOffers(property){
-    const { offerlist, selectedOffer, fetchPropertyOffers, fetchOffer } = useOffer();
+function ViewOffers(){
+    const { offerList, selectedOffer, fetchPropertyOffers, fetchOffer } = useOffer();
+    const {selectedProperty} = useProperty();
 
     const sendOff = {
         PropertyId: null,
@@ -18,20 +21,19 @@ function ViewOffers(property){
     const [successMessage, setSuccessMessage] = useState('');
 
     const navigate = useNavigate();
-    const [credentials, setCredentials] = useState({
-        PropertyId: property.propertyID,
-    });
+    // const { property } = location.state || {};
 
     useEffect(() => {
-        fetchPropertyOffers(credentials.PropertyId);
+        fetchPropertyOffers(selectedProperty.propertyID);
     }, []);
 
     return(
         <Container>
             <h1>Offers</h1>
+            {offerList.length > 0 ?
             <Grid container>
                 {
-                    offerlist.map(o => 
+                    offerList.map(o => 
                         <Grid size={2} key={o.OfferID}>
                             <Card>
                                 <CardContent>
@@ -76,6 +78,7 @@ function ViewOffers(property){
                     )
                 }
             </Grid>
+            : <p>No offers have been made!</p>}
         </Container>
     );
 

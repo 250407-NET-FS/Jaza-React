@@ -149,7 +149,7 @@ function UserPropertyList() {
                 <Grid size={8}>
                     <h3>Listings</h3>
                 </Grid>
-                <Grid item style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Grid style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <FormControl sx={{ m: 1, minWidth: 120 }}>
                         <InputLabel id="bed-label">Bedrooms</InputLabel>
                         <Select
@@ -171,7 +171,7 @@ function UserPropertyList() {
                     </FormControl>
                 </Grid>
 
-                <Grid item style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Grid style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <FormControl sx={{ m: 1, minWidth: 120 }}>
                         <InputLabel id="bath-label">Bathrooms</InputLabel>
                         <Select

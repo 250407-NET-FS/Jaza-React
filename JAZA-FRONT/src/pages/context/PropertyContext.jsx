@@ -4,7 +4,7 @@ import { api } from "../services/api";
 
 const initialState = {
     propertyList: [],
-    selectedProperty: null,
+    selectedProperty: {},
     loading: false,
     error: null
 };
@@ -111,12 +111,12 @@ export function PropertyProvider({ children }) {
         }
         // Try to create and pass the results of controller's CreateProperty() to our state
         try {
-            return await api.post("properties", propertyInfo)
-                .then(res => res.data)
-                .then(data => {
-                    dispatch({ type: PropertyActionTypes.CREATE_PROPERTY_SUCCESS, payload: data });
-                    fetchPropertyList(); // Sync property List
-                });
+            await api.post("properties", propertyInfo)
+            .then(res => res.data)
+            .then(data => {
+                dispatch({type: PropertyActionTypes.CREATE_PROPERTY_SUCCESS, payload: data});
+                fetchPropertyList(); // Sync property List
+            });
         }
         catch (err) {
             dispatch({ type: PropertyActionTypes.REQUEST_ERROR, payload: err.message });
@@ -127,13 +127,12 @@ export function PropertyProvider({ children }) {
         dispatch({ type: PropertyActionTypes.REQUEST_START });
         // Try to update and pass the results of controller's UpdateProperty() to our state
         try {
-            return await api.put("properties", propertyInfo)
-                .then(res => res.data)
-                .then(data => {
-                    dispatch({ type: PropertyActionTypes.UPDATE_PROPERTY_SUCCESS, payload: data });
-                    fetchPropertyList();
-                    data;
-                });
+            await api.put("properties", propertyInfo)
+            .then(res => res.data)
+            .then(data => {
+                dispatch({type: PropertyActionTypes.UPDATE_PROPERTY_SUCCESS, payload: data});
+                fetchPropertyList();
+            });
         }
         catch (err) {
             dispatch({ type: PropertyActionTypes.REQUEST_ERROR, payload: err.message });
@@ -144,13 +143,12 @@ export function PropertyProvider({ children }) {
         dispatch({ type: PropertyActionTypes.REQUEST_START });
         // Try to update and pass the results of controller's DeleteProperty() to our state
         try {
-            return await api.delete(`properties/${id}`)
-                .then(res => res.data)
-                .then(data => {
-                    dispatch({ type: PropertyActionTypes.DELETE_PROPERTY_SUCCESS, payload: data });
-                    fetchPropertyList();
-                    data;
-                });
+            await api.delete(`properties/${id}`)
+            .then(res => res.data)
+            .then(data => {
+                dispatch({type: PropertyActionTypes.DELETE_PROPERTY_SUCCESS, payload: data});
+                fetchPropertyList();
+            });
         }
         catch (err) {
             dispatch({ type: PropertyActionTypes.REQUEST_ERROR, payload: err.message });
