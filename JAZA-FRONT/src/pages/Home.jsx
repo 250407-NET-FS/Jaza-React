@@ -108,7 +108,7 @@ export default function Home() {
             </section>
 
             <main className="listings">
-                <h3 className="section-title">Featured Listings</h3>
+                <h3 className="section-title">Featured Listings - testing deployment</h3>
                 <div className="carousel-wrapper">
                     <button className="carousel-button prev" onClick={prevSlide}>
                         &lt;

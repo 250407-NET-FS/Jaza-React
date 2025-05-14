@@ -160,7 +160,6 @@ namespace Project_2.Tests
                 .Setup(repo => repo.GetByIdAsync(SharedObjects.INVALID_PROPERTY_ID))
                 .ReturnsAsync((Property?)null);
 
-
             var result = await _propertyService.GetPropertyByIdAsync(SharedObjects.INVALID_PROPERTY_ID);
 
 
