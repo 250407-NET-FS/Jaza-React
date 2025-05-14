@@ -267,3 +267,22 @@ header,
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.admin-options {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  gap: 1rem;
+}
+
+.admin-dashboard {
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}

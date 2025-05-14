@@ -27,8 +27,8 @@ function PropertyList() {
   return (
     <>
       <div className="container">
-        <h1 className="text-center">Property List</h1>
-        <ul style={{ display: "flex", listStyle: "none", padding: 0 }}>
+        <h1 className="admin-options">Property List</h1>
+        <ul className="cards" style={{listStyle: "none"}}>
           {properties.map((p) => (
             <PropertyCard
               key={p.propertyID}

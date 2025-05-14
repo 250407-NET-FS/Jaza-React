@@ -33,6 +33,7 @@ function App() {
                     }
                   > 
                   {/* This will allow the nested views! */}
+                    <Route index element={<UserList />} />
                     <Route path="PropertyList" element={<PropertyList />} />
                     <Route path="UserList" element={<UserList />} />
                   </Route>

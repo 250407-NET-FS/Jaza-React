@@ -6,8 +6,6 @@ function UserList() {
   const [users, setUsers] = useState([]);
   const { user: admin } = useAuth();
 
-  const token = localStorage.getItem("jwt");
-
   useEffect(() => {
     api
       .get("http://localhost:5236/api/user/admin")
@@ -60,8 +58,8 @@ function UserList() {
   return (
     <>
       <div className="container">
-        <h1 className="text-center">User List</h1>
-        <ul style={{ display: "flex", listStyle: "none", padding: 0 }}>
+        <h1 className="admin-options">User List</h1>
+        <ul className="cards" style={{listStyle: "none"}}>
           {users.map((u) => (
             <UserCard
               key={u.id}
@@ -79,10 +77,6 @@ function UserList() {
           ))}
         </ul>
       </div>
-      {/* Add a search bar here
-    then create a card with that single user that is searched if found
-    
-    */}
     </>
   );
 }
@@ -98,11 +92,12 @@ function UserCard({
   deleteHandler,
 }) {
   return (
-    //TODO TEST IF ADMIN DOES NOT SHOW WITH THOSE OPTIONS
+
     <li className="card">
       <h4>{name}</h4>
       <p>Id: {id}</p>
       <p>Email: {email}</p>
+      <div className="button-group">
       {!isAdmin && (
         <>
           {lockoutEnabled ? (
@@ -113,6 +108,7 @@ function UserCard({
           <button onClick={deleteHandler}>Delete</button>
         </>
       )}
+      </div>
     </li>
   );
 }
