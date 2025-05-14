@@ -56,11 +56,11 @@ public class PropertyRepository : BaseRepository<Property>, IPropertyRepository
             query = query.Where(p => p.StartingPrice >= priceMin);
 
         if (numBedroom != -1)
-            query = query.Where(p => p.Bedrooms >= numBedroom);
+            query = query.Where(p => p.Bedrooms == numBedroom);
 
         if (numBathroom != -1)
-            query = query.Where(p => p.Bathrooms >= numBathroom);
-        
+            query = query.Where(p => p.Bathrooms == numBathroom);
+
         if (numGarages != -1)
             query = query.Where(p => p.Garages >= numGarages);
 
@@ -72,17 +72,20 @@ public class PropertyRepository : BaseRepository<Property>, IPropertyRepository
 
         if (hasBasement)
             query = query.Where(p => p.HasBasement);
-        
-        if (OwnerId.HasValue){
+
+        if (OwnerId.HasValue)
+        {
             query = query.Where(p => p.OwnerID == OwnerId.Value);
         }
 
         return await query.ToListAsync();
     }
 
-    public async Task<IEnumerable<PropertyResponseDTO>> GetAllWithinDistOf(Guid propertyId, int meters) {
+    public async Task<IEnumerable<PropertyResponseDTO>> GetAllWithinDistOf(Guid propertyId, int meters)
+    {
         Property? property = _dbContext.Property.Find(propertyId);
-        if (property is null) {
+        if (property is null)
+        {
             return new List<PropertyResponseDTO>();
         }
         return await _dbContext.Property.Where(p => p.Coordinates!.IsWithinDistance(property.Coordinates, meters))
@@ -90,7 +93,8 @@ public class PropertyRepository : BaseRepository<Property>, IPropertyRepository
                 .Select(p => new PropertyResponseDTO(p)).ToListAsync();
     }
 
-    public async Task<IEnumerable<PropertySearchResponseDTO>> GetAllLikeAddress(string addressChars) {
+    public async Task<IEnumerable<PropertySearchResponseDTO>> GetAllLikeAddress(string addressChars)
+    {
         return await _dbContext.Property.Where(p => p.StreetAddress.Contains(addressChars)).Select(p => new PropertySearchResponseDTO(p)).ToListAsync();
     }
 
@@ -126,20 +130,20 @@ public class PropertyRepository : BaseRepository<Property>, IPropertyRepository
     }
 
     public async Task<IEnumerable<PropertyOwnerDTO>> GetPropertiesAdminAsync()
-{
-    return await _dbContext.Property
-        .Include(p => p.Owner)
-        .Select(p => new PropertyOwnerDTO
-        {
-            PropertyID = p.PropertyID,
-            Address = $"{p.StreetAddress}, {p.City}, {p.State} {p.ZipCode}",
-            StartingPrice = p.StartingPrice,
-            OwnerID = p.OwnerID,
-            OwnerEmail = p.Owner.Email,
-            OwnerFullName = p.Owner.FullName
-        })
-        .ToListAsync();
-}
+    {
+        return await _dbContext.Property
+            .Include(p => p.Owner)
+            .Select(p => new PropertyOwnerDTO
+            {
+                PropertyID = p.PropertyID,
+                Address = $"{p.StreetAddress}, {p.City}, {p.State} {p.ZipCode}",
+                StartingPrice = p.StartingPrice,
+                OwnerID = p.OwnerID,
+                OwnerEmail = p.Owner.Email,
+                OwnerFullName = p.Owner.FullName
+            })
+            .ToListAsync();
+    }
 
 
 
