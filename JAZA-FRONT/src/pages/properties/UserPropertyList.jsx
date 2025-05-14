@@ -42,7 +42,9 @@ function UserPropertyList() {
     };
 
     return (
-        <Container>
+        <Container style={{
+            maxWidth: '100%',
+        }}>
             <div className="logo-container">
                 <img src={logo} alt="JAZA Logo" className="logo-image" />
                 <h1 className="logo-text">JAZA</h1>
@@ -78,30 +80,46 @@ function UserPropertyList() {
                         Admin Dashboard
                     </Link>
                 )}
-
-                <nav className="nav">
-                    <Link to="/" className="nav-link">
-                        Home
-                    </Link>
-                    <Link to="/listings" className="nav-link">
-                        Listings
-                    </Link>
-                    <Link to="/favorites" className="nav-link">
-                        Saved Searches
-                    </Link>
-                </nav>
-
-                <section className="hero">
-                    <input
-                        type="text"
-                        placeholder="Search listings..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="search-bar"
-                    />
-                </section>
-
             </div>
+
+            <nav className="nav" style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                marginTop: '20px',
+                padding: '10px 0',
+            }}>
+                <Link to="/" className="nav-link">
+                    Home
+                </Link>
+                <Link to="/listings" className="nav-link">
+                    Listings
+                </Link>
+                <Link to="/favorites" className="nav-link">
+                    Saved Searches
+                </Link>
+            </nav>
+
+            <section className="hero" style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '20px',
+                backgroundColor: '#f8f9fa',
+                borderRadius: '10px',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                marginBottom: '20px'
+            }}>
+                <input
+                    type="text"
+                    placeholder="Search listings..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="search-bar"
+                />
+            </section>
             <Grid container spacing={3}>
                 <Grid size={11}>
                     <h3>Listings</h3>

@@ -91,9 +91,11 @@ export function PropertyProvider({children}) {
     const createProperty = useCallback(async (propertyInfo) => {
         dispatch({type: PropertyActionTypes.REQUEST_START});
         console.log(propertyInfo);
+        const original = propertyInfo.streetAddress;
+        const encoded = original.replace(/\s/g, "%20");
         //fetch coords from google api
         try{
-            const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${propertyInfo.streetAddress}&key=AIzaSyDf5j82IEnLq-X8TEtqbfWe12mp6ThG-8c`);
+            const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encoded}&key=AIzaSyDf5j82IEnLq-X8TEtqbfWe12mp6ThG-8c`);
             console.log(response);
             const data = response.data.results[0];
 
