@@ -85,7 +85,13 @@ public class PropertyRepository : BaseRepository<Property>, IPropertyRepository
         if (property is null) {
             return new List<PropertyResponseDTO>();
         }
-        return await _dbContext.Property.Where(p => p.Coordinates!.IsWithinDistance(property.Coordinates, meters)).Select(p => new PropertyResponseDTO(p)).ToListAsync();
+        return await _dbContext.Property.Where(p => p.Coordinates!.IsWithinDistance(property.Coordinates, meters))
+                .OrderBy(p => p.Coordinates.Distance(property.Coordinates!))
+                .Select(p => new PropertyResponseDTO(p)).ToListAsync();
+    }
+
+    public async Task<IEnumerable<PropertySearchResponseDTO>> GetAllLikeAddress(string addressChars) {
+        return await _dbContext.Property.Where(p => p.StreetAddress.Contains(addressChars)).Select(p => new PropertySearchResponseDTO(p)).ToListAsync();
     }
 
     /* Marks an entity as to-be-upserted until its update/insertion into the db

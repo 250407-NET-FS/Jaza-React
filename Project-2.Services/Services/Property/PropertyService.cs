@@ -52,8 +52,14 @@ public class PropertyService : IPropertyService
         return await _propertyRepository.GetByIdAsync(guid);
     }
 
-    public async Task<IEnumerable<PropertyResponseDTO>> GetPropertiesWithinDistOfAsync(Guid propertyId, int meters) {
+    public async Task<IEnumerable<PropertyResponseDTO>> GetPropertiesWithinDistOfAsync(Guid propertyId, int meters) 
+    {
         return await _propertyRepository.GetAllWithinDistOf(propertyId, meters);
+    }
+    
+    public async Task<IEnumerable<PropertySearchResponseDTO>> GetPropertiesByAddressCharsAsync(string addressChars) 
+    {
+        return await _propertyRepository.GetAllLikeAddress(addressChars);
     }
 
     public async Task<Guid> AddNewPropertyAsync(PropertyAddDTO propertyInfo)
