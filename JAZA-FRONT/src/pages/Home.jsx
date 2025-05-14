@@ -117,11 +117,7 @@ export default function Home() {
                         {propertyList
                             .slice(currentIndex, currentIndex + 5)
                             .map((property) => (
-                                <PropertyCard
-                                    key={property.propertyID}
-                                    title={property.streetAddress}
-                                    description={`${property.city}, ${property.state}`}
-                                />
+                                <PropertyCard key={property.propertyID} property={property}/>
                             ))}
                     </div>
                     <button className="carousel-button next" onClick={nextSlide}>
