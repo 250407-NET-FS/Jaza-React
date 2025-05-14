@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import { useFavorite } from '../context/FavoritesContext';
 import CreateOffer from './CreateOffer';
-import UpdateProperty from './Update';
+import UpdateProperty from './UpdateProperty';
 import apartmentImage from '../../assets/apartment.png';
 
 function PropertyDetails({ property }) {
