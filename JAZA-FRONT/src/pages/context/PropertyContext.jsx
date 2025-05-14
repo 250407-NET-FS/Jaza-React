@@ -111,7 +111,7 @@ export function PropertyProvider({children}) {
         }
         // Try to create and pass the results of controller's CreateProperty() to our state
         try {
-            return await api.post("properties", propertyInfo)
+            await api.post("properties", propertyInfo)
             .then(res => res.data)
             .then(data => {
                 dispatch({type: PropertyActionTypes.CREATE_PROPERTY_SUCCESS, payload: data});
@@ -127,12 +127,11 @@ export function PropertyProvider({children}) {
         dispatch({type: PropertyActionTypes.REQUEST_START});
         // Try to update and pass the results of controller's UpdateProperty() to our state
         try {
-            return await api.put("properties", propertyInfo)
+            await api.put("properties", propertyInfo)
             .then(res => res.data)
             .then(data => {
                 dispatch({type: PropertyActionTypes.UPDATE_PROPERTY_SUCCESS, payload: data});
                 fetchPropertyList();
-                data;
             });
         }
         catch (err) {
@@ -144,12 +143,11 @@ export function PropertyProvider({children}) {
         dispatch({type: PropertyActionTypes.REQUEST_START});
         // Try to update and pass the results of controller's DeleteProperty() to our state
         try {
-            return await api.delete(`properties/${id}`)
+            await api.delete(`properties/${id}`)
             .then(res => res.data)
             .then(data => {
                 dispatch({type: PropertyActionTypes.DELETE_PROPERTY_SUCCESS, payload: data});
                 fetchPropertyList();
-                data;
             });
         }
         catch (err) {

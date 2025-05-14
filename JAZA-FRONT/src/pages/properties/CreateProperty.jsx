@@ -5,7 +5,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { Container, Grid, FormGroup, FormControl, FormControlLabel, FormLabel, Input, Checkbox } from '@mui/material';
 
 function CreateProperty() {
-    const {createProperty} = useProperty();
+    const {createProperty, selectedProperty} = useProperty();
     const {user} = useAuth();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -35,9 +35,9 @@ function CreateProperty() {
         e.preventDefault();
 
         try {
-        const success = await createProperty(propertyInfo);
+        await createProperty(propertyInfo);
 
-        if (success) {
+        if (selectedProperty) {
             setSuccessMessage('Create property successful!');
             setErrorMessage(null);
             navigate("/listings");
