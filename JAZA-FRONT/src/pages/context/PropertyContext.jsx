@@ -12,6 +12,7 @@ const initialState = {
 const PropertyActionTypes = {
     REQUEST_START: "REQUEST_START",
     FETCH_LIST_SUCCESS: "FETCH_LIST_SUCCESS",
+    FETCH_SEARCH_SUCCESS: "FETCH_SEARCH_SUCCESS",
     FETCH_PROPERTY_SUCCESS: "FETCH_PROPERTY_SUCCESS",
     CREATE_PROPERTY_SUCCESS: "CREATE_PROPERTY_SUCCESS",
     UPDATE_PROPERTY_SUCCESS: "UPDATE_PROPERTY_SUCCESS",
@@ -24,6 +25,8 @@ const reducer = (state, action) => {
         case PropertyActionTypes.REQUEST_START: 
             return {...state, loading: true, error: null};
         case PropertyActionTypes.FETCH_LIST_SUCCESS:
+            return {...state, loading: false, propertyList: action.payload};
+        case PropertyActionTypes.FETCH_SEARCH_SUCCESS:
             return {...state, loading: false, propertyList: action.payload};
         case PropertyActionTypes.FETCH_PROPERTY_SUCCESS:
             return {...state, loading: false, selectedProperty: action.payload};
@@ -58,6 +61,19 @@ export function PropertyProvider({children}) {
             dispatch({type: PropertyActionTypes.REQUEST_ERROR, payload: err.message});
         }
     }, []);
+    // Obtain a list of properties within 500 meters of a specific property (non-admin)
+    const fetchSearchList = useCallback(async (id) => {
+        dispatch({type: PropertyActionTypes.REQUEST_START});
+        // Try to fetch and pass the results of controller's GetAllPropertiesWithinDistOf() to our state
+        try {
+            await api.get(`properties/distance/${id}`)
+            .then(res => res.data)
+            .then(data => dispatch({type: PropertyActionTypes.FETCH_SEARCH_SUCCESS, payload: data}));
+        }
+        catch (err) {
+            dispatch({type: PropertyActionTypes.REQUEST_ERROR, payload: err.message});
+        }
+    }, []);
     // Obtain a specific property after selecting it from a property list
     const fetchProperty = useCallback(async (id) => {
         dispatch({type: PropertyActionTypes.REQUEST_START});
@@ -74,6 +90,21 @@ export function PropertyProvider({children}) {
     // Create a property in the app's "create property page"
     const createProperty = useCallback(async (propertyInfo) => {
         dispatch({type: PropertyActionTypes.REQUEST_START});
+        //fetch coords from google api
+        try{
+            const response = axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${property.streetAddress}&key=AIzaSyDf5j82IEnLq-X8TEtqbfWe12mp6ThG-8c`);
+            const data = response.results[0];
+
+            property.latitude = data.geometry.location.lat;
+            property.longitude = data.geometry.location.lng;
+
+            console.log("successfully fetched coordinates");
+
+        } catch(error){
+            console.log("Failed to fetch coordinates");
+            dispatch({type: PropertyActionTypes.REQUEST_ERROR, payload: err.message});
+            return false;
+        }
         // Try to create and pass the results of controller's CreateProperty() to our state
         try {
             await api.post("properties", propertyInfo)
@@ -127,6 +158,7 @@ export function PropertyProvider({children}) {
             value={{
                 ...state,
                 fetchPropertyList,
+                fetchSearchList,
                 fetchProperty,
                 createProperty,
                 updateProperty,

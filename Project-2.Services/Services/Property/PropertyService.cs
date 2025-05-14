@@ -11,14 +11,14 @@ public class PropertyService : IPropertyService
 {
     private readonly IPropertyRepository _propertyRepository;
 
-    private readonly IHttpClientFactory _httpClientFactory;
+    //private readonly IHttpClientFactory _httpClientFactory;
 
     //private readonly string _googleApiKey;
 
-    public PropertyService(IPropertyRepository propertyRepository, IHttpClientFactory httpClientFactory, JazaContext context)
+    public PropertyService(IPropertyRepository propertyRepository, JazaContext context)
     {
         _propertyRepository = propertyRepository;
-        _httpClientFactory = httpClientFactory;
+        //_httpClientFactory = httpClientFactory;
         //_googleApiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY");
     }
 
@@ -52,8 +52,14 @@ public class PropertyService : IPropertyService
         return await _propertyRepository.GetByIdAsync(guid);
     }
 
-    public async Task<IEnumerable<PropertyResponseDTO>> GetPropertiesWithinDistOfAsync(Guid propertyId, int meters) {
+    public async Task<IEnumerable<PropertyResponseDTO>> GetPropertiesWithinDistOfAsync(Guid propertyId, int meters) 
+    {
         return await _propertyRepository.GetAllWithinDistOf(propertyId, meters);
+    }
+    
+    public async Task<IEnumerable<PropertySearchResponseDTO>> GetPropertiesByAddressCharsAsync(string addressChars) 
+    {
+        return await _propertyRepository.GetAllLikeAddress(addressChars);
     }
 
     public async Task<Guid> AddNewPropertyAsync(PropertyAddDTO propertyInfo)
