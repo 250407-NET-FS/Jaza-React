@@ -72,11 +72,11 @@ export function PropertyProvider({children}) {
         }
     }, []);
     // Create a property in the app's "create property page"
-    const createProperty = useCallback(async (propertyDTO) => {
+    const createProperty = useCallback(async (property) => {
         dispatch({type: PropertyActionTypes.REQUEST_START});
         // Try to create and pass the results of controller's CreateProperty() to our state
         try {
-            await api.post("properties", propertyDTO)
+            await api.post("properties", property)
             .then(res => res.data)
             .then(data => {
                 dispatch({type: PropertyActionTypes.CREATE_PROPERTY_SUCCESS, payload: data});
