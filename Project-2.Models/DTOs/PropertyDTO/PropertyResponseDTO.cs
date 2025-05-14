@@ -8,6 +8,8 @@ public class PropertyResponseDTO
     public string City { get; set; } = null!;
     public string ZipCode { get; set; } = null!;
     public string StreetAddress { get; set; } = null!;
+    public double Longitude { get; set; }
+    public double Latitude { get; set; }
     public string? ImageLink { get; set; }
     public decimal StartingPrice { get; set; }
     public int Bedrooms { get; set; }
@@ -26,6 +28,8 @@ public class PropertyResponseDTO
         City = property.City!;
         ZipCode = property.ZipCode!;
         StreetAddress = property.StreetAddress!;
+        Longitude = property.Coordinates!.Y;
+        Latitude = property.Coordinates!.X;
         ImageLink = property.ImageLink;
         StartingPrice = property.StartingPrice;
         Bedrooms = property.Bedrooms;

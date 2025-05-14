@@ -10,6 +10,7 @@ import { AuthProvider } from "./pages/context/AuthContext";
 import { PropertyProvider } from "./pages/context/PropertyContext";
 import { OwnerProvider } from "./pages/context/OwnerContext";
 import UserPropertyList from "./pages/properties/UserPropertyList";
+import SearchResultDisplay from "./pages/properties/SearchResults";
 import ViewOffers from "./pages/properties/ViewOffers";
 import { FavoritesProvider } from "./pages/context/FavoritesContext";
 import { OfferProvider } from "./pages/context/OfferContext";
@@ -38,6 +39,7 @@ function App() {
                     <Route path="PropertyList" element={<PropertyList />} />
                     <Route path="UserList" element={<UserList />} />
                   </Route>
+                  <Route path="/search" element={<SearchResultDisplay />} />
                   <Route path="/listings" element={<UserPropertyList />} />
                   <Route path="/favorites" element={<FavoritesList />} />
                   <Route path="/register" element={<Register />} />

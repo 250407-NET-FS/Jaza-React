@@ -22,6 +22,7 @@ public interface IPropertyRepository : IBaseRepository<Property>
         Guid? OwnerId);
 
     public Task<IEnumerable<PropertyResponseDTO>> GetAllWithinDistOf(Guid propertyId, int meters);
+    public Task<IEnumerable<PropertySearchResponseDTO>> GetAllLikeAddress(string address);
     public void Update(PropertyUpdateDTO propertyInfo);
     public Task<IEnumerable<PropertyOwnerDTO>> GetPropertiesAdminAsync();
 }
