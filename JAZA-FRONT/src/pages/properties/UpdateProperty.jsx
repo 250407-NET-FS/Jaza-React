@@ -25,7 +25,7 @@ function UpdateProperty({property}) {
         bathrooms: property.bathrooms,
         garages: property.garages,
         pools: property.pools,
-        hasBasement: (property.hasBasement === 'true'),
+        hasBasement: property.hasBasement,
         listDate: property.listDate,
         ownerID: user.id
     });
@@ -156,10 +156,11 @@ function UpdateProperty({property}) {
                         </FormGroup>
                         <FormGroup>
                             <FormLabel>Has Basement?</FormLabel>
-                            <FormControlLabel control={<Checkbox value={propertyInfo.hasBasement}
-                                    onChange={(e) => 
-                                        setPropertyInfo({ ...propertyInfo, hasBasement: e.target.value })
-                                    }
+                            <FormControlLabel control={
+                                <Checkbox checked={propertyInfo.hasBasement}
+                                    onChange={(e) => {
+                                        setPropertyInfo({ ...propertyInfo, hasBasement: e.target.checked === true })
+                                    }}
                                 ></Checkbox>
                             }>
                             </FormControlLabel>
@@ -174,21 +175,6 @@ function UpdateProperty({property}) {
                                     required
                                 />
                             </FormControl>
-                        </FormGroup>
-                        <FormGroup>
-                            <FormLabel>Coordinates (Latitude, Longitude)</FormLabel>
-                                <Input type="number" value={propertyInfo.latitude}
-                                    onChange={(e) => 
-                                        setPropertyInfo({ ...propertyInfo, latitude: e.target.value })
-                                    }
-                                    required
-                                />
-                                <Input type="number" value={propertyInfo.longitude}
-                                    onChange={(e) => 
-                                        setPropertyInfo({ ...propertyInfo, longitude: e.target.value })
-                                    }
-                                    required
-                                />
                         </FormGroup>
                         <FormGroup>
                             <Input type="submit" value="Update" color='primary' />

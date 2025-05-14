@@ -43,7 +43,8 @@ function PropertyDetails({ property }) {
         setUpdatePopupOpen(true);
     };
 
-    const handleDelete = async () => {
+    const handleDelete = async (e) => {
+        e.preventDefault();
 
         try {
         const success = await deleteProperty(property.propertyID);
@@ -188,7 +189,7 @@ function PropertyDetails({ property }) {
                     padding: "30px",
                     maxWidth: "400px",
                     width: "90%",
-                    height: "50%",
+                    height: "75%",
                     margin: "100px auto",
                     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
                     fontFamily: "Arial, sans-serif",
