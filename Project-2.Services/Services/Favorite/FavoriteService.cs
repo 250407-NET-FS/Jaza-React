@@ -11,7 +11,7 @@ public class FavoriteService : IFavoriteService
     private readonly IPropertyRepository _propertyRepository;
     private readonly UserManager<User> _userManager;
 
-    private readonly int count = 5;
+    //private readonly int count = 5;
 
     public FavoriteService(IFavoriteRepository favoriteRepository, IPropertyRepository propertyRepository, UserManager<User> userManager)
     {
