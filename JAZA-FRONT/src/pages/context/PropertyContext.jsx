@@ -77,7 +77,7 @@ export function PropertyProvider({children}) {
         // fetch coords from google api
         try{
             const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${property.streetAddress}&key=AIzaSyDf5j82IEnLq-X8TEtqbfWe12mp6ThG-8c`);
-            const data = response.data;
+            const data = response.results[0];
             property.coordinates = {
                 lat: data.geometry.location.lat,
                 lng: data.geometry.location.lng
