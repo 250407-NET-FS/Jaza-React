@@ -16,4 +16,5 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /src
 COPY --from=build /src/Project-2.API/out ./
+EXPOSE 80
 ENTRYPOINT ["dotnet", "Project-2.API.dll"]
