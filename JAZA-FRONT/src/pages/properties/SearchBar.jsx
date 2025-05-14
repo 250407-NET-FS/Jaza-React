@@ -16,8 +16,8 @@ const SearchBar = () => {
         setLoading(true);
         try {
             await api.get(`properties/search/${value}`)
-            .then(res => res.data)
-            .then(data => setOptionList(data));
+                .then(res => res.data)
+                .then(data => setOptionList(data));
         }
         catch (error) {
             console.log(error.status)
@@ -47,17 +47,17 @@ const SearchBar = () => {
         }
         try {
             navigate(`/search?search=${selectedOption.propertyID}`);
-        } 
+        }
         catch (error) {
             setError(error.message);
-        } 
+        }
         finally {
             setLoading(false);
         }
     }
 
     return (
-        <Autocomplete 
+        <Autocomplete
             open={open}
             loading={loading}
             options={optionList}
@@ -77,11 +77,15 @@ const SearchBar = () => {
                     sx={{
                         backgroundColor: 'white',
                         borderRadius: 1,
+                        width: '80%',
+                        justifyContent: 'center',
+                        alignContent: 'center',
+                        alignItems: 'center',
                     }}
                 />
             )}
         />
-    )                                                                                                    
+    )
 }
 
 export default SearchBar

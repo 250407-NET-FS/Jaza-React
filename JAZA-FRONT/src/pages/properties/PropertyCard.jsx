@@ -4,7 +4,7 @@ import houseImage from '../../assets/house.png';
 import PropertyDetails from './PropertyDetails';
 import Popup from "reactjs-popup";
 
-const PropertyCard = ({property}) => {
+const PropertyCard = ({ property }) => {
     const [detailPopupOpen, setDetailPopupOpen] = useState(false);
     return (
         <>
@@ -75,28 +75,28 @@ const PropertyCard = ({property}) => {
                     overflowY: 'auto',
                 }}
             >
-                    {(
-                        <div>
-                            <button
-                                onClick={() => setDetailPopupOpen(false)}
-                                style={{
-                                    position: 'absolute',
-                                    top: '10px',
-                                    right: '10px',
-                                    background: 'none',
-                                    border: 'none',
-                                    fontSize: '24px',
-                                    cursor: 'pointer',
-                                    color: 'black',
-                                }}
-                            >
-                                ×
-                            </button>
-                            <PropertyDetails property={property} />
-                        </div>
-                    )}
-                </Popup>
-            </>
+                {(
+                    <div>
+                        <button
+                            onClick={() => setDetailPopupOpen(false)}
+                            style={{
+                                position: 'absolute',
+                                top: '10px',
+                                right: '10px',
+                                background: 'none',
+                                border: 'none',
+                                fontSize: '24px',
+                                cursor: 'pointer',
+                                color: 'black',
+                            }}
+                        >
+                            ×
+                        </button>
+                        <PropertyDetails property={property} />
+                    </div>
+                )}
+            </Popup>
+        </>
     );
 };
 
