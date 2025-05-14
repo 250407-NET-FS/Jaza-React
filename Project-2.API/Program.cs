@@ -149,12 +149,7 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
+
 });
 
 
@@ -172,18 +167,13 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    // app.UseCors("AllowFrontend");
-    // Console.WriteLine("allowed front end");
+    app.UseCors("AllowFrontend");
+
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 
 }
-        //debuggin i am every confused now
-    app.MapOpenApi();
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    app.UseCors("AllowAll");
-    Console.WriteLine("allowed All"); //trying to fix issue
+
 
 
 app.UseHttpsRedirection();
