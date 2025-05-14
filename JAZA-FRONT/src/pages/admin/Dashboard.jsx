@@ -12,8 +12,11 @@ function Dashboard() {
             <li style={{ marginRight: "20px" }}>
               <Link to="UserList">View all Users</Link>
             </li>
-            <li className="col-6">
+            <li>
               <Link to="PropertyList">View All Properties</Link>
+            </li>
+            <li>
+              <Link to="/">Return to Home</Link>
             </li>
           </ul>
           <Outlet />
