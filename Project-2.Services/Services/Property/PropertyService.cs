@@ -1,6 +1,9 @@
 using Project_2.Data;
 using Project_2.Models;
 using Project_2.Models.DTOs;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace Project_2.Services.Services;
 
@@ -8,9 +11,15 @@ public class PropertyService : IPropertyService
 {
     private readonly IPropertyRepository _propertyRepository;
 
-    public PropertyService(IPropertyRepository propertyRepository, JazaContext context)
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    private readonly string _googleApiKey;
+
+    public PropertyService(IPropertyRepository propertyRepository, IHttpClientFactory httpClientFactory, JazaContext context)
     {
         _propertyRepository = propertyRepository;
+        _httpClientFactory = httpClientFactory;
+        _googleApiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY");
     }
 
     public async Task<IEnumerable<PropertyResponseDTO>> GetPropertiesAsync(
@@ -115,5 +124,28 @@ public class PropertyService : IPropertyService
     public async Task<IEnumerable<PropertyOwnerDTO>> GetPropertiesAdminAsync()
     {
         return await _propertyRepository.GetPropertiesAdminAsync();
+    }
+
+    public async Task<PropertyAddDTO> GetPropertyCoordinatesAsync(PropertyAddDTO dto){
+        var client = _httpClientFactory.CreateClient();
+        string url = $"https://maps.googleapis.com/maps/api/geocode/json?address={dto.StreetAddress}&key={_googleApiKey}";
+        var response = await client.GetAsync(url);
+
+        if(response.IsSuccessStatusCode){
+            var content = await response.Content.ReadAsStringAsync();
+
+            using var doc = JsonDocument.Parse(content);
+            var root = doc.RootElement;
+
+            var result = root.GetProperty("results")[0];
+
+            var location = result.GetProperty("geometry").GetProperty("location");
+            dto.Latitude = location.GetProperty("lat").GetDouble();
+            dto.Longitude = location.GetProperty("lng").GetDouble();
+        } else {
+            Console.WriteLine(_googleApiKey);
+            throw new Exception("Failed to fetch property coordinates: " + response);
+        }
+        return dto;
     }
 }
