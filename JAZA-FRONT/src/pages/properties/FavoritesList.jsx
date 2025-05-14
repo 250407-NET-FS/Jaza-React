@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { Card, CardContent, Container, Grid } from '@mui/material'
+import { Button, Card, CardContent, CardHeader, Container, Grid } from '@mui/material'
 import { useFavorite } from '../context/FavoritesContext';
 import { useProperty } from '../context/PropertyContext';
 import { useOwner } from '../context/OwnerContext';
+import { api } from '../services/api';
 
 function FavoritesList() {
     const {
@@ -29,7 +30,15 @@ function FavoritesList() {
         fetchLoggedOwner()
     }, [selectedOwner]);
 
-    let savedList = propertyList.map(p => favoritesList.some(f => f.PropertyID == p.PropertyID));
+    const propertyIds = new Set();
+    favoritesList.forEach(f => {
+        if (f.propertyId) {
+            propertyIds.add(f.propertyId);
+        }
+    });
+    console.log(favoritesList);
+    let savedList = propertyList.filter(p => propertyIds.has(p.propertyID));
+    
   return (
     <Container>
         <h1>Your Listings</h1>
@@ -38,17 +47,17 @@ function FavoritesList() {
             {
                 savedList.map(p => {
                     return (
-                        <Grid key={p.PropertyID}>
+                        <Grid key={p.propertyID}>
                             <Card>
-                                <img src={p.ImageLink} alt={p.StreetAddress} />
+                                <img src={p.imageLink} alt={p.streetAddress} />
                                 <CardHeader>Street Address</CardHeader>
                                 <CardContent>
                                     <pre>
-                                        {p.StreetAddress}, {p.City}, {p.State} {p.ZipCode}<br />
-                                        Beds: {p.Bedrooms} Baths: {p.Bathrooms}<br />
-                                        Price: ${p.StartingPrice}
+                                        {p.streetAddress}, {p.city}, {p.state} {p.zipCode}<br />
+                                        Beds: {p.bedrooms} Baths: {p.bathrooms}<br />
+                                        Price: ${p.startingPrice}
                                     </pre>
-                                    <form method="post" onSubmit={() => markFavorite(p.PropertyID, selectedOwner.Id)}>
+                                    <form method="post" onSubmit={() => markFavorite(p.propertyID, selectedOwner.id)}>
                                         <Button type="submit">
                                             Delete
                                         </Button>

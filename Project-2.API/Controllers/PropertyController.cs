@@ -119,7 +119,9 @@ public class PropertyController : ControllerBase{
             if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
-
+            //fetch property coords using google api
+            dto = await _propertyService.GetPropertyCoordinatesAsync(dto);
+            
             Guid newPropertyID = await _propertyService.AddNewPropertyAsync(dto);
             return Ok(newPropertyID);
         }
@@ -172,7 +174,7 @@ public class PropertyController : ControllerBase{
 
     // Get: api/properties/id/{id}
     // Get property by id
-    [HttpGet("id/{id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<Property>> GetPropertyById([FromRoute] Guid id){
         try{
             return Ok(await _propertyService.GetPropertyByIdAsync(id));

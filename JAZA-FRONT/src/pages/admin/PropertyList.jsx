@@ -7,7 +7,7 @@ function PropertyList() {
 
   useEffect(() => {
     api
-      .get("http://localhost:5236/api/properties/admin")
+      .get("properties/admin")
       .then((res) => setProperties(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -15,7 +15,7 @@ function PropertyList() {
   const deleteHandler = (propertyId, ownerId) => {
     api
       .delete(
-        `http://localhost:5236/api/properties/admin/${propertyId}/${ownerId}`)
+        `properties/admin/${propertyId}/${ownerId}`)
       .then((res) => {
         setProperties((prevPropeties) =>
           prevPropeties.filter((p) => p.propertyID !== propertyId)
@@ -27,8 +27,8 @@ function PropertyList() {
   return (
     <>
       <div className="container">
-        <h1 className="text-center">Property List</h1>
-        <ul style={{ display: "flex", listStyle: "none", padding: 0 }}>
+        <h1 className="admin-options">Property List</h1>
+        <ul className="cards" style={{listStyle: "none"}}>
           {properties.map((p) => (
             <PropertyCard
               key={p.propertyID}
@@ -62,7 +62,9 @@ function PropertyCard({
       <p>Owner: {ownerName}</p>{" "}
       {/*Need to make it so we can go to that view imediatly and then choose to ban or not */}
       <p>Owner Id: {ownerId}</p>
+      <div className="button-group">
       <button onClick={deleteHandler}>Delete</button>
+      </div>
     </li>
   );
 }

@@ -78,7 +78,7 @@ export function OfferProvider({children}) {
         }
     }, []);
     // Obtain a filtered list of offers associated with a particular property
-    const fetchProeprtyOffers = useCallback(async(propertyId) => {
+    const fetchPropertyOffers = useCallback(async(propertyId) => {
         dispatch({type: OfferActionTypes.REQUEST_START});
         // Try to fetch and pass the results of controller's GetAllOffersForProperty() method
         try {
@@ -101,7 +101,9 @@ export function OfferProvider({children}) {
         }
         catch (err) {
             dispatch({type: OfferActionTypes.REQUEST_ERROR, error: err.message});
+            return false;
         }
+        return true;
     }, []);
 
     return (
@@ -111,7 +113,7 @@ export function OfferProvider({children}) {
                 fetchOfferList,
                 fetchOffer,
                 fetchUserOffers,
-                fetchProeprtyOffers,
+                fetchPropertyOffers,
                 makeOffer
             }}
         >
@@ -120,14 +122,14 @@ export function OfferProvider({children}) {
     );
 }
 
-export const useOffer = () => {
-    const offerContext = useContext(OfferContext);
+// export const useOffer = () => {
+//     const offerContext = useContext(OfferContext);
 
-    if (!offerContext) {
-        throw new Error("useOffer must be used within an OfferProvider");
-    }
+//     if (!offerContext) {
+//         throw new Error("useOffer must be used within an OfferProvider");
+//     }
 
-    return offerContext;
-};
+//     return offerContext;
+// };
 
-export {reducer, initialState, OfferActionTypes};
+export const useOffer = () => useContext(OfferContext);

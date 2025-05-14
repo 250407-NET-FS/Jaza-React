@@ -1,6 +1,5 @@
 import { createContext, useReducer, useContext, useCallback } from "react";
 import axios from "axios";
-import { data } from "react-router-dom";
 import { api } from "../services/api";
 
 const initialState = {
@@ -18,7 +17,7 @@ const FavoritesActionTypes = {
     REQUEST_ERROR: "REQUEST_ERROR"
 };
 
-const reducer = (action, state) => {
+const reducer = (state, action) => {
     switch (action.type) {
         case FavoritesActionTypes.REQUEST_START:
             return {...state, loading: true, error: null};
@@ -27,15 +26,11 @@ const reducer = (action, state) => {
         case FavoritesActionTypes.FETCH_BOOKMARK_SUCCESS:
             return {...state, loading: false, foundFavorite: action.payload};
         case FavoritesActionTypes.CREATE_FAVORITE_SUCCESS:
-            if (state.favoritesList.some(action.payload)) {
-                state.favoritesList.delete(action.payload);
-            }
-            else {
-                state.favoritesList = state.favoritesList.map(f => f.FavoriteID != action.payload.FavoriteID);
-            }
             return {...state, loading: false, foundFavorite: action.payload};
         case FavoritesActionTypes.REQUEST_ERROR:
             return {...state, loading: false, error: action.payload};
+        default:
+            return state;
     }
 };
 
@@ -78,7 +73,10 @@ export function FavoritesProvider({children}) {
             let favoriteDTO = {PropertyID: propertyId, UserId: userId};
             await api.post("favorites", favoriteDTO)
             .then(res => res.data)
-            .then(data => dispatch({type: FavoritesActionTypes.FETCH_BOOKMARK_SUCCESS, payload: data}));
+            .then(data => {
+                dispatch({type: FavoritesActionTypes.CREATE_FAVORITE_SUCCESS, payload: data})
+                fetchFavoritesList();
+            });
         }
         catch (err) {
             dispatch({type: FavoritesActionTypes.REQUEST_ERROR, payload: err.message});

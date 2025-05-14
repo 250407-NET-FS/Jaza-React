@@ -131,6 +131,9 @@ builder.Services.AddSwaggerGen(c =>
     );
 });
 
+//Can use http requests
+builder.Services.AddHttpClient();
+
 //cORS
 builder.Services.AddCors(options =>
 {
@@ -140,6 +143,16 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
+
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+
+        policy.WithOrigins("https://jaza-bnerbvbkfadkhkbf.canadaeast-01.azurewebsites.net") // azure
+
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+
 });
 
 
@@ -151,18 +164,23 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors("AllowReactApp");
+    Console.WriteLine("allowed dev");
     
 }
 else
 {
+    app.UseCors("AllowFrontend");
+
     app.UseExceptionHandler("/Error");
     app.UseHsts();
-    //need to add cors for not dev
+
 }
-app.UseCors("AllowReactApp");
+
+
+
 app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.MapStaticAssets();
+
 
 app.UseRouting();
 app.UseAuthentication();
