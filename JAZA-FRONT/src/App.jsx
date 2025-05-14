@@ -14,6 +14,7 @@ import SearchResultDisplay from "./pages/properties/SearchResults";
 import ViewOffers from "./pages/properties/ViewOffers";
 import { FavoritesProvider } from "./pages/context/FavoritesContext";
 import { OfferProvider } from "./pages/context/OfferContext";
+import { PurchaseProvider } from "./pages/context/PurchaseContext";
 import RequireAdmin from "./pages/admin/RequireAdmin";
 import "leaflet/dist/leaflet.css";
 
@@ -24,29 +25,31 @@ function App() {
         <OwnerProvider>
           <FavoritesProvider>
             <OfferProvider>
-              <Router>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route
-                    path="/admin/Dashboard"
-                    element={
-                      <RequireAdmin>
-                        <Dashboard />
-                      </RequireAdmin>
-                    }
-                  > 
-                  {/* This will allow the nested views! */}
-                    <Route index element={<UserList />} />
-                    <Route path="PropertyList" element={<PropertyList />} />
-                    <Route path="UserList" element={<UserList />} />
-                  </Route>
-                  <Route path="/search" element={<SearchResultDisplay />} />
-                  <Route path="/listings" element={<UserPropertyList />} />
-                  <Route path="/favorites" element={<FavoritesList />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/offers" element={<ViewOffers />} />
-                </Routes>
-              </Router>
+              <PurchaseProvider>
+                <Router>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route
+                      path="/admin/Dashboard"
+                      element={
+                        <RequireAdmin>
+                          <Dashboard />
+                        </RequireAdmin>
+                      }
+                    > 
+                    {/* This will allow the nested views! */}
+                      <Route index element={<UserList />} />
+                      <Route path="PropertyList" element={<PropertyList />} />
+                      <Route path="UserList" element={<UserList />} />
+                    </Route>
+                    <Route path="/search" element={<SearchResultDisplay />} />
+                    <Route path="/listings" element={<UserPropertyList />} />
+                    <Route path="/favorites" element={<FavoritesList />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/offers" element={<ViewOffers />} />
+                  </Routes>
+                </Router>
+              </PurchaseProvider>
             </OfferProvider>
           </FavoritesProvider>
         </OwnerProvider>
