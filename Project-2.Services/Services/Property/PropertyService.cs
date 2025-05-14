@@ -13,13 +13,13 @@ public class PropertyService : IPropertyService
 
     private readonly IHttpClientFactory _httpClientFactory;
 
-    private readonly string _googleApiKey;
+    //private readonly string _googleApiKey;
 
     public PropertyService(IPropertyRepository propertyRepository, IHttpClientFactory httpClientFactory, JazaContext context)
     {
         _propertyRepository = propertyRepository;
         _httpClientFactory = httpClientFactory;
-        _googleApiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY");
+        //_googleApiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY");
     }
 
     public async Task<IEnumerable<PropertyResponseDTO>> GetPropertiesAsync(
@@ -126,26 +126,26 @@ public class PropertyService : IPropertyService
         return await _propertyRepository.GetPropertiesAdminAsync();
     }
 
-    public async Task<PropertyAddDTO> GetPropertyCoordinatesAsync(PropertyAddDTO dto){
-        var client = _httpClientFactory.CreateClient();
-        string url = $"https://maps.googleapis.com/maps/api/geocode/json?address={dto.StreetAddress}&key={_googleApiKey}";
-        var response = await client.GetAsync(url);
+    // public async Task<PropertyAddDTO> GetPropertyCoordinatesAsync(PropertyAddDTO dto){
+    //     var client = _httpClientFactory.CreateClient();
+    //     string url = $"https://maps.googleapis.com/maps/api/geocode/json?address={dto.StreetAddress}&key={_googleApiKey}";
+    //     var response = await client.GetAsync(url);
 
-        if(response.IsSuccessStatusCode){
-            var content = await response.Content.ReadAsStringAsync();
+    //     if(response.IsSuccessStatusCode){
+    //         var content = await response.Content.ReadAsStringAsync();
 
-            using var doc = JsonDocument.Parse(content);
-            var root = doc.RootElement;
+    //         using var doc = JsonDocument.Parse(content);
+    //         var root = doc.RootElement;
 
-            var result = root.GetProperty("results")[0];
+    //         var result = root.GetProperty("results")[0];
 
-            var location = result.GetProperty("geometry").GetProperty("location");
-            dto.Latitude = location.GetProperty("lat").GetDouble();
-            dto.Longitude = location.GetProperty("lng").GetDouble();
-        } else {
-            Console.WriteLine(_googleApiKey);
-            throw new Exception("Failed to fetch property coordinates: " + response);
-        }
-        return dto;
-    }
+    //         var location = result.GetProperty("geometry").GetProperty("location");
+    //         dto.Latitude = location.GetProperty("lat").GetDouble();
+    //         dto.Longitude = location.GetProperty("lng").GetDouble();
+    //     } else {
+    //         Console.WriteLine(_googleApiKey);
+    //         throw new Exception("Failed to fetch property coordinates: " + response);
+    //     }
+    //     return dto;
+    // }
 }
