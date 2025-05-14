@@ -175,7 +175,7 @@ public class PropertyController : ControllerBase{
     // Get: api/properties/id/{id}
     // Get property by id
     [HttpGet("{id}")]
-    public async Task<ActionResult<Property>> GetPropertyById([FromRoute] Guid id){
+    public async Task<ActionResult<PropertyResponseDTO>> GetPropertyById([FromRoute] Guid id){
         try{
             return Ok(await _propertyService.GetPropertyByIdAsync(id));
         } catch (Exception e){
