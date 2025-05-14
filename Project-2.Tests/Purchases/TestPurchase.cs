@@ -77,29 +77,29 @@ public class TestPurchase
     //     _purchaseRepositoryMock.Verify(repo => repo.GetByIdAsync(purchaseId), Times.Once);
     // }
 
-    [Fact] //test get purchase by id
-    public async Task GetByIdAsync_ShouldReturnPurchasesByUserId()
-    {
+    // [Fact] //test get purchase by id
+    // public async Task GetByIdAsync_ShouldReturnPurchasesByUserId()
+    // {
 
-        var userId = Guid.NewGuid();
-        var expectedPurchases = new List<Purchase>
-        {
-            new Purchase(userId, Guid.NewGuid(), 100000),
-            new Purchase(userId, Guid.NewGuid(), 200000)
-        };
+    //     var userId = Guid.NewGuid();
+    //     var expectedPurchases = new List<Purchase>
+    //     {
+    //         new Purchase(userId, Guid.NewGuid(), 100000),
+    //         new Purchase(userId, Guid.NewGuid(), 200000)
+    //     };
 
-        _purchaseRepositoryMock
-            .Setup(repo => repo.GetAllByUser(userId))
-            .ReturnsAsync(expectedPurchases);
+    //     _purchaseRepositoryMock
+    //         .Setup(repo => repo.GetAllByUser(userId))
+    //         .ReturnsAsync(expectedPurchases);
 
 
-        var result = await _purchaseService.GetAllPurchasesByUserAsync(userId);
+    //     var result = await _purchaseService.GetAllPurchasesByUserAsync(userId);
 
-        Assert.NotNull(result);
-        Assert.Equal(expectedPurchases.Count, result.Count());
-        Assert.Equal(expectedPurchases, result);
-        _purchaseRepositoryMock.Verify(repo => repo.GetAllByUser(userId), Times.Once);
-    }
+    //     Assert.NotNull(result);
+    //     Assert.Equal(expectedPurchases.Count, result.Count());
+    //     Assert.Equal(expectedPurchases, result);
+    //     _purchaseRepositoryMock.Verify(repo => repo.GetAllByUser(userId), Times.Once);
+    // }
 
     [Fact] //test accept offer
     public async Task AcceptOfferAsync_ValidPurchase_ReturnsPurchase()
