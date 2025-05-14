@@ -11,14 +11,14 @@ public class PropertyService : IPropertyService
 {
     private readonly IPropertyRepository _propertyRepository;
 
-    private readonly IHttpClientFactory _httpClientFactory;
+    //private readonly IHttpClientFactory _httpClientFactory;
 
     //private readonly string _googleApiKey;
 
-    public PropertyService(IPropertyRepository propertyRepository, IHttpClientFactory httpClientFactory, JazaContext context)
+    public PropertyService(IPropertyRepository propertyRepository, JazaContext context)
     {
         _propertyRepository = propertyRepository;
-        _httpClientFactory = httpClientFactory;
+        //_httpClientFactory = httpClientFactory;
         //_googleApiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY");
     }
 
