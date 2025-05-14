@@ -15,6 +15,7 @@ import ViewOffers from "./pages/properties/ViewOffers";
 import { FavoritesProvider } from "./pages/context/FavoritesContext";
 import { OfferProvider } from "./pages/context/OfferContext";
 import RequireAdmin from "./pages/admin/RequireAdmin";
+import "leaflet/dist/leaflet.css";
 
 function App() {
   return (
