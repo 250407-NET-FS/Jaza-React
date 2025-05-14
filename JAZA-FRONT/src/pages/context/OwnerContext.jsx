@@ -4,7 +4,7 @@ import { data } from "react-router-dom";
 import { api } from "../services/api";
 
 const initialState = {
-    selectedOwner: null,
+    selectedOwner: {},
     loading: false,
     error: null
 };

@@ -1,12 +1,10 @@
-import { Button, Card, CardContent, Container, Grid } from '@mui/material'
+import { Button, Container, Grid } from '@mui/material'
 import { useProperty } from "../context/PropertyContext";
 import { useAuth } from "../context/AuthContext";
-import React, { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState } from 'react'
 import Popup from "reactjs-popup";
 import { Link } from 'react-router-dom';
-import PropertyDetails from './PropertyDetails';
 import CreateProperty from './CreateProperty';
-import houseImage from '../../assets/house.png';
 import logo from "../../assets/JAZA.png";
 import Login from "../Login";
 import InputLabel from '@mui/material/InputLabel';
@@ -14,8 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { api } from "../services/api";
-import { PropertyContext } from "../context/PropertyContext";
-import { useContext } from 'react';
+import PropertyCard from './PropertyCard';
 
 
 
@@ -149,7 +146,7 @@ function UserPropertyList() {
                 <Grid size={8}>
                     <h3>Listings</h3>
                 </Grid>
-                <Grid item style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Grid style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <FormControl sx={{ m: 1, minWidth: 120 }}>
                         <InputLabel id="bed-label">Bedrooms</InputLabel>
                         <Select
@@ -171,7 +168,7 @@ function UserPropertyList() {
                     </FormControl>
                 </Grid>
 
-                <Grid item style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Grid style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <FormControl sx={{ m: 1, minWidth: 120 }}>
                         <InputLabel id="bath-label">Bathrooms</InputLabel>
                         <Select
@@ -197,51 +194,7 @@ function UserPropertyList() {
                 </Grid>
                 {(filteredResults.length > 0 ? filteredResults : propertyList).map(p => (
                     <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={p.propertyID}>
-                        <Card
-                            sx={{
-                                height: '100%',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                transition: 'transform 0.2s ease-in-out',
-                                '&:hover': {
-                                    transform: 'scale(1.03)',
-                                    boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)'
-                                }
-                            }}
-                            onClick={() => handleClick(p.propertyID)}
-                        >
-                            <CardContent sx={{
-                                flexGrow: 1,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                padding: 2
-                            }}>
-                                <div style={{
-                                    marginBottom: '12px',
-                                    width: '100%',
-                                    height: '180px',
-                                    overflow: 'hidden',
-                                    borderRadius: '8px'
-                                }}>
-                                    <img
-                                        src={houseImage}
-                                        alt="Property address"
-                                        style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            objectFit: 'cover',
-                                        }}
-                                    />
-                                </div>
-                                <h3 style={{ margin: '0 0 8px 0' }}>${Number(p.startingPrice).toLocaleString()}</h3>
-                                <p style={{ margin: '0 0 4px 0' }}>
-                                    {p.bedrooms} beds | {p.bathrooms} baths - {p.forSale ? "For Sale" : "Not For Sale"}
-                                </p>
-                                <p style={{ margin: 0 }}>
-                                    {p.streetAddress}, {p.city}, {p.state}
-                                </p>
-                            </CardContent>
-                        </Card>
+                        <PropertyCard property={p}/>
                     </Grid>
                 ))}
             </Grid>
@@ -286,50 +239,6 @@ function UserPropertyList() {
                     </button>
                     <CreateProperty />
                 </div>
-            </Popup>
-            <Popup
-                open={detailPopupOpen}
-                closeOnDocumentClick
-                onClose={() => setDetailPopupOpen(false)}
-                modal
-                nested
-                overlayStyle={{
-                    background: "rgba(0, 0, 0, 0.5)",
-                }}
-                contentStyle={{
-                    backgroundColor: "#f8f9fa",
-                    borderRadius: "10px",
-                    padding: "30px",
-                    maxWidth: "800px",
-                    width: "90%",
-                    height: '80vh',
-                    margin: "auto",
-                    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
-                    fontFamily: "Arial, sans-serif",
-                    position: 'relative',
-                    overflowY: 'auto',
-                }}
-            >
-                {selectedProp && (
-                    <div>
-                        <button
-                            onClick={() => setDetailPopupOpen(false)}
-                            style={{
-                                position: 'absolute',
-                                top: '10px',
-                                right: '10px',
-                                background: 'none',
-                                border: 'none',
-                                fontSize: '24px',
-                                cursor: 'pointer',
-                                color: 'black',
-                            }}
-                        >
-                            ×
-                        </button>
-                        <PropertyDetails property={selectedProp} />
-                    </div>
-                )}
             </Popup>
         </Container >
     )

@@ -24,7 +24,7 @@ function PropertyDetails({ property }) {
         fetchFavoritesList, fetchCurrentFavorite, markFavorite
     } = useFavorite();
 
-    const {deleteProperty} = useProperty();
+    const {fetchProperty, deleteProperty, selectedProperty} = useProperty();
 
     // eslint-disable-next-line no-undef
     const navigate = useNavigate();
@@ -32,6 +32,10 @@ function PropertyDetails({ property }) {
     useEffect(() => {
         fetchFavoritesList()
     }, [fetchFavoritesList]);
+
+    useEffect(() => {
+        fetchProperty(property.propertyID)
+    }, [fetchProperty])
 
     const handleClick = () => {
         if (property) {
@@ -111,7 +115,7 @@ function PropertyDetails({ property }) {
                 <Grid size={4}>
                     {
                         (user?.id == property.ownerID) ?
-                            <Button><Link to="/offers">View Offers</Link></Button> :
+                            <Button><Link to="/offers" >View Offers</Link></Button> :
                             <Button onClick={handleClick} sx={{ all: 'unset', cursor: 'pointer' }}>Create Offer</Button>
                     }
 
@@ -124,7 +128,7 @@ function PropertyDetails({ property }) {
                     {
                         (user?.id == property.ownerID) && 
                         <>
-                            <Button onClick={handleUpdate} sx={{ all: `unset`, cursor: 'pointer' }}>Update Property</Button><br />
+                            <Button onClick={handleUpdate} sx={{ all: `unset`, cursor: 'pointer', marginBottom: `1.75em` }}>Update Property</Button><br />
                             <Button onClick={handleDelete} sx={{ all: `unset`, cursor: `pointer `}}>Delete Property</Button>
                         </>
                     }

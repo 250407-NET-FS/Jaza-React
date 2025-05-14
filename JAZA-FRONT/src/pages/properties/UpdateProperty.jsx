@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { Container, Grid, FormGroup, FormControl, FormControlLabel, FormLabel, Input, Checkbox } from '@mui/material'
 
 function UpdateProperty({property}) {
-    const {updateProperty} = useProperty();
+    const {updateProperty, selectedProperty} = useProperty();
     const {user} = useAuth();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -37,9 +37,9 @@ function UpdateProperty({property}) {
         e.preventDefault();
 
         try {
-        const success = await updateProperty(propertyInfo);
+        await updateProperty(propertyInfo);
 
-        if (success) {
+        if (selectedProperty) {
             setSuccessMessage('Update property successful!');
             setErrorMessage(null);
             navigate("/listings");

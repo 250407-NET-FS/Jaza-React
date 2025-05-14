@@ -66,7 +66,7 @@ public class PurchaseController : ControllerBase{
     // Get: api/purchase/user
     // Get all purchases by user
     [HttpGet("user")]
-    public async Task<ActionResult<Purchase>> GetAllPurchasesByUser(){
+    public async Task<ActionResult<IEnumerable<PurchaseResponseDTO>>> GetAllPurchasesByUser(){
         try{
             User? user = await GetCurrentUserAsync();
             return Ok(await _purchaseService.GetAllPurchasesByUserAsync(user.Id));

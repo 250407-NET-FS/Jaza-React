@@ -22,9 +22,17 @@ public class PurchaseService : IPurchaseService
         return await _purchaseRepository.GetAllAsync();
     }
 
-    public async Task<IEnumerable<Purchase>> GetAllPurchasesByUserAsync(Guid userId)
+    public async Task<IEnumerable<PurchaseResponseDTO>> GetAllPurchasesByUserAsync(Guid userId)
     {
-        return await _purchaseRepository.GetAllByUser(userId);
+        IEnumerable<Purchase> purchasesToReturn = await _purchaseRepository.GetAllByUser(userId);
+        if(purchasesToReturn is null){
+            return null;
+        }
+        List<PurchaseResponseDTO> result = [];
+        foreach(Purchase p in purchasesToReturn){
+            result.Add(new PurchaseResponseDTO(p, userId));
+        }
+        return result;
     }
 
     public async Task<Purchase> AcceptOfferAsync(CreatePurchaseDTO purchaseDTO)

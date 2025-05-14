@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useOffer } from '../context/OfferContext';
 import { useAuth } from '../context/AuthContext';
 
-function CreateOffer(property) {
-  const { makeOffer } = useOffer();
+function CreateOffer({property}) {
+  const { makeOffer, selectedOffer } = useOffer();
   const { user } = useAuth();
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -29,9 +29,9 @@ function CreateOffer(property) {
     });
 
     try {
-      const success = await makeOffer(credentials);
+      await makeOffer(credentials);
 
-      if (success) {
+      if (selectedOffer) {
         setSuccessMessage('Create offer successful!');
         setErrorMessage(null);
         navigate("/listings");
