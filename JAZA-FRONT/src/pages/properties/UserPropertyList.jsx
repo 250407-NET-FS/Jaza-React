@@ -107,10 +107,10 @@ function UserPropertyList() {
                     <h3>Listings</h3>
                 </Grid>
                 <Grid size={1}>
-                    {user && <Button onClick={handleCreate} sx={{ all: 'unset', cursor: 'pointer', marginTop: '15px'}}>Create Listing</Button>}
+                    {user && <Button onClick={handleCreate} sx={{ all: 'unset', cursor: 'pointer', marginTop: '15px' }}>Create Listing</Button>}
                 </Grid>
                 {propertyList.map(p => (
-                    <Grid size={{xs: 12, sm: 6, md: 4, lg: 3}} key={p.propertyID}>
+                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={p.propertyID}>
                         <Card
                             sx={{
                                 height: '100%',
@@ -172,13 +172,14 @@ function UserPropertyList() {
                     backgroundColor: "#f8f9fa",
                     borderRadius: "10px",
                     padding: "30px",
-                    maxWidth: "800px",
-                    width: "90%",
-                    height: '100%',
+                    maxWidth: "80vw",
+                    width: "80%",
+                    height: '80vh',
                     margin: "auto",
                     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
                     fontFamily: "Arial, sans-serif",
-                    position: 'relative'
+                    position: 'relative',
+                    overflowY: 'auto',
                 }}
             >
                 <div>
@@ -215,11 +216,12 @@ function UserPropertyList() {
                     padding: "30px",
                     maxWidth: "800px",
                     width: "90%",
-                    height: '100%',
+                    height: '80vh',
                     margin: "auto",
                     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
                     fontFamily: "Arial, sans-serif",
-                    position: 'relative'
+                    position: 'relative',
+                    overflowY: 'auto',
                 }}
             >
                 {selectedProp && (
