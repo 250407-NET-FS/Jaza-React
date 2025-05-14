@@ -6,18 +6,16 @@ function UserList() {
   const [users, setUsers] = useState([]);
   const { user: admin } = useAuth();
 
-  const token = localStorage.getItem("jwt");
-
   useEffect(() => {
     api
-      .get("http://localhost:5236/api/user/admin")
+      .get("user/admin")
       .then((res) => setUsers(res.data))
       .catch((err) => console.error(err));
   }, []);
 
   const banHandler = (userId) => {
     api
-      .post(`http://localhost:5236/api/user/admin/ban/${userId}`)
+      .post(`user/admin/ban/${userId}`)
       .then((res) => {
         const updatedUser = res.data;
         setUsers((prevUsers) =>
@@ -34,7 +32,7 @@ function UserList() {
   const unbanHandler = (userId) => {
     console.log("Sending unban request for:", userId);
     api
-      .post(`http://localhost:5236/api/user/admin/unban/${userId}`)
+      .post(`user/admin/unban/${userId}`)
       .then((res) => {
         const updatedUser = res.data;
         setUsers((prevUsers) =>
@@ -50,7 +48,7 @@ function UserList() {
 
   const deleteHandler = (userId) => {
     api
-      .delete(`http://localhost:5236/api/user/admin/${userId}`)
+      .delete(`user/admin/${userId}`)
       .then(() => {
         setUsers((prevUsers) => prevUsers.filter((u) => u.id !== userId));
       })
@@ -60,8 +58,8 @@ function UserList() {
   return (
     <>
       <div className="container">
-        <h1 className="text-center">User List</h1>
-        <ul style={{ display: "flex", listStyle: "none", padding: 0 }}>
+        <h1 className="admin-options">User List</h1>
+        <ul className="cards" style={{listStyle: "none"}}>
           {users.map((u) => (
             <UserCard
               key={u.id}
@@ -69,9 +67,7 @@ function UserList() {
               id={u.id}
               email={u.email}
               lockoutEnabled={u.lockoutEnabled}
-              isAdmin={
-                u.id === admin.id
-              } /*going to need to consume conext here*/
+              isAdmin={u.id === admin.id}
               banHandler={() => banHandler(u.id)}
               unbanHandler={() => unbanHandler(u.id)}
               deleteHandler={() => deleteHandler(u.id)}
@@ -79,10 +75,6 @@ function UserList() {
           ))}
         </ul>
       </div>
-      {/* Add a search bar here
-    then create a card with that single user that is searched if found
-    
-    */}
     </>
   );
 }
@@ -98,11 +90,12 @@ function UserCard({
   deleteHandler,
 }) {
   return (
-    //TODO TEST IF ADMIN DOES NOT SHOW WITH THOSE OPTIONS
+
     <li className="card">
       <h4>{name}</h4>
       <p>Id: {id}</p>
       <p>Email: {email}</p>
+      <div className="button-group">
       {!isAdmin && (
         <>
           {lockoutEnabled ? (
@@ -113,6 +106,7 @@ function UserCard({
           <button onClick={deleteHandler}>Delete</button>
         </>
       )}
+      </div>
     </li>
   );
 }

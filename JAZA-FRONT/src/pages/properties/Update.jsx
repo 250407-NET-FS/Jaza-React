@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Grid, FormGroup, FormControl, FormControlLabel, Input } from '@mui/material'
 
-function UpdateProperty(property, onSubmit) {
+function UpdateProperty({property}) {
   return (
     <Container>
         <h1>Edit Property</h1>
@@ -67,4 +67,4 @@ function UpdateProperty(property, onSubmit) {
   );
 }
 
-export default UpdateProperty
+export default UpdateProperty;
