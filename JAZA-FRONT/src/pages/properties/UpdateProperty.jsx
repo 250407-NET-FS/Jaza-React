@@ -40,11 +40,11 @@ function UpdateProperty({property}) {
         const success = await updateProperty(propertyInfo);
 
         if (success) {
-            setSuccessMessage('Create property successful!');
+            setSuccessMessage('Update property successful!');
             setErrorMessage(null);
             navigate("/listings");
         } else {
-            setErrorMessage('Create property failed. Please try again.');
+            setErrorMessage('Update property failed. Please try again.');
         }
         } catch (errorMessage) {
             setErrorMessage("Invalid credentials. Please try again.");
