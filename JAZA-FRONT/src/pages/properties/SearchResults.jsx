@@ -36,8 +36,8 @@ function SearchResultDisplay() {
     }, [propertyList]);
 
     return (
-        <Container>
-            <MapContainer center={center} zoom={14} scrollWheelZoom={false} style={{height: "600px", width: "600px"}}>
+        <Container style={{"padding-left": 0, "padding-right": 0}}>
+            <MapContainer center={center} zoom={14} scrollWheelZoom={false} style={{height: "100vh", width: "100vw"}}>
             <ChangeMapCenter center={center} />
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
