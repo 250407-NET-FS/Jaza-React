@@ -62,7 +62,9 @@ function PropertyCard({
       <p>Owner: {ownerName}</p>{" "}
       {/*Need to make it so we can go to that view imediatly and then choose to ban or not */}
       <p>Owner Id: {ownerId}</p>
+      <div className="button-group">
       <button onClick={deleteHandler}>Delete</button>
+      </div>
     </li>
   );
 }
