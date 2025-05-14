@@ -131,6 +131,9 @@ builder.Services.AddSwaggerGen(c =>
     );
 });
 
+//Can use http requests
+builder.Services.AddHttpClient();
+
 //cORS
 builder.Services.AddCors(options =>
 {

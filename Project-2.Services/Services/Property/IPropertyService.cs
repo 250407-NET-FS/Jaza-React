@@ -28,4 +28,6 @@ public interface IPropertyService
     Task RemovePropertyAsync(Guid propertyId, Guid? currentUserId);
 
     Task<IEnumerable<PropertyOwnerDTO>> GetPropertiesAdminAsync();
+
+    Task<PropertyAddDTO> GetPropertyCoordinatesAsync(PropertyAddDTO dto);
 }
