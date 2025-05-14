@@ -166,10 +166,11 @@ function CreateProperty() {
                         </FormGroup>
                         <FormGroup>
                             <FormLabel>Has Basement?</FormLabel>
-                            <FormControlLabel control={<Checkbox value={propertyInfo.hasBasement}
-                                    onChange={(e) => 
-                                        setPropertyInfo({ ...propertyInfo, hasBasement: e.target.value })
-                                    }
+                            <FormControlLabel control={
+                                <Checkbox checked={propertyInfo.hasBasement}
+                                    onChange={(e) => {
+                                        setPropertyInfo({ ...propertyInfo, hasBasement: e.target.checked === true })
+                                    }}
                                 ></Checkbox>
                             }>
                             </FormControlLabel>
@@ -184,21 +185,6 @@ function CreateProperty() {
                                     required
                                 />
                             </FormControl>
-                        </FormGroup>
-                        <FormGroup>
-                            <FormLabel>Coordinates (Latitude, Longitude)</FormLabel>
-                                <Input type="number" value={propertyInfo.latitude}
-                                    onChange={(e) => 
-                                        setPropertyInfo({ ...propertyInfo, latitude: e.target.value })
-                                    }
-                                    required
-                                />
-                                <Input type="number" value={propertyInfo.longitude}
-                                    onChange={(e) => 
-                                        setPropertyInfo({ ...propertyInfo, longitude: e.target.value })
-                                    }
-                                    required
-                                />
                         </FormGroup>
                         <FormGroup>
                             <Input type="submit" value="Create" color='primary' />

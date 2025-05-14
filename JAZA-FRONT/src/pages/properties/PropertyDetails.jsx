@@ -3,22 +3,31 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import React, { useEffect, useState } from 'react';
 import Popup from "reactjs-popup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import { useFavorite } from '../context/FavoritesContext';
+import { useProperty } from '../context/PropertyContext';
 import CreateOffer from './CreateOffer';
 import UpdateProperty from './UpdateProperty';
 import apartmentImage from '../../assets/apartment.png';
 
+
 function PropertyDetails({ property }) {
-    const { user, login, logout } = useAuth();
+    const { user } = useAuth();
     const [offerPopupOpen, setOfferPopupOpen] = useState(false);
     const [updatePopupOpen, setUpdatePopupOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const {
         favoritesList, foundFavorite,
         fetchFavoritesList, fetchCurrentFavorite, markFavorite
     } = useFavorite();
+
+    const {deleteProperty} = useProperty();
+
+    // eslint-disable-next-line no-undef
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchFavoritesList()
@@ -33,6 +42,25 @@ function PropertyDetails({ property }) {
     const handleUpdate = () => {
         setUpdatePopupOpen(true);
     };
+
+    const handleDelete = async (e) => {
+        e.preventDefault();
+
+        try {
+        const success = await deleteProperty(property.propertyID);
+
+        if (success) {
+            setSuccessMessage('Delete property successful!');
+            setErrorMessage(null);
+            navigate("/listings");
+        } else {
+            setErrorMessage('Delete property failed. Please try again.');
+        }
+        } catch (errorMessage) {
+            setErrorMessage("Invalid credentials. Please try again.");
+            return;
+        }
+    }
 
     let daysListed = Math.abs(new Date() - new Date(property.listDate).getTime()) / (1000 * 60 * 60 * 24);
     daysListed = Math.ceil(daysListed);
@@ -94,8 +122,11 @@ function PropertyDetails({ property }) {
                 </Grid>
                 <Grid size={4}>
                     {
-                        (user?.id == property.ownerID) &&
-                        <Button onClick={handleUpdate} sx={{ all: `unset`, cursor: 'pointer' }}>Update Property</Button>
+                        (user?.id == property.ownerID) && 
+                        <>
+                            <Button onClick={handleUpdate} sx={{ all: `unset`, cursor: 'pointer' }}>Update Property</Button><br />
+                            <Button onClick={handleDelete} sx={{ all: `unset`, cursor: `pointer `}}>Delete Property</Button>
+                        </>
                     }
                 </Grid>
             </Grid>
@@ -158,7 +189,7 @@ function PropertyDetails({ property }) {
                     padding: "30px",
                     maxWidth: "400px",
                     width: "90%",
-                    height: "50%",
+                    height: "75%",
                     margin: "100px auto",
                     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
                     fontFamily: "Arial, sans-serif",
