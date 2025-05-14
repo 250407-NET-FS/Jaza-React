@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import { useFavorite} from '../context/FavoritesContext';
 import CreateOffer from './CreateOffer';
-import UpdateProperty from './Update';
+import UpdateProperty from './UpdateProperty';
 import apartmentImage from '../../assets/apartment.png';
 
 function PropertyDetails({property}) {
@@ -154,7 +154,7 @@ function PropertyDetails({property}) {
                 padding: "30px",
                 maxWidth: "400px",
                 width: "90%",
-                height: "50%",
+                height: "75%",
                 margin: "100px auto",
                 boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
                 fontFamily: "Arial, sans-serif",

@@ -72,15 +72,16 @@ export function PropertyProvider({children}) {
         }
     }, []);
     // Create a property in the app's "create property page"
-    const createProperty = useCallback(async (property) => {
+    const createProperty = useCallback(async (propertyInfo) => {
         dispatch({type: PropertyActionTypes.REQUEST_START});
         // Try to create and pass the results of controller's CreateProperty() to our state
         try {
-            await api.post("properties", property)
+            await api.post("properties", propertyInfo)
             .then(res => res.data)
             .then(data => {
                 dispatch({type: PropertyActionTypes.CREATE_PROPERTY_SUCCESS, payload: data});
                 fetchPropertyList(); // Sync property List
+                return data;
             });
         }
         catch (err) {
@@ -88,15 +89,16 @@ export function PropertyProvider({children}) {
         }
     }, []);
     // Update a property in the app's "update property page"
-    const updateProperty = useCallback(async () => {
+    const updateProperty = useCallback(async (propertyInfo) => {
         dispatch({type: PropertyActionTypes.REQUEST_START});
         // Try to update and pass the results of controller's UpdateProperty() to our state
         try {
-            await api.put("properties")
+            await api.put("properties", propertyInfo)
             .then(res => res.data)
             .then(data => {
-                dispatch({type: PropertyActionTypes.UPDATE_PROPERTY_SUCCESS, payload: data.results});
+                dispatch({type: PropertyActionTypes.UPDATE_PROPERTY_SUCCESS, payload: data});
                 fetchPropertyList();
+                return data;
             });
         }
         catch (err) {

@@ -17,7 +17,6 @@ public class PropertyUpdateDTO
     public int? Garages { get; set; }
     public int? Pools { get; set; }
     public bool? HasBasement { get; set; }
-    public DateTime? ListDate { get; set; }
     public Guid? OwnerID { get; set; }
     public bool? ForSale { get; set; }
 }

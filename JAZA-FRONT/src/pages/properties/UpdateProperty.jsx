@@ -1,30 +1,31 @@
 import React, {useState} from 'react'
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useProperty } from '../context/PropertyContext';
 import { useAuth } from '../context/AuthContext';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { Container, Grid, FormGroup, FormControl, FormControlLabel, FormLabel, Input, Checkbox } from '@mui/material';
+import { Container, Grid, FormGroup, FormControl, FormControlLabel, FormLabel, Input, Checkbox } from '@mui/material'
 
-function CreateProperty() {
-    const {createProperty} = useProperty();
+function UpdateProperty({property}) {
+    const {updateProperty} = useProperty();
     const {user} = useAuth();
 
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [propertyInfo, setPropertyInfo] = useState({
-        streetAddress: "",
-        city: "",
-        state: "",
-        country: "",
-        zipCode: "",
+        propertyID: property.propertyID,
+        streetAddress: property.streetAddress,
+        city: property.city,
+        state: property.state,
+        country: property.country,
+        zipCode: property.zipCode,
         imagelink: null,
-        latitude: 0.0,
-        longitude: 0.0,
-        startingPrice: 0.00,
-        bedrooms: 0,
-        bathrooms: 0,
-        garages: 0,
-        pools: 0,
-        hasBasement: false,
+        latitude: property.latitude,
+        longitude: property.longitude,
+        startingPrice: property.startingPrice,
+        bedrooms: property.bedrooms,
+        bathrooms: property.bathrooms,
+        garages: property.garages,
+        pools: property.pools,
+        hasBasement: (property.hasBasement === 'true'),
         ownerID: user.id
     });
 
@@ -35,7 +36,7 @@ function CreateProperty() {
         e.preventDefault();
 
         try {
-        const success = await createProperty(propertyInfo);
+        const success = await updateProperty(propertyInfo);
 
         if (success) {
             setSuccessMessage('Create property successful!');
@@ -50,25 +51,13 @@ function CreateProperty() {
         }
     }
 
-    return (
-        <Container>
-            <h1>Create Property</h1>
-            {/* Alert Messages */}
-            {errorMessage && (
-                <div className="alert alert-danger" role="alert">
-                {errorMessage}
-                </div>
-            )}
-
-            {successMessage && (
-                <div className="alert alert-success" role="alert">
-                {successMessage}
-                </div>
-            )}
-            <hr />
-            <Grid container>
-                <Grid size={12}>
-                    <form method="post" onSubmit={handleSubmit}>
+  return (
+    <Container>
+        <h1>Edit Property</h1>
+        <hr />
+        <Grid container>
+            <Grid size={12}>
+                <form method="post" onSubmit={handleSubmit}>
                         <FormGroup>
                             <FormLabel>Street Address</FormLabel>
                             <FormControl>
@@ -201,13 +190,13 @@ function CreateProperty() {
                                 />
                         </FormGroup>
                         <FormGroup>
-                            <Input type="submit" value="Create" color='primary' />
+                            <Input type="submit" value="Update" color='primary' />
                         </FormGroup>
-                    </form>
-                </Grid>
+                </form>
             </Grid>
-        </Container>
-    )
+        </Grid>
+    </Container>
+  );
 }
 
-export default CreateProperty;
+export default UpdateProperty;
