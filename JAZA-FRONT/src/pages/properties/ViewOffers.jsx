@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useOffer } from '../context/OfferContext';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AcceptOffer from './AcceptOffer';
 import { CardContent } from '@mui/material';
 

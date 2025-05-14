@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useOffer } from '../context/OfferContext';
 import { useAuth } from '../context/AuthContext';
-import { Navigate } from 'react-router-dom';
 
 function CreateOffer(property) {
   const { makeOffer } = useOffer();
