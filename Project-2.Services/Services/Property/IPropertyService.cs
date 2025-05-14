@@ -29,5 +29,5 @@ public interface IPropertyService
 
     Task<IEnumerable<PropertyOwnerDTO>> GetPropertiesAdminAsync();
 
-    Task<PropertyAddDTO> GetPropertyCoordinatesAsync(PropertyAddDTO dto);
+    //Task<PropertyAddDTO> GetPropertyCoordinatesAsync(PropertyAddDTO dto);
 }
