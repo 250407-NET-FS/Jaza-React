@@ -26,6 +26,7 @@ function UpdateProperty({property}) {
         garages: property.garages,
         pools: property.pools,
         hasBasement: (property.hasBasement === 'true'),
+        listDate: property.listDate,
         ownerID: user.id
     });
 
