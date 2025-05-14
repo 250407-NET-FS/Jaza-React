@@ -8,4 +8,13 @@ public class PurchaseResponseDTO{
     public Guid BuyerId { get; set; }
     public DateTime PurchaseDate { get; set; }
     public decimal PurchaseAmount { get; set; }
+
+
+    public PurchaseResponseDTO(Purchase purchase, Guid buyerId){
+        PurchaseId = purchase.PurchaseID;
+        PropertyId = purchase.PropertyID;
+        BuyerId = buyerId;
+        PurchaseDate = purchase.Date;
+        PurchaseAmount = purchase.FinalPrice;
+    }
 }
