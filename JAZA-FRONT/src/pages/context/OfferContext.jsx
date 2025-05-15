@@ -1,7 +1,6 @@
 import { createContext, useReducer, useContext, useCallback } from "react";
-import axios from "axios";
-import { data } from "react-router-dom";
 import { api } from "../services/api";
+import React from "react";
 
 const initialState = {
     offerList: [],
@@ -10,7 +9,7 @@ const initialState = {
     error: null
 };
 // These action types should be exclusive for offer requests
-const OfferActionTypes = {
+export const OfferActionTypes = {
     REQUEST_START: "REQUEST_START",
     FETCH_LIST_SUCCESS: "FETCH_LIST_SUCCESS",
     FETCH_OFFER_SUCCESS: "FETCH_OFFER_SUCCESS",
@@ -18,7 +17,7 @@ const OfferActionTypes = {
     REQUEST_ERROR: "REQUEST_ERROR"
 };
 
-const reducer = (state, action) => {
+export const reducer = (state, action) => {
     switch (action.type) {
         case OfferActionTypes.REQUEST_START:
             return {...state, loading: true, error: null};
@@ -31,6 +30,8 @@ const reducer = (state, action) => {
             return {...state, loading: false, selectedOffer: action.payload};
         case OfferActionTypes.REQUEST_ERROR:
             return {...state, loading: false, error: action.payload};
+        default:
+            return state;
     }
 };
 

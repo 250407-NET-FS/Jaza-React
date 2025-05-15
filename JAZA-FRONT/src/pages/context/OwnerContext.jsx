@@ -1,7 +1,6 @@
 import { createContext, useReducer, useContext, act, useCallback } from "react";
-import axios from "axios";
-import { data } from "react-router-dom";
 import { api } from "../services/api";
+import React from "react";
 
 const initialState = {
     selectedOwner: {},

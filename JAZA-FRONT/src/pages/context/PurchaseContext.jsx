@@ -1,5 +1,4 @@
 import { createContext, useReducer, useContext, act, useCallback } from "react";
-import axios from "axios";
 import { api } from "../services/api";
 
 const initialState = {
