@@ -1,6 +1,5 @@
 import { createContext, useContext, useReducer, useEffect, Children } from "react";
-
-
+import React from "react";
 import { jwtDecode } from "jwt-decode";
 import { api } from "../services/api";
 
@@ -20,7 +19,7 @@ const normalizeClaims = (decoded) => ({
 });
 
 // finite state machine for authContext
-const authReducer = (state, action) => {
+export const authReducer = (state, action) => {
     switch(action.type){
         case "LOGIN":
             return {...state, user: action.payload, isAuthenticated: true};
