@@ -2,27 +2,42 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
+import { usePurchase } from '../context/PurchaseContext';
+import { Alert, Button, Container, Grid } from '@mui/material';
+import { useAuth } from '../context/AuthContext';
+import { useProperty } from '../context/PropertyContext';
+import { useOffer } from '../context/OfferContext';
 
-function AcceptOffer(property, offer, credentials) {
+function AcceptOffer() {
 
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const {selectedPurchase, acceptOffer} = usePurchase();
+    const {user} = useAuth();
+    const {selectedProperty} = useProperty();
+    const {selectedOffer} = useOffer();
 
     const navigate = useNavigate();
 
-    const handleClick= async () => {
+    const credentials = {
+      propertyId: selectedProperty.propertyID,
+      userId: user.id,
+      offerId: selectedOffer.offerId
+    };
+
+    const handleClick = async (e) => {
         e.preventDefault();
 
         console.log("Accepting Offer with:", {
-            UserId: credentials.UserId,
-            PropertyId: credentials.PropertyId,
-            OfferId: credentials.OfferId
+            UserId: credentials.userId,
+            PropertyId: credentials.propertyId,
+            OfferId: credentials.offerId
         });
 
         try{
-            const success = await api.post("purchase", credentials);
+            await acceptOffer(credentials);
 
-            if(success){
+            if (selectedPurchase){
               setSuccessMessage('Accept offer successful!');
               setErrorMessage(null);
               navigate("/listings");
@@ -37,30 +52,30 @@ function AcceptOffer(property, offer, credentials) {
     }
 
     return (
-        <>
-          <h1>Accept Offer for {offer?.OfferID}</h1>
+        <Container>
+          <h1>Accept Offer for {selectedOffer?.offerId}</h1>
     
           {/* Alert Messages */}
           {errorMessage && (
-            <div className="alert alert-danger" role="alert">
+            <Alert variant="outlined" severity="alert">
               {errorMessage}
-            </div>
+            </Alert>
           )}
     
           {successMessage && (
-            <div className="alert alert-success" role="alert">
+            <Alert variant="outlined" severity="alert">
               {successMessage}
-            </div>
+            </Alert>
           )}
     
           <hr />
-          <div className="row">
-            <div className="col-md-4">
-              <button onClick={() => handleClick}>Yes</button>
-              <button onClick={navigate("/listings")}>No</button>
-            </div>
-          </div>
-        </>
+          <Grid container>
+            <Grid>
+              <Button onClick={handleClick}>Yes</Button>
+              <Button onClick={() => navigate("/listings")}>No</Button>
+            </Grid>
+          </Grid>
+        </Container>
       );
 }
 

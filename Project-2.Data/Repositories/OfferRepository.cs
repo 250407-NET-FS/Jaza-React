@@ -23,6 +23,6 @@ public class OfferRepository : BaseRepository<Offer>, IOfferRepository {
      * ENSURE that SaveChanges() is called after this, as it has no effect otherwise
      */
     public void RemoveAllForProperty(Guid propertyId) {
-        _dbContext.Property.RemoveRange(_dbContext.Property.Where(p => p.PropertyID == propertyId));
+        _dbContext.Offer.RemoveRange(_dbContext.Offer.Where(f => f.PropertyID == propertyId));
     }
 }

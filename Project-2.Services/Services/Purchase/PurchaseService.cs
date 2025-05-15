@@ -65,12 +65,19 @@ public class PurchaseService : IPurchaseService
         _offerRepository.RemoveAllForProperty(property.PropertyID);
 
         // Update property to reflect new ownership
-        PropertyUpdateDTO propertyInfo = new PropertyUpdateDTO() { OwnerID = offer.UserID, ForSale = false };
+        PropertyUpdateDTO propertyInfo = new PropertyUpdateDTO() { 
+            PropertyID = property.PropertyID, StreetAddress = property.StreetAddress, 
+            City = property.City, State = property.State, Country = property.Country, 
+            ZipCode = property.ZipCode, OwnerID = offer.UserID, ForSale = false 
+        };
+
         _propertyRepository.Update(propertyInfo);
+        Console.WriteLine("Break 1");
 
         // May appear to save property repository only but in the background
         // it's calling dbContext.SaveChanges and is saving changes to all repos
         await _propertyRepository.SaveChangesAsync();
+        Console.WriteLine("Break 2");
         return newPurchase;
     }
 }

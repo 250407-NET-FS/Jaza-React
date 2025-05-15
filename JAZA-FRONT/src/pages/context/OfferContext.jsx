@@ -27,7 +27,6 @@ const reducer = (state, action) => {
         case OfferActionTypes.FETCH_OFFER_SUCCESS:
             return {...state, loading: false, selectedOffer: action.payload};
         case OfferActionTypes.CREATE_OFFER_SUCCESS:
-            state.offerList.push(action.payload);
             return {...state, loading: false, selectedOffer: action.payload};
         case OfferActionTypes.REQUEST_ERROR:
             return {...state, loading: false, error: action.payload};
@@ -56,7 +55,7 @@ export function OfferProvider({children}) {
         dispatch({type: OfferActionTypes.REQUEST_START});
         // Try to fetch and pass the results of controller's GetOfferById() method
         try {
-            await api.get(`offer/id/${id}`)
+            await api.get(`offer/${id}`)
             .then(res => res.data)
             .then(data => dispatch({type: OfferActionTypes.FETCH_OFFER_SUCCESS, payload: data}));
         }
@@ -93,11 +92,14 @@ export function OfferProvider({children}) {
     // Create an offer for a property the user selects to buy
     const makeOffer = useCallback(async(offerDTO) => {
         dispatch({type: OfferActionTypes.REQUEST_START});
-        // Try to fetch and pass the results of controller's GetOfferById() method
+        // Try to fetch and pass the results of controller's CreateOffer() method
         try {
             await api.post("offer", offerDTO)
             .then(res => res.data)
-            .then(data => dispatch({type: OfferActionTypes.CREATE_OFFER_SUCCESS, payload: data}));
+            .then(data => {
+                dispatch({type: OfferActionTypes.CREATE_OFFER_SUCCESS, payload: data});
+                fetchOfferList();
+            });
         }
         catch (err) {
             dispatch({type: OfferActionTypes.REQUEST_ERROR, error: err.message});

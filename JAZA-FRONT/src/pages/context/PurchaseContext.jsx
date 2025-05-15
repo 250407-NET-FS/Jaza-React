@@ -54,9 +54,12 @@ export function PurchaseProvider({children}) {
         dispatch({type: PurchaseActionTypes.REQUEST_START});
         // Try to fetch and pass the results of AcceptOffer(CreateResponseDTO) to our state
         try {
-            await api.post("", purchaseInfo)
+            await api.post("purchase", purchaseInfo)
             .then(res => res.data)
-            .then(data => dispatch({type: PurchaseActionTypes.ACCEPT_OFFER_SUCCESS, payload: data}));
+            .then(data => {
+                console.log(data)
+                dispatch({type: PurchaseActionTypes.ACCEPT_OFFER_SUCCESS, payload: data})
+            });
         }
         catch (err) {
             dispatch({type: PurchaseActionTypes.REQUEST_ERROR, error: err.message});
@@ -79,7 +82,7 @@ export function PurchaseProvider({children}) {
 export const usePurchase = () => {
     const purchaseContext = useContext(PurchaseContext);
 
-    if (!ownerContext) {
+    if (!purchaseContext) {
         throw new Error("usePurchase must be used within a PurchaseProvider");
     }
 
