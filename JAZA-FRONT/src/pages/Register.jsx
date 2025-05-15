@@ -48,6 +48,7 @@ function Register() {
 
   return (
     <>
+    <div style={{padding: 10, margin: 10}}>
       <h1>User Register</h1>
 
       {/* Alert Messages */}
@@ -122,6 +123,7 @@ function Register() {
             Already have an account?{' '}
             <Link to="/" className="btn btn-outline-dark">Login</Link>
         </p>
+      </div>
       </div>
     </>
   );
