@@ -41,3 +41,7 @@ jobs:
       - name: Build frontend
         run: npm run build
         working-directory: ./JAZA-FRONT
+
+      - name: Make sure all tests work
+        run: npm test
+        working-directory: ./JAZA-FRONT
