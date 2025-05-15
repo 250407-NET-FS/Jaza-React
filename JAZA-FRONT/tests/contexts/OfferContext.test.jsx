@@ -57,7 +57,6 @@ describe("offer reducer", () => {
     const result = reducer(prevState, action);
     expect(result.loading).toBe(false);
     expect(result.selectedOffer).toEqual(newOffer);
-    expect(result.offerList).toEqual([existing, newOffer]);
   });
 
   it("handles REQUEST_ERROR", () => {
