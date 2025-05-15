@@ -1,11 +1,11 @@
-import { Container } from '@mui/material'
 import { useProperty } from "../context/PropertyContext";
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom';
 import PropertyCard from './PropertyCard';
 import NavBar from "../shared/NavBar"
 import 'leaflet/dist/leaflet.css';
-import "leaflet/dist/images/marker-shadow.png";
+import markerIconPng from "leaflet/dist/images/marker-icon.png";
+import {Icon} from "leaflet";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 
 function ChangeMapCenter({ center }) {
@@ -49,7 +49,7 @@ function SearchResultDisplay() {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 {propertyList.map(p =>
-                    <Marker key={p.propertyID} position={[p.longitude, p.latitude]}>
+                    <Marker key={p.propertyID} position={[p.longitude, p.latitude]}icon={new Icon({iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41]})}>
                         <Popup>
                             <PropertyCard property={p}/>
                         </Popup>
