@@ -8,6 +8,7 @@ import Popup from "reactjs-popup";
 import PropertyDetails from './PropertyDetails';
 
 function FavoritesList() {
+
     const {
         favoritesList, foundFavorite,
         fetchFavoritesList, fetchCurrentFavorite, markFavorite
@@ -24,16 +25,16 @@ function FavoritesList() {
     const [detailPopupOpen, setDetailPopupOpen] = useState(false);
 
     useEffect(() => {
-        fetchFavoritesList()
-    }, [fetchFavoritesList]);
+        fetchFavoritesList();
+    }, []);
 
     useEffect(() => {
-        fetchPropertyList()
-    }, [fetchPropertyList]);
+        fetchPropertyList();
+    }, []);
 
     useEffect(() => {
-        fetchLoggedOwner()
-    }, [selectedOwner]);
+        fetchLoggedOwner();
+    }, []);
 
     const propertyIds = new Set();
     favoritesList.forEach(f => {
