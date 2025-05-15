@@ -14,7 +14,7 @@ const NavBar = () => {
 
     return (
         // AppBar's color prop for some reason only takes in predefined theme values leading to this double color set
-        <AppBar position="static" color="transparent" sx={{ backgroundColor: "#cf7146", width: "100vw" }}>
+        <AppBar position="static" color="transparent" sx={{ backgroundColor: "#cf7146", width: "100%" }}>
             <Container maxWidth={false} disableGutters>
                 <Toolbar>
                     <IconButton component={Link} to="/" disableRipple>

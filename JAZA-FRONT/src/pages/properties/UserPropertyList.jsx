@@ -84,9 +84,7 @@ function UserPropertyList() {
     return (
         <>
             <NavBar />
-            <Container style={{
-                maxWidth: '95vw',
-            }}>
+            <Container maxWidth={false}>
                 <Grid container spacing={3}>
                     <Grid size={8}>
                         <h3>Listings</h3>
@@ -134,7 +132,7 @@ function UserPropertyList() {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid size={1}>
+                    <Grid size={12}>
                         {user && <Button onClick={handleCreate} sx={{ all: 'unset', cursor: 'pointer', marginTop: '15px' }}>Create Listing</Button>}
                     </Grid>
                     {(filteredResults.length > 0 ? filteredResults : propertyList).map(p => (
