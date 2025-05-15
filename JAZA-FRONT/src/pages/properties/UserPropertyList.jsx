@@ -85,7 +85,7 @@ function UserPropertyList() {
         <>
             <NavBar />
             <Container style={{
-                maxWidth: '100%',
+                maxWidth: '95vw',
             }}>
                 <Grid container spacing={3}>
                     <Grid size={8}>
@@ -139,7 +139,7 @@ function UserPropertyList() {
                     </Grid>
                     {(filteredResults.length > 0 ? filteredResults : propertyList).map(p => (
                         <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={p.propertyID}>
-                            <PropertyCard property={p}/>
+                            <PropertyCard property={p} />
                         </Grid>
                     ))}
                 </Grid>
