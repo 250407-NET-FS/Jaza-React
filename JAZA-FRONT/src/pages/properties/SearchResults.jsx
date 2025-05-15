@@ -1,9 +1,11 @@
-import { Container } from '@mui/material'
 import { useProperty } from "../context/PropertyContext";
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom';
 import PropertyCard from './PropertyCard';
+import NavBar from "../shared/NavBar"
 import 'leaflet/dist/leaflet.css';
+import markerIconPng from "leaflet/dist/images/marker-icon.png";
+import {Icon} from "leaflet";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 
 function ChangeMapCenter({ center }) {
@@ -37,22 +39,25 @@ function SearchResultDisplay() {
     }, [propertyList]);
 
     return (
-        <Container style={{"paddingLeft": 0, "paddingRight": 0}}>
-            <MapContainer center={center} zoom={14} scrollWheelZoom={false} style={{height: "100vh", width: "100vw"}}>
-            <ChangeMapCenter center={center} />
-            <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {propertyList.map(p =>
-                <Marker key={p.propertyID} position={[p.longitude, p.latitude]}>
-                    <Popup>
-                        <PropertyCard property={p}/>
-                    </Popup>
-                </Marker>
-            )}
-            </MapContainer>
-        </Container>
+        <>
+            <NavBar/>
+            <div style={{"paddingLeft": 0, "paddingRight": 0}}>
+                <MapContainer center={center} zoom={14} scrollWheelZoom={false} style={{height: "calc(100vh - 66px)", width: "100vw"}}>
+                <ChangeMapCenter center={center} />
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                {propertyList.map(p =>
+                    <Marker key={p.propertyID} position={[p.longitude, p.latitude]}icon={new Icon({iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41]})}>
+                        <Popup>
+                            <PropertyCard property={p}/>
+                        </Popup>
+                    </Marker>
+                )}
+                </MapContainer>
+            </div>
+        </>
     )
 }
 

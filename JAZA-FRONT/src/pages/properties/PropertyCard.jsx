@@ -6,6 +6,8 @@ import Popup from "reactjs-popup";
 
 const PropertyCard = ({ property }) => {
     const [detailPopupOpen, setDetailPopupOpen] = useState(false);
+
+
     return (
         <>
             <Card
@@ -35,7 +37,7 @@ const PropertyCard = ({ property }) => {
                         borderRadius: '8px'
                     }}>
                         <img
-                            src={houseImage}
+                            src={property.imageLink}
                             alt="Property address"
                             style={{
                                 width: '100%',

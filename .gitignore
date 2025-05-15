@@ -433,3 +433,5 @@ obj/
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,csharp,dotenv,visualstudiocode
 */appsettings.json
 .vscode/settings.json
+JAZA-FRONT/coverage/clover.xml
+JAZA-FRONT/coverage/lcov.info
