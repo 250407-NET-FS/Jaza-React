@@ -75,25 +75,29 @@ function PropertyDetails({ property }) {
         }}>
             <Grid container padding={0} gap={3}>
                 <Grid size={5}>
-                    <img
-                        // src={property.imageLink || houseImage}
-                        // alt={property.streetAddress}
-                        src={apartmentImage}
-                        alt="Property address"
-                        style={{
-                            width: '100%',
-                            height: 'auto',
-                            objectFit: 'cover',
-                            borderRadius: '8px',
-                        }}
-                    />
-                    <IconButton aria-label='save' onClick={() => markFavorite(property.propertyID, user?.id)}>
-                        {
-                            favoritesList.find(f => f.propertyId == property.propertyID) ?
-                                <FavoriteIcon></FavoriteIcon> :
-                                <FavoriteBorderIcon></FavoriteBorderIcon>
-                        }
-                    </IconButton>
+                    <div>
+                        <img
+                            // src={property.imageLink || houseImage}
+                            // alt={property.streetAddress}
+                            src={apartmentImage}
+                            alt="Property address"
+                            style={{
+                                position: 'relative',
+                                display: 'inline-block',
+                                width: '100%',
+                                height: 'auto',
+                                objectFit: 'cover',
+                                borderRadius: '8px',
+                            }}
+                        />
+                        <IconButton style={{position:'absolute', left: 50, color: 'white'}} aria-label='save' onClick={() => markFavorite(property.propertyID, user?.id)}>
+                            {
+                                favoritesList.find(f => f.propertyId == property.propertyID) ?
+                                    <FavoriteIcon></FavoriteIcon> :
+                                    <FavoriteBorderIcon></FavoriteBorderIcon>
+                            }
+                        </IconButton>
+                    </div>
                 </Grid>
                 <Grid size={3}>
                     <p>Asking Price: ${property.startingPrice}</p>
