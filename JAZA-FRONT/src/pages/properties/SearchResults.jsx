@@ -4,8 +4,8 @@ import { useSearchParams } from 'react-router-dom';
 import PropertyCard from './PropertyCard';
 import NavBar from "../shared/NavBar"
 import 'leaflet/dist/leaflet.css';
-import markerIconPng from "leaflet/dist/images/marker-icon.png";
-import {Icon} from "leaflet";
+import { Icon } from "leaflet";
+import markerIconPng from "../../assets/markerIcon.png";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 
 function ChangeMapCenter({ center }) {
