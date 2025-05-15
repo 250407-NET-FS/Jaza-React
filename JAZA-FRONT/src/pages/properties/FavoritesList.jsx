@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Button, Card, CardContent, CardHeader, Container, Grid } from '@mui/material'
+import { Button, Card, CardContent, CardHeader, Container, Grid } from '@mui/material';
+import NavBar from "../shared/NavBar";
 import { useFavorite } from '../context/FavoritesContext';
 import { useProperty } from '../context/PropertyContext';
 import { useOwner } from '../context/OwnerContext';
@@ -40,36 +41,39 @@ function FavoritesList() {
     let savedList = propertyList.filter(p => propertyIds.has(p.propertyID));
     
   return (
-    <Container>
-        <h1>Your Listings</h1>
-        <Grid container>
-            {!savedList && <p class="text-muted">You have no listings yet.</p>}
-            {
-                savedList.map(p => {
-                    return (
-                        <Grid key={p.propertyID}>
-                            <Card>
-                                <img src={p.imageLink} alt={p.streetAddress} />
-                                <CardHeader>Street Address</CardHeader>
-                                <CardContent>
-                                    <pre>
-                                        {p.streetAddress}, {p.city}, {p.state} {p.zipCode}<br />
-                                        Beds: {p.bedrooms} Baths: {p.bathrooms}<br />
-                                        Price: ${p.startingPrice}
-                                    </pre>
-                                    <form method="post" onSubmit={() => markFavorite(p.propertyID, selectedOwner.id)}>
-                                        <Button type="submit">
-                                            Delete
-                                        </Button>
-                                    </form>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    )
-                })
-            }
-        </Grid>
-    </Container>
+    <>
+        <NavBar/>
+        <Container>
+            <h1>Your Listings</h1>
+            <Grid container>
+                {!savedList && <p class="text-muted">You have no listings yet.</p>}
+                {
+                    savedList.map(p => {
+                        return (
+                            <Grid key={p.propertyID}>
+                                <Card>
+                                    <img src={p.imageLink} alt={p.streetAddress} />
+                                    <CardHeader>Street Address</CardHeader>
+                                    <CardContent>
+                                        <pre>
+                                            {p.streetAddress}, {p.city}, {p.state} {p.zipCode}<br />
+                                            Beds: {p.bedrooms} Baths: {p.bathrooms}<br />
+                                            Price: ${p.startingPrice}
+                                        </pre>
+                                        <form method="post" onSubmit={() => markFavorite(p.propertyID, selectedOwner.id)}>
+                                            <Button type="submit">
+                                                Delete
+                                            </Button>
+                                        </form>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        )
+                    })
+                }
+            </Grid>
+        </Container>
+    </>
   )
 }
 
