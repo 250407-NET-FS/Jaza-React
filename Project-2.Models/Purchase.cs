@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace Project_2.Models;
@@ -23,6 +24,7 @@ public class Purchase(Guid OwnerID, Guid PropertyID, decimal FinalPrice)
     // Navigations
     #nullable disable
     public User Owner { get; init; }
+    [JsonIgnore]
     public Property Property { get; init; }
     #nullable restore
 }
