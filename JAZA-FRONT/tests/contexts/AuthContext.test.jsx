@@ -1,4 +1,4 @@
-// Import everything
+
 import React from 'react';
 import { render, screen, act } from '@testing-library/react';
 import { AuthProvider, useAuth, authReducer } from '../../src/pages/context/AuthContext';
