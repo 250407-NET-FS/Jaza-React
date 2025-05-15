@@ -6,6 +6,10 @@
   --brown: #3c281e;
 }
 
+#root {
+  width: -webkit-fill-available;
+}
+
 body,
 .page {
   font-family: 'Segoe UI', sans-serif;
