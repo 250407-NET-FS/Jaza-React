@@ -2,51 +2,46 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useOffer } from '../context/OfferContext';
 import { useProperty } from '../context/PropertyContext';
+import { useAuth } from '../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import AcceptOffer from './AcceptOffer';
-import { CardContent, Container, Grid,  } from '@mui/material';
+import { CardContent, Card, Container, Grid,  } from '@mui/material';
 import Popup from "reactjs-popup";
 
 function ViewOffers(){
     const { offerList, selectedOffer, fetchPropertyOffers, fetchOffer } = useOffer();
-    const {selectedProperty} = useProperty();
-
-    const sendOff = {
-        PropertyId: null,
-        UserId: null,
-        OfferId: null
-    }
 
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [offerPopupOpen, setOfferPopupOpen] = useState(false);
 
-    const navigate = useNavigate();
-    // const { property } = location.state || {};
+    if (!offerList.length) return <div>No Offers available</div>;
 
-    useEffect(() => {
-        fetchPropertyOffers(selectedProperty.propertyID);
-    }, []);
+    const handleFetch = async (offer) => {
+        await fetchOffer(offer.offerId);
+        setOfferPopupOpen(true);
+    }
 
     return(
         <Container>
             <h1>Offers</h1>
-            {offerList.length > 0 ?
             <Grid container>
                 {
                     offerList.map(o => 
-                        <Grid size={2} key={o.OfferID}>
-                            <Card>
+                        <Grid size={12} key={o.offerId}>
+                            <Card sx={{width: "100%"}}>
                                 <CardContent>
-                                    <div>
-                                        <h1>Offer ID: {o.OfferID}</h1>
-                                        <h2>Bid Amount: {o.BidAmount}</h2>
-                                        <h3>User ID: {o.UserId}</h3>
-                                        <h4>Date Posted: {o.Date}</h4>
-                                    </div>
+                                    <h1>Offer ID: {o.offerId}</h1>
+                                    <h2>Bid Amount: {o.bidAmount}</h2>
+                                    <h3>User ID: {o.userId}</h3>
+                                    <h4>Date Posted: {o.date}</h4>
+                                    <button onClick={() => handleFetch(o)}>Accept Offer</button>
                                 </CardContent>
                                 <Popup
+                                    open={offerPopupOpen}
+                                    closeOnDocumentClick
+                                    onClose={() => setOfferPopupOpen(false)}
                                     className="popup-accept-offer"
-                                    trigger={<button onClick={fetchOffer(o.OfferID)}>Accept Offer</button>}
                                     modal
                                     nested
                                     overlayStyle={{
@@ -56,29 +51,19 @@ function ViewOffers(){
                                         backgroundColor: "#f8f9fa",
                                         borderRadius: "10px",
                                         padding: "30px",
-                                        maxWidth: "450px",
+                                        maxWidth: "100%",
                                         margin: "100px auto",
                                         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
                                         fontFamily: "Arial, sans-serif",
                                     }}
                                 >
-                                    {
-                                        sendOff.PropertyId = property.propertyID
-                                    }
-                                    {
-                                        sendOff.UserId = user.id
-                                    }
-                                    {
-                                        sendOff.OfferId = o.OfferID
-                                    }
-                                    <AcceptOffer property={property} offer={selectedOffer} credentials={sendOff}></AcceptOffer>
+                                    <AcceptOffer></AcceptOffer>
                                 </Popup>
                             </Card>
                         </Grid>
                     )
                 }
             </Grid>
-            : <p>No offers have been made!</p>}
         </Container>
     );
 

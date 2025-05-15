@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import { useFavorite } from '../context/FavoritesContext';
 import { useProperty } from '../context/PropertyContext';
+import { useOffer } from '../context/OfferContext';
 import CreateOffer from './CreateOffer';
 import UpdateProperty from './UpdateProperty';
 import apartmentImage from '../../assets/apartment.png';
@@ -26,6 +27,8 @@ function PropertyDetails({ property }) {
 
     const {fetchProperty, deleteProperty, selectedProperty} = useProperty();
 
+    const {fetchPropertyOffers} = useOffer();
+
     // eslint-disable-next-line no-undef
     const navigate = useNavigate();
 
@@ -35,7 +38,11 @@ function PropertyDetails({ property }) {
 
     useEffect(() => {
         fetchProperty(property.propertyID)
-    }, [fetchProperty])
+    }, [fetchProperty]);
+
+    useEffect(() => {
+        fetchPropertyOffers(property.propertyID)
+    }, [fetchPropertyOffers]);
 
     const handleClick = () => {
         if (property) {

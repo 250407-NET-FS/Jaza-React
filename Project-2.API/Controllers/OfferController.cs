@@ -58,10 +58,10 @@ public class OfferController : ControllerBase{
         }
     }
 
-    // Get: api/offer/id/{id}
+    // Get: api/offer/{id}
     // Get offer by id
     [Authorize]
-    [HttpGet("id/{id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<Offer>> GetOfferById([FromRoute] Guid id){
         try{
             return Ok(await _offerService.GetByIdAsync(id));
