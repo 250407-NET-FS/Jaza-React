@@ -1,12 +1,12 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useProperty } from '../context/PropertyContext';
 import { useAuth } from '../context/AuthContext';
 import { Container, Grid, FormGroup, FormControl, FormControlLabel, FormLabel, Input, Checkbox } from '@mui/material'
 
-function UpdateProperty({property}) {
-    const {updateProperty, selectedProperty} = useProperty();
-    const {user} = useAuth();
+function UpdateProperty({ property }) {
+    const { updateProperty, selectedProperty } = useProperty();
+    const { user } = useAuth();
 
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
@@ -37,32 +37,32 @@ function UpdateProperty({property}) {
         e.preventDefault();
 
         try {
-        await updateProperty(propertyInfo);
+            await updateProperty(propertyInfo);
 
-        if (selectedProperty) {
-            setSuccessMessage('Update property successful!');
-            setErrorMessage(null);
-            navigate("/listings");
-        } else {
-            setErrorMessage('Update property failed. Please try again.');
-        }
+            if (selectedProperty) {
+                setSuccessMessage('Update property successful!');
+                setErrorMessage(null);
+                navigate("/listings");
+            } else {
+                setErrorMessage('Update property failed. Please try again.');
+            }
         } catch (errorMessage) {
             setErrorMessage("Invalid credentials. Please try again.");
             return;
         }
     }
 
-  return (
-    <Container>
-        <h1>Edit Property</h1>
-        <hr />
-        <Grid container>
-            <Grid size={12}>
-                <form method="post" onSubmit={handleSubmit}>
+    return (
+        <Container>
+            <h1>Edit Property</h1>
+            <hr />
+            <Grid container>
+                <Grid size={12}>
+                    <form method="post" onSubmit={handleSubmit}>
                         <FormGroup>
                             <FormLabel>Street Address</FormLabel>
                             <FormControl>
-                                <Input type="text" value={propertyInfo.streetAddress} 
+                                <Input type="text" value={propertyInfo.streetAddress}
                                     onChange={(e) =>
                                         setPropertyInfo({ ...propertyInfo, streetAddress: e.target.value })
                                     }
@@ -73,7 +73,7 @@ function UpdateProperty({property}) {
                         <FormGroup>
                             <FormLabel>City</FormLabel>
                             <FormControl>
-                                <Input type="text" value={propertyInfo.city} 
+                                <Input type="text" value={propertyInfo.city}
                                     onChange={(e) =>
                                         setPropertyInfo({ ...propertyInfo, city: e.target.value })
                                     }
@@ -84,7 +84,7 @@ function UpdateProperty({property}) {
                         <FormGroup>
                             <FormLabel>State</FormLabel>
                             <FormControl>
-                                <Input type="text" value={propertyInfo.state} 
+                                <Input type="text" value={propertyInfo.state}
                                     onChange={(e) =>
                                         setPropertyInfo({ ...propertyInfo, state: e.target.value })
                                     }
@@ -95,7 +95,7 @@ function UpdateProperty({property}) {
                         <FormGroup>
                             <FormLabel>Country</FormLabel>
                             <FormControl>
-                                <Input type="text" value={propertyInfo.country} 
+                                <Input type="text" value={propertyInfo.country}
                                     onChange={(e) =>
                                         setPropertyInfo({ ...propertyInfo, country: e.target.value })
                                     }
@@ -117,7 +117,7 @@ function UpdateProperty({property}) {
                         <FormGroup>
                             <FormLabel>Bedrooms</FormLabel>
                             <FormControl>
-                                <Input type="number" value={propertyInfo.bedrooms} 
+                                <Input type="number" value={propertyInfo.bedrooms}
                                     onChange={(e) =>
                                         setPropertyInfo({ ...propertyInfo, bedrooms: e.target.value })
                                     }
@@ -127,7 +127,7 @@ function UpdateProperty({property}) {
                         <FormGroup>
                             <FormLabel>Bathrooms</FormLabel>
                             <FormControl>
-                                <Input type="number" value={propertyInfo.bathrooms} 
+                                <Input type="number" value={propertyInfo.bathrooms}
                                     onChange={(e) =>
                                         setPropertyInfo({ ...propertyInfo, bathrooms: e.target.value })
                                     }
@@ -137,7 +137,7 @@ function UpdateProperty({property}) {
                         <FormGroup>
                             <FormLabel>Garages</FormLabel>
                             <FormControl>
-                                <Input type="number" value={propertyInfo.garages} 
+                                <Input type="number" value={propertyInfo.garages}
                                     onChange={(e) =>
                                         setPropertyInfo({ ...propertyInfo, garages: e.target.value })
                                     }
@@ -168,7 +168,7 @@ function UpdateProperty({property}) {
                         <FormGroup>
                             <FormLabel>Starting Price</FormLabel>
                             <FormControl>
-                                <Input type="money" value={propertyInfo.startingPrice} 
+                                <Input type="money" value={propertyInfo.startingPrice}
                                     onChange={(e) =>
                                         setPropertyInfo({ ...propertyInfo, startingPrice: e.target.value })
                                     }
@@ -179,11 +179,11 @@ function UpdateProperty({property}) {
                         <FormGroup>
                             <Input type="submit" value="Update" color='primary' />
                         </FormGroup>
-                </form>
+                    </form>
+                </Grid>
             </Grid>
-        </Grid>
-    </Container>
-  );
+        </Container>
+    );
 }
 
 export default UpdateProperty;
