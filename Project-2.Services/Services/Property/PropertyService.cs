@@ -53,12 +53,12 @@ public class PropertyService : IPropertyService
         return (propertyToReturn is null) ? null : new PropertyResponseDTO(propertyToReturn);
     }
 
-    public async Task<IEnumerable<PropertyResponseDTO>> GetPropertiesWithinDistOfAsync(Guid propertyId, int meters) 
+    public async Task<IEnumerable<PropertyResponseDTO>> GetPropertiesWithinDistOfAsync(Guid propertyId, int meters)
     {
         return await _propertyRepository.GetAllWithinDistOf(propertyId, meters);
     }
-    
-    public async Task<IEnumerable<PropertySearchResponseDTO>> GetPropertiesByAddressCharsAsync(string addressChars) 
+
+    public async Task<IEnumerable<PropertySearchResponseDTO>> GetPropertiesByAddressCharsAsync(string addressChars)
     {
         return await _propertyRepository.GetAllLikeAddress(addressChars);
     }
@@ -68,11 +68,12 @@ public class PropertyService : IPropertyService
         Property newProperty = new Property(
             propertyInfo.Country!, propertyInfo.State!, propertyInfo.City!,
             propertyInfo.ZipCode!, propertyInfo.StreetAddress!, propertyInfo.Latitude,
-            propertyInfo.Longitude, propertyInfo.ImageLink!, propertyInfo.StartingPrice!, 
-            propertyInfo.Bedrooms!, propertyInfo.Bathrooms!, propertyInfo.Garages!, 
+            propertyInfo.Longitude, propertyInfo.ImageLink!, propertyInfo.StartingPrice!,
+            propertyInfo.Bedrooms!, propertyInfo.Bathrooms!, propertyInfo.Garages!,
             propertyInfo.Pools!, propertyInfo.HasBasement!, propertyInfo.OwnerID
         );
 
+        newProperty.ImageLink = PropertyLinks.GetRandom();
         await _propertyRepository.AddAsync(newProperty);
 
         int result = await _propertyRepository.SaveChangesAsync();
@@ -155,4 +156,31 @@ public class PropertyService : IPropertyService
     //     }
     //     return dto;
     // }
+}
+public static class PropertyLinks
+{
+    public static string[] Links = ["https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-binyaminmellish-106399.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-binyaminmellish-1396122.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-binyaminmellish-186077.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-davidmcbee-1546166.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-expect-best-79873-323780.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-frans-van-heerden-201846-1438832.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-itsterrymag-2635038.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-luis-yanez-57302-206172.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-pixabay-164558.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-pixabay-259588.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-pixabay-280222.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-pixabay-280229.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-pixabay-358636.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-pixasquare-1115804.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-scottwebb-1029599.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-sebastians-731082.jpg",
+"https://raw.githubusercontent.com/250407-NET-FS/Jaza-React/main/JAZA-FRONT/src/assets/pexels-thgusstavo-2102587.jpg"
+];
+
+    
+    private static readonly Random _rng = new Random();
+
+    public static string GetRandom() =>
+        Links[_rng.Next(Links.Length)];
 }
