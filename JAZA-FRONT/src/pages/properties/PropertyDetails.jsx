@@ -25,9 +25,9 @@ function PropertyDetails({ property }) {
         fetchFavoritesList, fetchCurrentFavorite, markFavorite
     } = useFavorite();
 
-    const {fetchProperty, deleteProperty, selectedProperty} = useProperty();
+    const { fetchProperty, deleteProperty, selectedProperty } = useProperty();
 
-    const {fetchPropertyOffers} = useOffer();
+    const { fetchPropertyOffers } = useOffer();
 
     // eslint-disable-next-line no-undef
     const navigate = useNavigate();
@@ -58,15 +58,15 @@ function PropertyDetails({ property }) {
         e.preventDefault();
 
         try {
-        const success = await deleteProperty(property.propertyID);
+            const success = await deleteProperty(property.propertyID);
 
-        if (success) {
-            setSuccessMessage('Delete property successful!');
-            setErrorMessage(null);
-            navigate("/listings");
-        } else {
-            setErrorMessage('Delete property failed. Please try again.');
-        }
+            if (success) {
+                setSuccessMessage('Delete property successful!');
+                setErrorMessage(null);
+                navigate("/listings");
+            } else {
+                setErrorMessage('Delete property failed. Please try again.');
+            }
         } catch (errorMessage) {
             setErrorMessage("Invalid credentials. Please try again.");
             return;
@@ -97,7 +97,7 @@ function PropertyDetails({ property }) {
                                 borderRadius: '8px',
                             }}
                         />
-                        <IconButton style={{position:'absolute', left: 50, color: 'white'}} aria-label='save' onClick={() => markFavorite(property.propertyID, user?.id)}>
+                        <IconButton style={{ position: 'absolute', left: 50, color: 'white' }} aria-label='save' onClick={() => markFavorite(property.propertyID, user?.id)}>
                             {
                                 favoritesList.find(f => f.propertyId == property.propertyID) ?
                                     <FavoriteIcon></FavoriteIcon> :
@@ -132,16 +132,16 @@ function PropertyDetails({ property }) {
                     <p>Days Listed: {daysListed} days</p>
                 </Grid>
                 <Grid size={4}>
-                    <p>Listing Created: {property.listDate.slice(0,10)}</p>
+                    <p>Listing Created: {property.listDate.slice(0, 10)}</p>
                     <p>Listed by: {property.ownerID}</p>
                 </Grid>
                 <Grid size={3}>
                     {
-                        (user?.id == property.ownerID) && 
+                        (user?.id == property.ownerID) &&
                         <>
                             <button onClick={handleUpdate} style={{ backgroundColor: 'rgba(210, 251, 5, 0.15)', color: 'blue' }} sx={{ all: `unset`, cursor: 'pointer', marginBottom: `1.75em` }}>Update Property</button><br />
                             <br></br>
-                            <button onClick={handleDelete} style={{ backgroundColor: 'rgba(251, 5, 5, 0.15)', color: 'blue' }} sx={{ all: `unset`, cursor: `pointer `}}>Delete Property</button>
+                            <button onClick={handleDelete} style={{ backgroundColor: 'rgba(251, 5, 5, 0.15)', color: 'blue' }} sx={{ all: `unset`, cursor: `pointer ` }}>Delete Property</button>
                         </>
                     }
                 </Grid>
@@ -209,7 +209,8 @@ function PropertyDetails({ property }) {
                     margin: "100px auto",
                     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
                     fontFamily: "Arial, sans-serif",
-                    position: 'relative'
+                    position: 'relative',
+                    overflowY: 'auto',
                 }}
             >
                 {property && (
