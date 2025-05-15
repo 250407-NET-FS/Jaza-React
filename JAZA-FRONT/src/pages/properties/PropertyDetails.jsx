@@ -86,7 +86,7 @@ function PropertyDetails({ property }) {
                         <img
                             // src={property.imageLink || houseImage}
                             // alt={property.streetAddress}
-                            src={apartmentImage}
+                            src={property.imageLink}
                             alt="Property address"
                             style={{
                                 position: 'relative',
