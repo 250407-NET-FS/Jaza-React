@@ -92,7 +92,7 @@ export function PropertyProvider({ children }) {
     const createProperty = useCallback(async (propertyInfo) => {
         dispatch({ type: PropertyActionTypes.REQUEST_START });
         console.log(propertyInfo);
-        const original = propertyInfo.streetAddress;
+        const original = propertyInfo.streetAddress + " " + propertyInfo.city;
         const encoded = original.replace(/\s/g, "%20");
         //fetch coords from google api
         try {
