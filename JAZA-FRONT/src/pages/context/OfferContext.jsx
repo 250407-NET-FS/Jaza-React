@@ -94,7 +94,7 @@ export function OfferProvider({children}) {
         dispatch({type: OfferActionTypes.REQUEST_START});
         // Try to fetch and pass the results of controller's CreateOffer() method
         try {
-            await api.post(`offer`, offerDTO)
+            await api.post("offer", offerDTO)
             .then(res => res.data)
             .then(data => {
                 dispatch({type: OfferActionTypes.CREATE_OFFER_SUCCESS, payload: data});

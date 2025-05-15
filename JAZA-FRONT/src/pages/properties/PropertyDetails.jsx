@@ -80,63 +80,68 @@ function PropertyDetails({ property }) {
             maxHeight: '80vh',
 
         }}>
-            <Grid container>
-                <Grid size={12}>
-                    <img
-                        // src={property.imageLink || houseImage}
-                        // alt={property.streetAddress}
-                        src={apartmentImage}
-                        alt="Property address"
-                        style={{
-                            width: '100%',
-                            height: 'auto',
-                            objectFit: 'cover',
-                            borderRadius: '8px',
-                        }}
-                    />
-                    <IconButton aria-label='save' onClick={() => markFavorite(property.propertyID, user?.id)}>
-                        {
-                            favoritesList.find(f => f.propertyId == property.propertyID) ?
-                                <FavoriteIcon></FavoriteIcon> :
-                                <FavoriteBorderIcon></FavoriteBorderIcon>
-                        }
-                    </IconButton>
+            <Grid container padding={0} gap={3}>
+                <Grid size={5}>
+                    <div>
+                        <img
+                            // src={property.imageLink || houseImage}
+                            // alt={property.streetAddress}
+                            src={apartmentImage}
+                            alt="Property address"
+                            style={{
+                                position: 'relative',
+                                display: 'inline-block',
+                                width: '100%',
+                                height: 'auto',
+                                objectFit: 'cover',
+                                borderRadius: '8px',
+                            }}
+                        />
+                        <IconButton style={{position:'absolute', left: 50, color: 'white'}} aria-label='save' onClick={() => markFavorite(property.propertyID, user?.id)}>
+                            {
+                                favoritesList.find(f => f.propertyId == property.propertyID) ?
+                                    <FavoriteIcon></FavoriteIcon> :
+                                    <FavoriteBorderIcon></FavoriteBorderIcon>
+                            }
+                        </IconButton>
+                    </div>
                 </Grid>
-                <Grid size={4}>
-                    <p>${property.startingPrice}</p>
+                <Grid size={3}>
+                    <p>Asking Price: ${property.startingPrice}</p>
                     <p>
+                        Location:
+                        <br></br>
                         {property.streetAddress}, {property.city}, {property.state}, {property.country} {property.zipCode}
                     </p>
                 </Grid>
-                <Grid size={4}>
-                    <p>{property.bedrooms} </p>
-                    <p>beds</p>
-                </Grid>
-                <Grid size={4}>
-                    <p>{property.bathrooms} </p>
-                    <p>baths</p>
-                </Grid>
-                <Grid size={8}>
-                    <p>Days Listed: {daysListed} days</p>
-                </Grid>
-                <Grid size={4}>
+                <Grid size={3}>
                     {
                         (user?.id == property.ownerID) ?
-                            <Button><Link to="/offers" >View Offers</Link></Button> :
-                            <Button onClick={handleClick} sx={{ all: 'unset', cursor: 'pointer' }}>Create Offer</Button>
+                            <button style={{ backgroundColor: 'rgba(5, 251, 54, 0.15)', color: 'blue' }}><Link to="/offers" >View Offers</Link></button> :
+                            <button onClick={handleClick} style={{ backgroundColor: 'rgba(5, 251, 54, 0.15)', color: 'blue' }} sx={{ all: 'unset', cursor: 'pointer' }}>Create Offer</button>
                     }
 
                 </Grid>
-                <Grid size={8}>
-                    <p>Listing Created: {property.listDate}</p>
-                    <p>Listed by: {property.ownerID}</p>
+                <Grid size={3}>
+                    <p>Bedrooms: {property.bedrooms} </p>
+                </Grid>
+                <Grid size={3}>
+                    <p>Bathrooms: {property.bathrooms} </p>
                 </Grid>
                 <Grid size={4}>
+                    <p>Days Listed: {daysListed} days</p>
+                </Grid>
+                <Grid size={4}>
+                    <p>Listing Created: {property.listDate.slice(0,10)}</p>
+                    <p>Listed by: {property.ownerID}</p>
+                </Grid>
+                <Grid size={3}>
                     {
                         (user?.id == property.ownerID) && 
                         <>
-                            <Button onClick={handleUpdate} sx={{ all: `unset`, cursor: 'pointer', marginBottom: `1.75em` }}>Update Property</Button><br />
-                            <Button onClick={handleDelete} sx={{ all: `unset`, cursor: `pointer `}}>Delete Property</Button>
+                            <button onClick={handleUpdate} style={{ backgroundColor: 'rgba(210, 251, 5, 0.15)', color: 'blue' }} sx={{ all: `unset`, cursor: 'pointer', marginBottom: `1.75em` }}>Update Property</button><br />
+                            <br></br>
+                            <button onClick={handleDelete} style={{ backgroundColor: 'rgba(251, 5, 5, 0.15)', color: 'blue' }} sx={{ all: `unset`, cursor: `pointer `}}>Delete Property</button>
                         </>
                     }
                 </Grid>
