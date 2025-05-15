@@ -8,7 +8,7 @@ import { AppBar, Container, Toolbar, Box, Button, IconButton, Typography } from 
 const NavBar = () => {
     const pages = [
         { name: "Listings", path: "/listings" },
-        { name: "Saved Searches", path: "/favorites" }
+        { name: "Favorites", path: "/favorites" }
     ];
     const { user, logout } = useAuth();
 
@@ -18,9 +18,9 @@ const NavBar = () => {
             <Container maxWidth={false} disableGutters>
                 <Toolbar>
                     <IconButton component={Link} to="/" disableRipple>
-                        <img src={logo} alt="JAZA Logo" className="logo-image"/>
+                        <img src={logo} alt="JAZA Logo" className="logo-image" />
                     </IconButton>
-                    <Typography 
+                    <Typography
                         variant="h4"
                         component={Link}
                         to="/"
@@ -30,7 +30,7 @@ const NavBar = () => {
                     </Typography>
                     <Box sx={{ flexGrow: 1, marginLeft: "1.5rem" }}>
                         {pages.map((page) => (
-                            <Button 
+                            <Button
                                 key={page.name}
                                 component={Link}
                                 to={page.path}
