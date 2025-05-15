@@ -50,7 +50,7 @@ export default function Home() {
             <section className="hero">
                 <h2 className="hero-title">Find Your Warmth</h2>
                 <div id="searchb" style={{
-                    width: '100vw',
+                    width: '100%',
                     justifyContent: 'center',
                     alignContent: 'center',
                     alignItems: 'center',
