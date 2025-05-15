@@ -111,6 +111,8 @@ export default function Home() {
 
                 <div className="carousel-wrapper">
                     <div className="carousel-container" style={{
+                        display: "flex",
+                        justifyContent: 'center',
                         border: '10px solid #ccc',
                         borderRadius: '10px',
                         gap: '15px',
@@ -119,7 +121,12 @@ export default function Home() {
                         {propertyList
                             .slice(currentIndex, currentIndex + 5)
                             .map((property) => (
-                                <PropertyCard key={property.propertyID} property={property} />
+                                <div>
+                                    <PropertyCard key={property.propertyID} property={property} style={{
+                                        flex: '1 0 20%',
+                                        boxSizing: 'border-box'
+                                    }}/>
+                                </div>
                             ))}
                     </div>
                 </div>
