@@ -6,6 +6,10 @@
   --brown: #3c281e;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 body,
 .page {
   font-family: 'Segoe UI', sans-serif;
@@ -14,7 +18,7 @@ body,
   background-color: var(--beige);
   color: var(--brown);
   height: 100%;
-  width: 100%;
+  width: 100vw;
   box-sizing: border-box;
 }
 
